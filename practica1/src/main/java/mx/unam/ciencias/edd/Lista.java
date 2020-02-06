@@ -54,10 +54,9 @@ public class Lista<T> implements Coleccion<T> {
             if (siguiente == null)
                 throw new NoSuchElementException("No hay elemento siguiente.");
 
-            T temp = siguiente.elemento;
             anterior = siguiente;
             siguiente = siguiente.siguiente;
-            return temp;
+            return anterior.elemento;
         }
 
         /* Nos dice si hay un elemento anterior. */
@@ -70,10 +69,9 @@ public class Lista<T> implements Coleccion<T> {
             if (anterior == null)
                 throw new NoSuchElementException("No hay elemento anterior.");
 
-            T temp = anterior.elemento;
             siguiente = anterior;
             anterior = anterior.anterior;
-            return temp;
+            return siguiente.elemento;
         }
 
         /* Mueve el iterador al inicio de la lista. */
@@ -120,7 +118,7 @@ public class Lista<T> implements Coleccion<T> {
      *         otro caso.
      */
     @Override public boolean esVacia() {
-        return longitud == 0;
+        return cabeza == null;
     }
 
     /**
@@ -147,6 +145,7 @@ public class Lista<T> implements Coleccion<T> {
             throw new IllegalArgumentException("El elemento es inválido.");
 
         Nodo nodo = new Nodo(elemento);
+        longitud++;
 
         if (rabo == null) {
             cabeza = rabo = nodo;
@@ -155,8 +154,6 @@ public class Lista<T> implements Coleccion<T> {
             nodo.anterior = rabo;
             rabo = nodo;
         }
-
-        longitud++;
     }
 
     /**
@@ -171,6 +168,7 @@ public class Lista<T> implements Coleccion<T> {
             throw new IllegalArgumentException("El elemento es inválido.");
 
         Nodo nodo = new Nodo(elemento);
+        longitud++;
 
         if (cabeza == null) {
             cabeza = rabo = nodo;
@@ -179,8 +177,6 @@ public class Lista<T> implements Coleccion<T> {
             nodo.siguiente = cabeza;
             cabeza = nodo;
         }
-
-        longitud++;
     }
 
     /**
@@ -260,7 +256,7 @@ public class Lista<T> implements Coleccion<T> {
      * @throws NoSuchElementException si la lista es vacía.
      */
     public T eliminaPrimero() {
-        if (longitud == 0)
+        if (cabeza == null)
             throw new NoSuchElementException("No hay primer elemento para eliminar.");
 
         T temp = cabeza.elemento;
@@ -281,7 +277,7 @@ public class Lista<T> implements Coleccion<T> {
      * @throws NoSuchElementException si la lista es vacía.
      */
     public T eliminaUltimo() {
-        if (longitud == 0)
+        if (rabo == null)
             throw new NoSuchElementException("No hay último elemento para eliminar.");
 
         T temp = rabo.elemento;
@@ -303,7 +299,16 @@ public class Lista<T> implements Coleccion<T> {
      *         <code>false</code> en otro caso.
      */
     @Override public boolean contiene(T elemento) {
-        return indiceDe(elemento) != -1;
+        Nodo nodo = cabeza;
+
+        while (nodo != null) {
+            if (nodo.elemento.equals(elemento))
+                return true;
+
+            nodo = nodo.siguiente;
+        }
+
+        return false;
     }
 
     /**
@@ -353,7 +358,7 @@ public class Lista<T> implements Coleccion<T> {
      * @throws NoSuchElementException si la lista es vacía.
      */
     public T getPrimero() {
-        if (longitud == 0)
+        if (cabeza == null)
             throw new NoSuchElementException("No hay primer elemento.");
 
         return cabeza.elemento;
@@ -365,7 +370,7 @@ public class Lista<T> implements Coleccion<T> {
      * @throws NoSuchElementException si la lista es vacía.
      */
     public T getUltimo() {
-        if (longitud == 0)
+        if (rabo == null)
             throw new NoSuchElementException("No hay último elemento.");
 
         return rabo.elemento;
