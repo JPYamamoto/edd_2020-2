@@ -106,16 +106,14 @@ public class ArbolBinarioOrdenado<T extends Comparable<T>>
             if (verticeActual.izquierdo == null) {
                 verticeActual.izquierdo = nuevoVertice;
                 nuevoVertice.padre = verticeActual;
-            }
-            else {
+            } else {
                 agrega(verticeActual.izquierdo, nuevoVertice);
             }
         } else {
             if (verticeActual.derecho == null) {
                 verticeActual.derecho = nuevoVertice;
                 nuevoVertice.padre = verticeActual;
-            }
-            else {
+            } else {
                 agrega(verticeActual.derecho, nuevoVertice);
             }
         }
@@ -227,6 +225,7 @@ public class ArbolBinarioOrdenado<T extends Comparable<T>>
      */
     public void giraDerecha(VerticeArbolBinario<T> vertice) {
         Vertice verticeActual = vertice(vertice);
+
         if (verticeActual.izquierdo == null)
             return;
 
@@ -258,6 +257,7 @@ public class ArbolBinarioOrdenado<T extends Comparable<T>>
      */
     public void giraIzquierda(VerticeArbolBinario<T> vertice) {
         Vertice verticeActual = vertice(vertice);
+
         if (verticeActual.derecho == null)
             return;
 

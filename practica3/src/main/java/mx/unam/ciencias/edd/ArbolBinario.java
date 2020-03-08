@@ -148,7 +148,9 @@ public abstract class ArbolBinario<T> implements Coleccion<T> {
             if (vertice1 == null || vertice2 == null)
                 return false;
 
-            return vertice1.elemento.equals(vertice2.elemento) && equals(vertice1.izquierdo, vertice2.izquierdo) && equals(vertice1.derecho, vertice2.derecho);
+            return vertice1.elemento.equals(vertice2.elemento)
+                   && equals(vertice1.izquierdo, vertice2.izquierdo)
+                   && equals(vertice1.derecho, vertice2.derecho);
         }
 
         /**
@@ -200,10 +202,7 @@ public abstract class ArbolBinario<T> implements Coleccion<T> {
      * @return la altura del árbol.
      */
     public int altura() {
-        if (raiz == null)
-            return -1;
-
-        return raiz.altura();
+        return raiz == null ? -1 : raiz.altura();
     }
 
     /**
@@ -306,18 +305,19 @@ public abstract class ArbolBinario<T> implements Coleccion<T> {
         if (raiz == null)
             return "";
 
-        int[] arreglo = new int[altura() + 1];
+        boolean[] arreglo = new boolean[altura() + 1];
 
         for (int i = 0; i < arreglo.length; i++)
-            arreglo[i] = 0;
+            arreglo[i] = false;
 
         return toString(raiz, 0, arreglo);
     }
 
-    private String dibujaEspacios(int nivel, int[] arreglo) {
+    private String dibujaEspacios(int nivel, boolean[] arreglo) {
         String cadena = "";
+
         for (int i = 0; i <= nivel - 1; i++)
-            if (arreglo[i] == 1)
+            if (arreglo[i] == true)
                 cadena += "│  ";
             else
                 cadena += "   ";
@@ -325,9 +325,9 @@ public abstract class ArbolBinario<T> implements Coleccion<T> {
         return cadena;
     }
 
-    private String toString(Vertice vertice, int nivel, int[] arreglo) {
+    private String toString(Vertice vertice, int nivel, boolean[] arreglo) {
         String cadena = vertice.elemento.toString() + "\n";
-        arreglo[nivel] = 1;
+        arreglo[nivel] = true;
 
         if (vertice.izquierdo != null && vertice.derecho != null) {
             cadena += dibujaEspacios(nivel, arreglo);
@@ -335,17 +335,17 @@ public abstract class ArbolBinario<T> implements Coleccion<T> {
             cadena += toString(vertice.izquierdo, nivel + 1, arreglo);
             cadena += dibujaEspacios(nivel, arreglo);
             cadena += "└─»";
-            arreglo[nivel] = 0;
+            arreglo[nivel] = false;
             cadena += toString(vertice.derecho, nivel + 1, arreglo);
         } else if (vertice.izquierdo != null) {
             cadena += dibujaEspacios(nivel, arreglo);
             cadena += "└─›";
-            arreglo[nivel] = 0;
+            arreglo[nivel] = false;
             cadena += toString(vertice.izquierdo, nivel + 1, arreglo);
         } else if (vertice.derecho != null) {
             cadena += dibujaEspacios(nivel, arreglo);
             cadena += "└─»";
-            arreglo[nivel] = 0;
+            arreglo[nivel] = false;
             cadena += toString(vertice.derecho, nivel + 1, arreglo);
         }
 

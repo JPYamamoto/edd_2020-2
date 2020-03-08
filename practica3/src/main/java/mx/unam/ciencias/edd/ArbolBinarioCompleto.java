@@ -78,28 +78,40 @@ public class ArbolBinarioCompleto<T> extends ArbolBinario<T> {
             return;
         }
 
+        Vertice vertice = vertice(primerVerticeConHoyo());
+        nuevoVertice.padre = vertice;
+
+        if (vertice.izquierdo == null)
+            vertice.izquierdo = nuevoVertice;
+        else
+            vertice.derecho = nuevoVertice;
+    }
+
+    /**
+     * Obtiene el primer vertice que tiene un "hoyo" (según el orden BFS). Es
+     * decir, el primer vértice que no tiene hijo izquierdo o hijo derecho, por
+     * lo que debe ser padre del siguiente vértice a agregar en un árbol
+     * binario completo.
+     * La complejidad en tiempo de este algoritmo es O(n) pues utiliza BFS para
+     * recorrer todos los nodos hasta encontrar uno que cumpla las condiciones.
+     * @return el primer vértice con hoyo.
+     */
+    private VerticeArbolBinario<T> primerVerticeConHoyo() {
         Cola<Vertice> cola = new Cola<Vertice>();
         cola.mete(raiz);
 
         Vertice vertice;
-        while (!cola.esVacia()) {
+        while(!cola.esVacia()) {
             vertice = cola.saca();
-            if (vertice.izquierdo == null) {
-                vertice.izquierdo = nuevoVertice;
-                nuevoVertice.padre = vertice;
-                return;
-            } else {
-                cola.mete(vertice.izquierdo);
-            }
 
-            if (vertice.derecho == null) {
-                vertice.derecho = nuevoVertice;
-                nuevoVertice.padre = vertice;
-                return;
-            } else {
-                cola.mete(vertice.derecho);
-            }
+            if (vertice.izquierdo == null || vertice.derecho == null)
+                return vertice;
+
+            cola.mete(vertice.izquierdo);
+            cola.mete(vertice.derecho);
         }
+
+        return null;
     }
 
     /**
@@ -121,9 +133,26 @@ public class ArbolBinarioCompleto<T> extends ArbolBinario<T> {
             return;
         }
 
+        Vertice ultimoVertice = vertice(ultimoVerticeAgregado());
+        vertice.elemento = ultimoVertice.elemento;
+
+        if (ultimoVertice.padre.izquierdo == ultimoVertice)
+            ultimoVertice.padre.izquierdo = null;
+        else
+            ultimoVertice.padre.derecho = null;
+    }
+
+    /**
+     * Obtiene el último vértice que ha sido agregado al arbol binario
+     * completo, utilizando la técnica BFS para visitar todos los vértices y
+     * luego, regresar el que se encuentra al final de la cola.
+     * Por lo anterior, la complejidad en tiempo es O(n).
+     * @return el último vértice agregado.
+     */
+    private VerticeArbolBinario<T> ultimoVerticeAgregado() {
         Cola<Vertice> cola = new Cola<Vertice>();
         cola.mete(raiz);
-        Vertice ultimoVertice = vertice;
+        Vertice ultimoVertice = raiz;
         Vertice verticeActual;
 
         while (!cola.esVacia()) {
@@ -137,12 +166,7 @@ public class ArbolBinarioCompleto<T> extends ArbolBinario<T> {
                 cola.mete(verticeActual.derecho);
         }
 
-        vertice.elemento = ultimoVertice.elemento;
-
-        if (ultimoVertice.padre.izquierdo == ultimoVertice)
-            ultimoVertice.padre.izquierdo = null;
-        else
-            ultimoVertice.padre.derecho = null;
+        return ultimoVertice;
     }
 
     /**
