@@ -102,7 +102,7 @@ public class ArbolBinarioOrdenado<T extends Comparable<T>>
     }
 
     private void agrega(Vertice verticeActual, Vertice nuevoVertice) {
-        if (nuevoVertice.elemento.compareTo(verticeActual.elemento) < 0) {
+        if (nuevoVertice.elemento.compareTo(verticeActual.elemento) <= 0) {
             if (verticeActual.izquierdo == null) {
                 verticeActual.izquierdo = nuevoVertice;
                 nuevoVertice.padre = verticeActual;
@@ -197,7 +197,7 @@ public class ArbolBinarioOrdenado<T extends Comparable<T>>
         if (elemento.equals(vertice.elemento))
             return vertice;
 
-        if (elemento.compareTo(vertice.elemento) < 0)
+        if (elemento.compareTo(vertice.elemento) <= 0)
             return busca(elemento, vertice.izquierdo);
 
         return busca(elemento, vertice.derecho);
