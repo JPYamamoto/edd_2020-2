@@ -78,7 +78,8 @@ public class ArbolBinarioCompleto<T> extends ArbolBinario<T> {
             return;
         }
 
-        Vertice vertice = vertice(primerVerticeConHoyo());
+        // Vertice vertice = vertice(primerVerticeConHoyo());
+        Vertice vertice = vertice(primerVerticeConHoyoLog());
         nuevoVertice.padre = vertice;
 
         if (vertice.izquierdo == null)
@@ -112,6 +113,39 @@ public class ArbolBinarioCompleto<T> extends ArbolBinario<T> {
         }
 
         return null;
+    }
+
+    /**
+     * Obtiene el primer vertice que tiene un "hoyo". Es decir, el primer
+     * vértice que no tiene hijo izquierdo o hijo derecho, por lo que debe ser
+     * padre del siguiente vértice a agregar en un árbol binario completo.
+     * La complejidad en tiempo de este algoritmo es O(log_2(n)) pues utiliza
+     * el número de elementos para determinar el padre del que será el
+     * siguiente elemento en ser añadido.
+     * No utiliza multiplicaciones, divisiones ni métodos de la clase Math,
+     * únicamente como ejercicio.
+     * @return el primer vértice con hoyo.
+     */
+    private VerticeArbolBinario<T> primerVerticeConHoyoLog() {
+        Pila<Boolean> recorrido = new Pila<>();
+        Vertice vertice, temp;
+        vertice = temp = raiz;
+        int aux = elementos;
+
+        while (aux > 1) {
+            // n & 1 es equivalente a n % 2.
+            recorrido.mete((aux & 1) == 0);
+            // Desplazar una posición a la derecha es equivalente a dividir
+            // entre 2 en binario.
+            aux >>= 1;
+        }
+
+        while (temp != null) {
+            vertice = temp;
+            temp = recorrido.saca() ? temp.izquierdo : temp.derecho;
+        }
+
+        return vertice;
     }
 
     /**
@@ -175,20 +209,25 @@ public class ArbolBinarioCompleto<T> extends ArbolBinario<T> {
      * @return la altura del árbol.
      */
     @Override public int altura() {
-        /*
-         * Versión que utiliza la clase Math.
-         *
-         * if (elementos == 0)
-         *     return -1;
-         *
-         * return (int) Math.floor(Math.log(elementos) / Math.log(2));
-        */
+        if (elementos == 0)
+            return -1;
 
+        return (int) Math.floor(Math.log(elementos) / Math.log(2));
+        // return alturaBitwise();
+    }
 
-        // Versión utilizando operaciones bitwise.
+    /**
+     * Regresa la altura del árbol binario completo, utilizando únicamente
+     * operaciones bitwise.
+     * Únicamente como ejercicio.
+     * @return la altura del árbol.
+     */
+    private int alturaBitwise() {
         int numElementos = elementos;
         int altura = -1;
         while (numElementos > 0) {
+            // Desplazar una posición a la derecha es equivalente a dividir
+            // entre dos en binario.
             numElementos >>= 1;
             altura++;
         }
