@@ -180,25 +180,18 @@ public class ArbolRojinegro<T extends Comparable<T>>
             fantasma = verticeRojinegro(nuevoVertice(null));
             fantasma.color = Color.NEGRO;
             fantasma.padre = vertice;
-
-            if (vertice.izquierdo == null)
-                vertice.izquierdo = fantasma;
-            else
-                vertice.derecho = fantasma;
-
+            vertice.izquierdo = fantasma;
             hijo = fantasma;
         } else
             hijo = verticeRojinegro(vertice.izquierdo != null ? vertice.izquierdo : vertice.derecho);
 
         eliminaVertice(vertice);
 
-        if (color(hijo) == Color.ROJO || color(vertice) == Color.ROJO) {
+        if (color(hijo) == Color.ROJO || color(vertice) == Color.ROJO)
             hijo.color = Color.NEGRO;
-            eliminaFantasma(fantasma);
-            return;
-        }
+        else
+            rebalancearElimina(hijo);
 
-        rebalancearElimina(hijo);
         eliminaFantasma(fantasma);
     }
 
