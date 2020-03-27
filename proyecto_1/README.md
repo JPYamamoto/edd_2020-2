@@ -1,4 +1,4 @@
-# Proyecto 2. EDD.
+# Proyecto 1. EDD.
 ## Juan Pablo Yamamoto Zazueta.
 
 ### Comentarios.
