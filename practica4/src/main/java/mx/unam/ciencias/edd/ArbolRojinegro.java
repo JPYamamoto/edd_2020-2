@@ -192,7 +192,8 @@ public class ArbolRojinegro<T extends Comparable<T>>
         else
             rebalancearElimina(hijo);
 
-        eliminaFantasma(fantasma);
+        if (fantasma != null)
+            eliminaVertice(fantasma);
     }
 
     private void rebalancearElimina(VerticeRojinegro vertice) {
@@ -265,19 +266,6 @@ public class ArbolRojinegro<T extends Comparable<T>>
                 hermanoI.color = Color.NEGRO;
             super.giraDerecha(padre);
         }
-    }
-
-    private void eliminaFantasma(Vertice vertice) {
-        if (vertice == null)
-            return;
-
-        if (vertice == raiz)
-            raiz = null;
-        else
-            if (esIzquierdo(vertice))
-                vertice.padre.izquierdo = null;
-            else
-                vertice.padre.derecho = null;
     }
 
     /**
