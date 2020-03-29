@@ -258,12 +258,10 @@ public class ArbolRojinegro<T extends Comparable<T>>
         padre.color = Color.NEGRO;
 
         if (esIzquierdo(vertice)) {
-            if (hermanoD != null)
-                hermanoD.color = Color.NEGRO;
+            hermanoD.color = Color.NEGRO;
             super.giraIzquierda(padre);
         } else {
-            if (hermanoI != null)
-                hermanoI.color = Color.NEGRO;
+            hermanoI.color = Color.NEGRO;
             super.giraDerecha(padre);
         }
     }
