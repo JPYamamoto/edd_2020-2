@@ -119,28 +119,29 @@ public class ArbolAVL<T extends Comparable<T>>
         if (vertice == null)
             return;
 
-        VerticeAVL hijoIzquierdo = verticeAVL(vertice.izquierdo);
-        VerticeAVL hijoDerecho = verticeAVL(vertice.derecho);
-
         cambiaAltura(vertice);
 
-        if (balance(vertice) == -2) {
-            if (balance(hijoDerecho) == 1) {
-                super.giraDerecha(hijoDerecho);
-                cambiaAltura(hijoDerecho);
-                hijoDerecho = verticeAVL(vertice.derecho);
-            }
-            super.giraIzquierda(vertice);
-            cambiaAltura(vertice);
-        }
-
         if (balance(vertice) == 2) {
+            VerticeAVL hijoIzquierdo = verticeAVL(vertice.izquierdo);
+
             if (balance(hijoIzquierdo) == -1) {
                 super.giraIzquierda(hijoIzquierdo);
                 cambiaAltura(hijoIzquierdo);
-                hijoIzquierdo = verticeAVL(vertice.izquierdo);
             }
+
             super.giraDerecha(vertice);
+            cambiaAltura(vertice);
+        }
+
+        if (balance(vertice) == -2) {
+            VerticeAVL hijoDerecho = verticeAVL(vertice.derecho);
+
+            if (balance(hijoDerecho) == 1) {
+                super.giraDerecha(hijoDerecho);
+                cambiaAltura(hijoDerecho);
+            }
+
+            super.giraIzquierda(vertice);
             cambiaAltura(vertice);
         }
 
