@@ -89,7 +89,7 @@ public class Entrada {
         return null;
     }
 
-    public static void procesaEntrada(String[] args) {
+    public static GeneradorEstructura<Integer> procesaEntrada(String[] args) {
         BufferedReader flujoEntrada = abrirEntrada(args);
         Estructura estructuraDeDatos = identificaEstructura(flujoEntrada);
 
@@ -100,6 +100,8 @@ public class Entrada {
         }
 
         Lista<Integer> entrada = leerEntrada(flujoEntrada);
-        System.out.println(entrada.toString());
+        cierraEntrada(flujoEntrada);
+
+        return new GeneradorEstructura<>(entrada, estructuraDeDatos);
     }
 }
