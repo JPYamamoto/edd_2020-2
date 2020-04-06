@@ -130,6 +130,7 @@ public class ArbolAVL<T extends Comparable<T>>
             }
 
             super.giraDerecha(vertice);
+            cambiaAltura(hijoIzquierdo);
             cambiaAltura(vertice);
         }
 
@@ -142,6 +143,7 @@ public class ArbolAVL<T extends Comparable<T>>
             }
 
             super.giraIzquierda(vertice);
+            cambiaAltura(hijoDerecho);
             cambiaAltura(vertice);
         }
 
