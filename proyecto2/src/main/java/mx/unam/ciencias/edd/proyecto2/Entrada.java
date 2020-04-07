@@ -30,17 +30,22 @@ public class Entrada {
      */
     public static GraficadorEstructura<Integer> procesaEntrada(String[] args) {
         BufferedReader flujoEntrada = abrirEntrada(args);
+        // Identificamos la estructura de datos que recibimos.
         Estructura estructuraDeDatos = identificaEstructura(flujoEntrada);
 
+        // Si la estructura de datos no es válida, terminamos limpiamente.
         if (estructuraDeDatos == null || estructuraDeDatos == Estructura.INVALIDO) {
+            cierraEntrada(flujoEntrada);
             System.out.println("No se ingresó el nombre de una estructura de " +
                                "datos válida al comienzo de la entrada.");
             System.exit(1);
         }
 
+        // Leemos los datos que va a contener la estructura de datos.
         Lista<Integer> entrada = leerEntrada(flujoEntrada);
         cierraEntrada(flujoEntrada);
 
+        // Regresamos el graficador que corresponde a la estructura recibida.
         return FabricaGraficador.<Integer>getGraficadorEstructura(entrada, estructuraDeDatos);
     }
 
@@ -77,24 +82,35 @@ public class Entrada {
             while ((letraInt = entrada.read()) != -1) {
                 char letra = (char) letraInt;
 
+                // Ignoramos hasta el final de la línea si encontramos un #.
                 if (letra == '#') {
                     entrada.readLine();
                     continue;
                 }
 
+                // Ignoramos los caracteres no imprimibles y el espacio. Es
+                // decir, aquellos cuyo código ASCII corresponde a un valor
+                // igual o menor a 32.
+                // Fuente: https://web.itu.edu.tr/sgunduz/courses/mikroisl/ascii.html
                 if (letra <= 32) {
+                    // Si encontramos un separador, y tenemos un número en
+                    // string, lo convertimos a entero y se agrega a la lista.
                     if (!numero.isEmpty())
                         coleccion.agrega(Integer.parseInt(numero));
 
                     numero = "";
                 } else if (Character.isDigit(letra)) {
+                    // Agrega a la cadena cualquier dígito.
                     numero += String.valueOf(letra);
                 } else {
+                    // Si no es dígito ni un caracter no imprimibles, tenemos
+                    // un error.
                     System.out.printf("El archivo contiene el siguiente caracter no permitido: %c\n", letra);
                     System.exit(1);
                 }
             }
         } catch (IOException ioe) {
+            cierraEntrada(entrada);
             System.out.println("Ocurrió un error al leer la entrada.");
             System.exit(1);
         }
@@ -112,15 +128,28 @@ public class Entrada {
 
         try {
             while ((letra = (char) entrada.read()) != -1) {
+                // Ignoramos hasta el final de la línea si encontramos un #.
                 if (letra == '#') {
                     entrada.readLine();
                     continue;
                 }
 
+                // Ignoramos los caracteres no imprimibles y el espacio. Es
+                // decir, aquellos cuyo código ASCII corresponde a un valor
+                // igual o menor a 32.
+                // Fuente: https://web.itu.edu.tr/sgunduz/courses/mikroisl/ascii.html
+                // Esto sucede solo cuando no hemos identificado la estructura
+                // de datos. Si ya tenemos el nombre, entra a otro caso.
                 if (estructuraString.isEmpty() && letra <= 32)
                     continue;
+                // Tomamos en cuenta solo las letras minúsculas y mayúsculas.
                 else if ((65 <= letra && letra <= 90) || (97 <= letra && letra <= 122))
                     estructuraString += letra;
+                // Cualquier otro caracter recibido al comienzo del archivo que
+                // no entra en las condiciones anteriores nos dice que hemos
+                // terminado de leer el nombre de la estructura. Regresamos el
+                // valor de la enumeración Estructura que corresponde al nombre
+                // recibido.
                 else
                     return Estructura.getEstructura(estructuraString);
             }

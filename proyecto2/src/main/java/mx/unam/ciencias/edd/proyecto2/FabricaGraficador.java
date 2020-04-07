@@ -66,9 +66,9 @@ public class FabricaGraficador {
 
     /**
      * Método que nos permite convertir una colección a una lista. Solo tiene
-     * utilidad darle uso para preparar la entrada de los graficadores de las
-     * estructuras lineales (Cola, Pila, Lista). Las demás no lo necesitan,
-     * pues ya implementan un constructor que convierte una colección a la
+     * utilidad para preparar la entrada de los graficadores de las estructuras
+     * lineales (Cola, Pila, Lista). Las demás no lo necesitan, pues ya
+     * implementan un constructor que convierte una colección a la
      * representación interna correspondiente a su estructura de datos.
      */
     private static <T extends Comparable<T>> Lista<T> toLista(Coleccion<T> coleccion) {
