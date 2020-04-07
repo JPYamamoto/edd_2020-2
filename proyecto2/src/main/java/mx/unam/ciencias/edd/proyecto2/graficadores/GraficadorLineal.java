@@ -6,9 +6,12 @@ import java.util.Iterator;
  * Clase abstracta de la que heredan las clases concretas de graficadores que
  * corresponden a estructuras de datos lineales.
  */
-public abstract class GraficadorLineal<T extends Comparable<T>> implements GraficadorSVG<T> {
+public abstract class GraficadorLineal<T extends Comparable<T>> implements GraficadorEstructura<T> {
 
-    private final int ALTURA_NODO = 30;
+    protected final int ALTURA_NODO = 40;
+    protected final int ANCHO_CONEXION = 50;
+    protected final int TAMANO_FUENTE = 20;
+    protected final int BORDE = 10;
 
     /**
      * Obtén la cadena de texto de la gráfica SVG que corresponde a la
@@ -19,16 +22,29 @@ public abstract class GraficadorLineal<T extends Comparable<T>> implements Grafi
         int anchoNodo = calculaAnchoNodos();
         String svg = "";
         Iterator<T> iterador = getIterator();
+        int anchoSVG = anchoNodo + BORDE;
 
+        // Agregamos el primer elemento si este existe.
         if (iterador.hasNext())
-            svg += generaNodo(iterador.next(), anchoNodo, ALTURA_NODO);
+            svg += graficaNodo(iterador.next(), BORDE, BORDE, anchoNodo, ALTURA_NODO);
 
         while (iterador.hasNext()) {
-            svg += generaConexion();
-            svg += generaNodo(iterador.next(), anchoNodo, ALTURA_NODO);
+            // Grafica el SVG que corresponde a la conexión, y aumenta el
+            // tamaño del SVG.
+            svg += graficaConexion(anchoSVG, BORDE + (ALTURA_NODO / 4), ANCHO_CONEXION, ALTURA_NODO / 2);
+            anchoSVG += ANCHO_CONEXION;
+            // Grafica el SVG que corresponde al nodo, y aumenta el tamaño del SVG.
+            svg += graficaNodo(iterador.next(), anchoSVG, BORDE, anchoNodo, ALTURA_NODO);
+            anchoSVG += anchoNodo;
         }
 
-        return svg;
+        // Agrega la declaración XML, la etiqueta de apertura SVG con las
+        // medidas del gráfico, el contenido del SVG y la etiqueta de cierre
+        // del SVG. Regresa el resultado.
+        return GraficadorSVG.declaracionXML() +
+                GraficadorSVG.comienzaSVG(anchoSVG + BORDE, ALTURA_NODO + 2 * BORDE) +
+                svg +
+                GraficadorSVG.terminaSVG();
     }
 
     /**
@@ -40,32 +56,52 @@ public abstract class GraficadorLineal<T extends Comparable<T>> implements Grafi
         Iterator<T> iterador = getIterator();
         T max = null;
 
+        // El primer elemento es el máximo hasta el momento. El ancho es 0
+        // cuando no hay nodos.
         if (iterador.hasNext())
             max = iterador.next();
         else
             return 0;
 
+        // Encontramos el valor máximo.
         while (iterador.hasNext()) {
             T actual = iterador.next();
             max = max.compareTo(actual) <= 0 ? actual : max;
         }
 
-        return (max.toString().length() * 20) + 50;
+        // Regresamos el producto de la longitud del elemento máximo y el
+        // tamaño de cada carácter de la fuente. Además, agregamos un borde de
+        // ambos lados.
+        return (max.toString().length() * TAMANO_FUENTE) + 2 * BORDE;
     }
 
     /**
      * Método que genera la cadena de texto que representa un nodo con el
      * elemento recibido. Utiliza las medidas recibidas.
      */
-    protected abstract String generaNodo(T elemento, int medidaX, int medidaY);
+    protected String graficaNodo(T elemento, int origenX, int origenY, int medidaX, int medidaY) {
+        // Un nodo es simplemente un rectángulo que contiene el elemento.
+        return GraficadorSVG.graficaRectanguloTexto(origenX, origenY, medidaX,
+                medidaY, "black", "white", TAMANO_FUENTE, "black", elemento.toString());
+    }
 
     /**
-     * Método abstracto que nos sirve internamente para calcular la medida del
-     * ancho de los nodos. Esto con la finalidad de que todos los tengan la
-     * misma medida. La medida se calculará con base en la longitud del
-     * elemento más grande.
+     * Genera la cadena de texto con el SVG que representa la unión entre dos
+     * nodos de la estructura de datos.
      */
-    protected abstract String generaConexion();
+    protected String graficaConexion(int origenX, int origenY, int medidaX, int medidaY) {
+        // Una flecha se comprende por 2 terceras partes de la línea, y la
+        // cabeza ocupa una tercera parte de la longitud.
+        int seccion = medidaX / 3;
+
+        // Una flecha con una línea y un triángulo en el extremo derecho.
+        String conexion;
+        conexion = GraficadorSVG.graficaLinea(origenX, (medidaY / 2) + origenY, medidaX - seccion, 0, "black");
+        // Utilizamos -seccion para invertir la flecha sobre su eje x.
+        conexion += GraficadorSVG.graficaTriangulo(origenX + medidaX, origenY, -seccion, medidaY, "black");
+
+        return conexion;
+    }
 
     /**
      * Método abstracto que nos sirve internamente para obtener un iterador de

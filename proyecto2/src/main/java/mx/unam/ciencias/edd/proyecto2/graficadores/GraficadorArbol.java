@@ -8,7 +8,7 @@ import mx.unam.ciencias.edd.Coleccion;
  * datos que heredan de ArbolBinario. Solo es necesario implementar los métodos
  * con las partes específicas a cada estructura de árbol.
  */
-public abstract class GraficadorArbol<T extends Comparable<T>> implements GraficadorSVG<T> {
+public abstract class GraficadorArbol<T extends Comparable<T>> implements GraficadorEstructura<T> {
 
     // El arbol a graficar.
     ArbolBinario<T> arbol;

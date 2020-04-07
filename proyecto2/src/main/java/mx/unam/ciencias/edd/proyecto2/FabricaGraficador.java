@@ -6,7 +6,14 @@ import mx.unam.ciencias.edd.ArbolBinarioCompleto;
 import mx.unam.ciencias.edd.ArbolBinarioOrdenado;
 import mx.unam.ciencias.edd.ArbolRojinegro;
 import mx.unam.ciencias.edd.Lista;
-import mx.unam.ciencias.edd.proyecto2.graficadores.*;
+import mx.unam.ciencias.edd.proyecto2.graficadores.GraficadorArbolAVL;
+import mx.unam.ciencias.edd.proyecto2.graficadores.GraficadorArbolBinarioCompleto;
+import mx.unam.ciencias.edd.proyecto2.graficadores.GraficadorArbolBinarioOrdenado;
+import mx.unam.ciencias.edd.proyecto2.graficadores.GraficadorArbolRojinegro;
+import mx.unam.ciencias.edd.proyecto2.graficadores.GraficadorCola;
+import mx.unam.ciencias.edd.proyecto2.graficadores.GraficadorPila;
+import mx.unam.ciencias.edd.proyecto2.graficadores.GraficadorLista;
+import mx.unam.ciencias.edd.proyecto2.graficadores.GraficadorEstructura;
 
 /**
  * Clase que funciona como intermediaria entre la lógica para graficar cada una
@@ -29,8 +36,8 @@ public class FabricaGraficador {
      * @param estructura la estructura de datos a representar.
      * @return el graficador que genera el SVG de la estructura de datos.
      */
-    public static <T extends Comparable<T>> GraficadorSVG<T>
-    getGraficadorSVG(Coleccion<T> datos, Estructura estructura) {
+    public static <T extends Comparable<T>> GraficadorEstructura<T>
+    getGraficadorEstructura(Coleccion<T> datos, Estructura estructura) {
         // No podemos graficar una estructura inválida. Eso debe verificarse
         // antes de llamar este método.
         if (estructura == Estructura.INVALIDO)

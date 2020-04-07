@@ -6,7 +6,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 import mx.unam.ciencias.edd.Lista;
-import mx.unam.ciencias.edd.proyecto2.graficadores.GraficadorSVG;
+import mx.unam.ciencias.edd.proyecto2.graficadores.GraficadorEstructura;
 
 /**
  * Clase que utilizamos para encapsular los métodos correspondientes al
@@ -28,7 +28,7 @@ public class Entrada {
      * @param args los argumentos con los que inicia el programa.
      * @return el objeto capaz de generar el gráfico SVG.
      */
-    public static GraficadorSVG<Integer> procesaEntrada(String[] args) {
+    public static GraficadorEstructura<Integer> procesaEntrada(String[] args) {
         BufferedReader flujoEntrada = abrirEntrada(args);
         Estructura estructuraDeDatos = identificaEstructura(flujoEntrada);
 
@@ -41,7 +41,7 @@ public class Entrada {
         Lista<Integer> entrada = leerEntrada(flujoEntrada);
         cierraEntrada(flujoEntrada);
 
-        return FabricaGraficador.<Integer>getGraficadorSVG(entrada, estructuraDeDatos);
+        return FabricaGraficador.<Integer>getGraficadorEstructura(entrada, estructuraDeDatos);
     }
 
     /* Método privado que se encarga de abrir el flujo de entrada. */
