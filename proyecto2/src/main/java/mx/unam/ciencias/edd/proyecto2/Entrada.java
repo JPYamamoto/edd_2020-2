@@ -1,17 +1,26 @@
 package mx.unam.ciencias.edd.proyecto2;
 
-import mx.unam.ciencias.edd.Lista;
 import java.io.InputStreamReader;
 import java.io.FileInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 
+import mx.unam.ciencias.edd.Lista;
 import mx.unam.ciencias.edd.proyecto2.graficadores.GraficadorSVG;
 
+/**
+ * Clase que utilizamos para encapsular los métodos correspondientes al
+ * procesamiento de la entrada del programa.
+ */
 public class Entrada {
 
+    /**
+     * Constructor privado para evitar instanciación y utilizar los métodos
+     * públicos solo de manera estática.
+     */
     private Entrada() {  }
 
+    /* Método privado que se encarga de abrir el flujo de entrada. */
     private static BufferedReader abrirEntrada(String[] args) {
         if (args.length != 0)
             try {
@@ -24,13 +33,17 @@ public class Entrada {
         return new BufferedReader(new InputStreamReader(System.in));
     }
 
-    /* Cierra todos los BufferedReader de entradas. */
+    /* Cierra el flujo de entrada. */
     private static void cierraEntrada(BufferedReader entrada) {
         try {
             entrada.close();
         } catch(IOException ioe) { /* Ya no hay nada que hacer. */ }
     }
 
+    /**
+     * Método privado para recuperar los elementos en la entrada que componen
+     * la estructura de datos.
+     */
     private static Lista<Integer> leerEntrada(BufferedReader entrada) {
         Lista<Integer> coleccion = new Lista<>();
         String numero = "";
@@ -65,6 +78,10 @@ public class Entrada {
         return coleccion;
     }
 
+    /**
+     * Método para identificar el nombre de la estructura de datos que será
+     * representada.
+     */
     private static Estructura identificaEstructura(BufferedReader entrada) {
         String estructuraString = "";
         char letra;
@@ -91,6 +108,14 @@ public class Entrada {
         return null;
     }
 
+    /**
+     * Procesa los argumentos recibidos en el programa y lee la entrada, ya sea
+     * desde el archivo que se pasó en los argumentos o desde la entrada
+     * estándar, y genera el graficador que genera el SVG de la estructura de
+     * datos correspondiente.
+     * @param args los argumentos con los que inicia el programa.
+     * @return el objeto capaz de generar el gráfico SVG.
+     */
     public static GraficadorSVG<Integer> procesaEntrada(String[] args) {
         BufferedReader flujoEntrada = abrirEntrada(args);
         Estructura estructuraDeDatos = identificaEstructura(flujoEntrada);

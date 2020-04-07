@@ -1,12 +1,8 @@
 package mx.unam.ciencias.edd.proyecto2;
 
-import mx.unam.ciencias.edd.Coleccion;
-import mx.unam.ciencias.edd.ArbolAVL;
-import mx.unam.ciencias.edd.ArbolBinarioCompleto;
-import mx.unam.ciencias.edd.ArbolBinarioOrdenado;
-import mx.unam.ciencias.edd.ArbolRojinegro;
-import mx.unam.ciencias.edd.Lista;
-
+/**
+ * Enumeración con las estructuras de datos que podemos representar.
+ */
 public enum Estructura {
     ARBOL_AVL,
     ARBOL_BINARIO_COMPLETO,
@@ -15,8 +11,21 @@ public enum Estructura {
     COLA,
     LISTA,
     PILA,
+
+    /**
+     * Utilizaremos INVALIDO cuando se nos pide una estructura de datos que no
+     * podemos representar. Por lo mismo, es indispensable que el programa no
+     * intente continuar si se recibe este valor.
+     */
     INVALIDO;
 
+    /**
+     * Regresa la enumeración correspondiente a la representación como cadena
+     * de texto recibida. Regresa INVALIDO cuando el texto no corresponde a
+     * ningún valor de la enumeración.
+     * @param estructura la cadena a convertir a un valor de la enumeración.
+     * @return el valor de la enumeración que corresponde o INVALIDO.
+     */
     public static Estructura getEstructura(String estructura) {
         switch(estructura) {
             case "ArbolAVL":             return ARBOL_AVL;
@@ -27,19 +36,6 @@ public enum Estructura {
             case "Lista":                return LISTA;
             case "Pila":                 return PILA;
             default:                     return INVALIDO;
-        }
-    }
-
-    public Coleccion<Integer> getInstanciaInteger() {
-        switch(this) {
-            case ARBOL_AVL:              return new ArbolAVL<>();
-            case ARBOL_BINARIO_COMPLETO: return new ArbolBinarioCompleto<>();
-            case ARBOL_BINARIO_ORDENADO: return new ArbolBinarioOrdenado<>();
-            case ARBOL_ROJINEGRO:        return new ArbolRojinegro<>();
-            case COLA:
-            case PILA:
-            case LISTA:                  return new Lista<>();
-            default:                     return null;
         }
     }
 }
