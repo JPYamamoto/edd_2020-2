@@ -6,6 +6,8 @@ import java.io.FileInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 
+import mx.unam.ciencias.edd.proyecto2.graficadores.GraficadorSVG;
+
 public class Entrada {
 
     private Entrada() {  }
@@ -89,7 +91,7 @@ public class Entrada {
         return null;
     }
 
-    public static GeneradorEstructura<Integer> procesaEntrada(String[] args) {
+    public static GraficadorSVG<Integer> procesaEntrada(String[] args) {
         BufferedReader flujoEntrada = abrirEntrada(args);
         Estructura estructuraDeDatos = identificaEstructura(flujoEntrada);
 
@@ -102,6 +104,6 @@ public class Entrada {
         Lista<Integer> entrada = leerEntrada(flujoEntrada);
         cierraEntrada(flujoEntrada);
 
-        return new GeneradorEstructura<>(entrada, estructuraDeDatos);
+        return FabricaGraficador.<Integer>getGraficadorSVG(entrada, estructuraDeDatos);
     }
 }
