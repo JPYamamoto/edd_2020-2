@@ -28,7 +28,7 @@ public class GraficadorCola<T extends Comparable<T>> extends GraficadorLineal<T>
      * Regresa un iterador para iterar la estructura de datos. Necesitamos
      * implementarlo pues lo requiere la clase abstracta.
      */
-    protected Iterator<T> getIterador() {
+    protected Iterator<T> getIterator() {
         return coleccion.iterator();
     }
 }

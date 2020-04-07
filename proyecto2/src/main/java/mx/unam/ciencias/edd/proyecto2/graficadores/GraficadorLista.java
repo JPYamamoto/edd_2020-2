@@ -1,7 +1,7 @@
 package mx.unam.ciencias.edd.proyecto2.graficadores;
 
-import mx.unam.ciencias.edd.Lista;
 import java.util.Iterator;
+import mx.unam.ciencias.edd.Lista;
 
 /**
  * Clase concreta para graficar la estructura de datos Lista.
@@ -25,7 +25,7 @@ public class GraficadorLista<T extends Comparable<T>> extends GraficadorLineal<T
      * Regresa un iterador para iterar la estructura de datos. Necesitamos
      * implementarlo pues lo requiere la clase abstracta.
      */
-    protected Iterator<T> getIterador() {
+    protected Iterator<T> getIterator() {
         return lista.iterator();
     }
 }

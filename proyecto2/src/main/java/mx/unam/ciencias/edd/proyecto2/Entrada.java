@@ -20,6 +20,30 @@ public class Entrada {
      */
     private Entrada() {  }
 
+    /**
+     * Procesa los argumentos recibidos en el programa y lee la entrada, ya sea
+     * desde el archivo que se pasó en los argumentos o desde la entrada
+     * estándar, y genera el graficador que genera el SVG de la estructura de
+     * datos correspondiente.
+     * @param args los argumentos con los que inicia el programa.
+     * @return el objeto capaz de generar el gráfico SVG.
+     */
+    public static GraficadorSVG<Integer> procesaEntrada(String[] args) {
+        BufferedReader flujoEntrada = abrirEntrada(args);
+        Estructura estructuraDeDatos = identificaEstructura(flujoEntrada);
+
+        if (estructuraDeDatos == null || estructuraDeDatos == Estructura.INVALIDO) {
+            System.out.println("No se ingresó el nombre de una estructura de " +
+                               "datos válida al comienzo de la entrada.");
+            System.exit(1);
+        }
+
+        Lista<Integer> entrada = leerEntrada(flujoEntrada);
+        cierraEntrada(flujoEntrada);
+
+        return FabricaGraficador.<Integer>getGraficadorSVG(entrada, estructuraDeDatos);
+    }
+
     /* Método privado que se encarga de abrir el flujo de entrada. */
     private static BufferedReader abrirEntrada(String[] args) {
         if (args.length != 0)
@@ -106,29 +130,5 @@ public class Entrada {
         }
 
         return null;
-    }
-
-    /**
-     * Procesa los argumentos recibidos en el programa y lee la entrada, ya sea
-     * desde el archivo que se pasó en los argumentos o desde la entrada
-     * estándar, y genera el graficador que genera el SVG de la estructura de
-     * datos correspondiente.
-     * @param args los argumentos con los que inicia el programa.
-     * @return el objeto capaz de generar el gráfico SVG.
-     */
-    public static GraficadorSVG<Integer> procesaEntrada(String[] args) {
-        BufferedReader flujoEntrada = abrirEntrada(args);
-        Estructura estructuraDeDatos = identificaEstructura(flujoEntrada);
-
-        if (estructuraDeDatos == null || estructuraDeDatos == Estructura.INVALIDO) {
-            System.out.println("No se ingresó el nombre de una estructura de " +
-                               "datos válida al comienzo de la entrada.");
-            System.exit(1);
-        }
-
-        Lista<Integer> entrada = leerEntrada(flujoEntrada);
-        cierraEntrada(flujoEntrada);
-
-        return FabricaGraficador.<Integer>getGraficadorSVG(entrada, estructuraDeDatos);
     }
 }
