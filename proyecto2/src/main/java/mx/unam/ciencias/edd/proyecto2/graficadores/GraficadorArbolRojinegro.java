@@ -3,7 +3,7 @@ package mx.unam.ciencias.edd.proyecto2.graficadores;
 import mx.unam.ciencias.edd.Coleccion;
 import mx.unam.ciencias.edd.ArbolRojinegro;
 
-public class GraficadorArbolRojinegro<T extends Comparable<T>> extends GraficadorArbol<T> {
+public class GraficadorArbolRojinegro<T extends Comparable<T>> extends GraficadorArbolBinarioOrdenado<T> {
 
     public GraficadorArbolRojinegro(ArbolRojinegro<T> arbol) {
         super(arbol);
@@ -11,9 +11,5 @@ public class GraficadorArbolRojinegro<T extends Comparable<T>> extends Graficado
 
     protected ArbolRojinegro<T> creaArbol(Coleccion<T> coleccion) {
         return new ArbolRojinegro<T>(coleccion);
-    }
-
-    public String graficar() {
-        return null;
     }
 }

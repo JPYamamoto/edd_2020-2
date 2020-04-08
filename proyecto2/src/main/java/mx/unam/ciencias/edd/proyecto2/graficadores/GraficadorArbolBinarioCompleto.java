@@ -12,8 +12,4 @@ public class GraficadorArbolBinarioCompleto<T extends Comparable<T>> extends Gra
     protected ArbolBinarioCompleto<T> creaArbol(Coleccion<T> coleccion) {
         return new ArbolBinarioCompleto<T>(coleccion);
     }
-
-    public String graficar() {
-        return null;
-    }
 }

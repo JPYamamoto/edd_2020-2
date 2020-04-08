@@ -81,7 +81,7 @@ public class GraficadorSVG {
     }
 
     /**
-     * Genera el SVG de un rectángulo que contiene texto, centrado en ambos
+     * Genera el SVG de un rectángulo que contiene texto centrado en ambos
      * ejes.
      * @param origenX la coordenada X donde comienza el rectángulo.
      * @param origenY la coordenada Y donde comienza el rectángulo.
@@ -103,10 +103,37 @@ public class GraficadorSVG {
         return String.format("<g>" +
                 "<rect x='%d' y='%d' width='%d' height='%d' stroke='%s' fill='%s' />" +
                 "<text x='%d' y='%d' dominant-baseline='middle' text-anchor='middle'" +
-                " font-family='sans-serif' font-size='%d'>%s</text>" +
+                " font-family='sans-serif' font-size='%d' fill='%s'>%s</text>" +
                 "</g>",
                 origenX, origenY, medidaX, medidaY, colorBorde, colorRelleno,
                 (medidaX / 2) + origenX, (medidaY /2) + origenY, tamanoFuente,
-                contenido);
+                colorFuente, contenido);
+    }
+
+    /**
+     * Genera el SVG de un círculo que contiene texto centrado en ambos ejes.
+     * @param centroX la coordenada X del centro del círculo.
+     * @param centroY la coordenada Y del centro del círculo.
+     * @param radio la medida del radio.
+     * @param colorBorde el color del borde del círculo.
+     * @param colorRelleno el color del relleno del círculo.
+     * @param tamanoFuente el tamaño de la fuente del texto.
+     * @param colorFuente el color de la fuente del texto.
+     * @param contenido el texto.
+     * @return el SVG del círculo con las propiedades recibidas en los
+     * argumentos, que contiene el texto recibido.
+     */
+    public static String graficaCirculoTexto(int centroX, int centroY,
+                                             int radio, String colorBorde,
+                                             String colorRelleno,
+                                             int tamanoFuente, String colorFuente,
+                                             String contenido) {
+        return String.format("<g>" +
+                "<circle cx='%d' cy='%d' r='%d' stroke='%s' stroke-width='3' fill='%s' />" +
+                "<text x='%d' y='%d' dominant-baseline='middle' text-anchor='middle'" +
+                " font-family='sans-serif' font-size='%d' fill='%s'>%s</text>" +
+                "</g>",
+                centroX, centroY, radio, colorBorde, colorRelleno,
+                centroX, centroY, tamanoFuente, colorFuente, contenido);
     }
 }
