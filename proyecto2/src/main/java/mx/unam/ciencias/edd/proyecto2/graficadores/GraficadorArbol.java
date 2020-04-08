@@ -1,7 +1,6 @@
 package mx.unam.ciencias.edd.proyecto2.graficadores;
 
 import mx.unam.ciencias.edd.ArbolBinario;
-import mx.unam.ciencias.edd.Coleccion;
 import mx.unam.ciencias.edd.Pila;
 import mx.unam.ciencias.edd.VerticeArbolBinario;
 
@@ -12,8 +11,21 @@ import mx.unam.ciencias.edd.VerticeArbolBinario;
  */
 public abstract class GraficadorArbol<T extends Comparable<T>> implements GraficadorEstructura<T> {
 
-    protected final int TAMANO_FUENTE = 20;
-    protected final int BORDE = 10;
+    protected int TAMANO_FUENTE = 20;
+    protected int BORDE_SVG = 10;
+    protected int BORDE_VERTICE = 10;
+    protected int CAMBIO_X_CONEXION = 30;
+    protected int CAMBIO_Y_CONEXION = 50;
+
+    private class Coord {
+        public int x;
+        public int y;
+
+        public Coord(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+    }
 
     // El arbol a graficar.
     ArbolBinario<T> arbol;
@@ -24,70 +36,118 @@ public abstract class GraficadorArbol<T extends Comparable<T>> implements Grafic
      * de clase que nos permitirá acceder al árbol cuando sea necesario.
      * @param coleccion la colección con los datos que contendrá el árbol.
      */
-    public GraficadorArbol(Coleccion<T> coleccion) {
-        arbol = creaArbol(coleccion);
+    public GraficadorArbol(ArbolBinario<T> arbol) {
+        this.arbol = arbol;
     }
 
     public String graficar() {
-        Pila<VerticeArbolBinario<T>> pila = new Pila<>();
+        Pila<VerticeArbolBinario<T>> pilaVertices = new Pila<>();
+        Pila<Integer> pilaNivel = new Pila<>();
+        Pila<Coord> pilaCoords = new Pila<>();
+
         VerticeArbolBinario<T> vertice = arbol.esVacia() ? null : arbol.raiz();
-        meteRamaIzquierda(pila, vertice);
+        meteRamaIzquierda(pilaVertices, vertice, pilaNivel, 0);
 
-        while (!pila.esVacia()) {
-            vertice = pila.saca();
-            // Realiza acciones necesarias.
+        String vertices = "";
+        String aristas = "";
 
-            vertice = vertice.hayDerecho() ? vertice.derecho() : null;
-            meteRamaIzquierda(pila, vertice);
+        int radio = calculaRadioVertices();
+        int alturaSVG = arbol.altura() * (CAMBIO_Y_CONEXION + (radio * 2)) + (radio * 2) + (BORDE_SVG * 2);
+        int anchoSVG = BORDE_SVG;
+
+        int cambioAltura = radio * 2 + CAMBIO_Y_CONEXION;
+        int cambioAncho = radio * 2 + CAMBIO_X_CONEXION;
+
+        while (!pilaVertices.esVacia()) {
+            vertice = pilaVertices.saca();
+            int nivel = pilaNivel.saca();
+            int coordX = anchoSVG + radio;
+            int coordY = BORDE_SVG + nivel * cambioAltura + radio;
+
+            vertices += graficaVertice(vertice, coordX, coordY, radio);
+            anchoSVG += cambioAncho;
+
+            if (vertice.hayIzquierdo()) {
+                Coord hijoI = pilaCoords.saca();
+                aristas += graficaConexion(hijoI.x, hijoI.y, coordX, coordY);
+            }
+
+            if (esDerecho(vertice)) {
+                Coord hijoI = pilaCoords.saca();
+                aristas += graficaConexion(hijoI.x, hijoI.y, coordX, coordY);
+            }
+
+            if (vertice.hayDerecho()) {
+                meteRamaIzquierda(pilaVertices, vertice.derecho(), pilaNivel, nivel + 1);
+                pilaCoords.mete(new Coord(coordX, coordY));
+            }
+
+            if (esIzquierdo(vertice))
+                pilaCoords.mete(new Coord(coordX, coordY));
         }
+
+        return GraficadorSVG.declaracionXML() +
+               GraficadorSVG.comienzaSVG(anchoSVG + BORDE_SVG, alturaSVG) +
+               aristas +
+               vertices +
+               GraficadorSVG.terminaSVG();
     }
 
-    private void meteRamaIzquierda(Pila<VerticeArbolBinario<T>> pila, VerticeArbolBinario<T> vertice) {
+    protected final boolean esIzquierdo(VerticeArbolBinario<T> vertice) {
+        if (vertice == arbol.raiz())
+            return false;
+
+        if (!vertice.padre().hayIzquierdo())
+            return false;
+
+        return vertice.padre().izquierdo() == vertice;
+    }
+
+    protected final boolean esDerecho(VerticeArbolBinario<T> vertice) {
+        if (vertice == arbol.raiz())
+            return false;
+
+        if (!vertice.padre().hayDerecho())
+            return false;
+
+        return vertice.padre().derecho() == vertice;
+    }
+
+    private void meteRamaIzquierda(Pila<VerticeArbolBinario<T>> pilaVertices,
+            VerticeArbolBinario<T> vertice, Pila<Integer> pilaNivel, int nivel) {
+
         if (vertice == null)
             return;
 
         VerticeArbolBinario<T> verticeAux = vertice;
-        pila.mete(verticeAux);
+        int nivelAux = nivel;
+
+        pilaVertices.mete(verticeAux);
+        pilaNivel.mete(nivelAux);
 
         while (verticeAux.hayIzquierdo()) {
-            verticeAux = vertice.izquierdo();
-            pila.mete(verticeAux);
+            verticeAux = verticeAux.izquierdo();
+            pilaVertices.mete(verticeAux);
+            pilaNivel.mete(++nivelAux);
         }
     }
 
-    protected int calculaMedidaVertices() {
-        return (maximoEnSubarbol(arbol.raiz()).toString().length() * TAMANO_FUENTE) + 2 * BORDE;
+    protected int calculaRadioVertices() {
+        int medidaTexto = maximoEnSubarbol(arbol.raiz()).toString().length() * TAMANO_FUENTE;
+        int radio = (int) Math.ceil(medidaTexto / 2);
+        return radio + BORDE_VERTICE;
     }
 
-    protected T maximoEnSubarbol(VerticeArbolBinario<T> vertice) {
-        T maximo = vertice.get();
-
-        if (vertice.hayIzquierdo()) {
-            T maximoIzquierdo = maximoEnSubarbol(vertice.izquierdo());
-            maximo = maximo.compareTo(maximoIzquierdo) <= 0 ? maximoIzquierdo : maximo;
-        }
-
-        if (vertice.hayDerecho()) {
-            T maximoDerecho = maximoEnSubarbol(vertice.derecho());
-            maximo = maximo.compareTo(maximoDerecho) <= 0 ? maximoDerecho : maximo;
-        }
-
-        return maximo;
-    }
-
-    protected String graficaVertice(T elemento, int centroX, int centroY, int radio) {
+    protected String graficaVertice(VerticeArbolBinario<T> vertice, int centroX,
+                                    int centroY, int radio) {
         return GraficadorSVG.graficaCirculoTexto(centroX, centroY, radio,
-                "black", "white", TAMANO_FUENTE, "black", elemento.toString());
+                "black", "white", TAMANO_FUENTE, "black", vertice.get().toString());
     }
 
-    protected String graficaConexion(T elemento, int centroX1, int centroY1, int centroX2, int centroY2) {
+    protected String graficaConexion(int centroX1, int centroY1, int centroX2, int centroY2) {
         return GraficadorSVG.graficaLinea(centroX1, centroY1,
                 centroX2 - centroX1, centroY2 - centroY1, "black");
     }
 
-    /**
-     * Método que sirve internamente para regresar una instancia de la clase
-     * concreta del árbol y a la que corresponde el graficador.
-     */
-    protected abstract ArbolBinario<T> creaArbol(Coleccion<T> coleccion);
+    protected abstract T maximoEnSubarbol(VerticeArbolBinario<T> vertice);
 }

@@ -136,4 +136,23 @@ public class GraficadorSVG {
                 centroX, centroY, radio, colorBorde, colorRelleno,
                 centroX, centroY, tamanoFuente, colorFuente, contenido);
     }
+
+    /**
+     * Genera el SVG de un cuadro de texto.
+     * @param centroX la coordenada X del centro del círculo.
+     * @param centroY la coordenada Y del centro del círculo.
+     * @param tamanoFuente el tamaño de la fuente del texto.
+     * @param colorFuente el color de la fuente del texto.
+     * @param contenido el texto.
+     * @return el SVG del círculo con las propiedades recibidas en los
+     * argumentos, que contiene el texto recibido.
+     */
+    public static String graficaTexto(int centroX, int centroY,
+                                      int tamanoFuente, String colorFuente,
+                                      String contenido) {
+        return String.format("<text x='%d' y='%d' dominant-baseline='middle'" +
+                " text-anchor='middle' font-family='sans-serif' font-size='%d'" +
+                "fill='%s'>%s</text>",
+                centroX, centroY, tamanoFuente, colorFuente, contenido);
+    }
 }
