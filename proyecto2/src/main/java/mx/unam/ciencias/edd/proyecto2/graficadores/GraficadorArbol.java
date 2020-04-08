@@ -11,12 +11,22 @@ import mx.unam.ciencias.edd.VerticeArbolBinario;
  */
 public abstract class GraficadorArbol<T extends Comparable<T>> implements GraficadorEstructura<T> {
 
+    // Tamaño de la fuente que se utilizará en el contenido de los vértices.
     protected int TAMANO_FUENTE = 20;
+    // Tamaño del borde alrededor de la gráfica SVG.
     protected int BORDE_SVG = 10;
+    // Tamaño del borde entre el contenido y la orilla del vértice.
     protected int BORDE_VERTICE = 10;
+    // El desplazamiento en el eje X de un vértice con respecto a su padre.
     protected int CAMBIO_X_CONEXION = 30;
+    // El desplazamiento en el eje Y de un vértice con respecto a su padre.
     protected int CAMBIO_Y_CONEXION = 50;
 
+    /**
+     * Clase interna privada que utilizamos únicamente por conveniencia al
+     * momento de guardar las coordenadas de un vértice, para poder crear la
+     * arista con sus vecinos.
+     */
     private class Coord {
         public int x;
         public int y;
@@ -31,61 +41,78 @@ public abstract class GraficadorArbol<T extends Comparable<T>> implements Grafic
     ArbolBinario<T> arbol;
 
     /**
-     * El constructor del graficador. Simplemente asignamos el árbol que se
-     * construye a partir de los datos en la colección recibida, a una variable
-     * de clase que nos permitirá acceder al árbol cuando sea necesario.
+     * El constructor del graficador. Simplemente asignamos el árbol recibido
+     * a una variable de clase que nos permitirá acceder al árbol cuando sea
+     * necesario. Cada subclase debe implementar esto con el tipo
+     * correspondiente.
      * @param coleccion la colección con los datos que contendrá el árbol.
      */
     public GraficadorArbol(ArbolBinario<T> arbol) {
         this.arbol = arbol;
     }
 
+    /**
+     * Obtén la cadena de texto de la gráfica SVG que corresponde a la
+     * estructura de datos.
+     * @return el SVG de la estructura de datos.
+     */
     public String graficar() {
+        // Utilizamos 3 pilas para simular los parámetros que podríamos pasar
+        // en un método recursivo. Es la única forma de hacerlo iterativo.
+        // En este caso es conveniente, pues en un método recursivo no podemos
+        // regresar varios valores. Al hacerlo iterativo, podemos modificar
+        // todas las variables locales que necesitemos.
         Pila<VerticeArbolBinario<T>> pilaVertices = new Pila<>();
         Pila<Integer> pilaNivel = new Pila<>();
         Pila<Coord> pilaCoords = new Pila<>();
 
+        // Utilizamos el recorrido DFS in order.
         VerticeArbolBinario<T> vertice = arbol.esVacia() ? null : arbol.raiz();
         meteRamaIzquierda(pilaVertices, vertice, pilaNivel, 0);
 
+        // Generamos una cadena de vértices y otra de aristas para poder poner
+        // una debajo de la otra en el resultado. De manera que no hayan
+        // aristas que se sobrepongan a los vértices.
         String vertices = "";
         String aristas = "";
 
+        // Algunas medidas que necesitamos.
         int radio = calculaRadioVertices();
         int alturaSVG = arbol.altura() * (CAMBIO_Y_CONEXION + (radio * 2)) + (radio * 2) + (BORDE_SVG * 2);
         int anchoSVG = BORDE_SVG;
 
+        // El desplazamiento después de la inserción de cada vértice.
         int cambioAltura = radio * 2 + CAMBIO_Y_CONEXION;
         int cambioAncho = radio * 2 + CAMBIO_X_CONEXION;
 
         while (!pilaVertices.esVacia()) {
+            // Usamos las pilas porque realizamos el algoritmo de manera
+            // iterativa.
             vertice = pilaVertices.saca();
             int nivel = pilaNivel.saca();
+
+            // Obtenemos las coordenadas X y Y que corresponden al nuevo
+            // vértice para graficarlo.
             int coordX = anchoSVG + radio;
             int coordY = BORDE_SVG + nivel * cambioAltura + radio;
 
+            // Graficamos el vértice y modificamos el desplazamiento en el eje
+            // X que tendrá el siguiente vértice.
             vertices += graficaVertice(vertice, coordX, coordY, radio);
             anchoSVG += cambioAncho;
 
-            if (vertice.hayIzquierdo()) {
-                Coord hijoI = pilaCoords.saca();
-                aristas += graficaConexion(hijoI.x, hijoI.y, coordX, coordY);
-            }
-
-            if (esDerecho(vertice)) {
-                Coord hijoI = pilaCoords.saca();
-                aristas += graficaConexion(hijoI.x, hijoI.y, coordX, coordY);
-            }
-
-            if (vertice.hayDerecho()) {
+            // Parte del algoritmo de recorrido in order.
+            if (vertice.hayDerecho())
                 meteRamaIzquierda(pilaVertices, vertice.derecho(), pilaNivel, nivel + 1);
-                pilaCoords.mete(new Coord(coordX, coordY));
-            }
 
-            if (esIzquierdo(vertice))
-                pilaCoords.mete(new Coord(coordX, coordY));
+            // Generamos las aristas que corresponden al vértice actual, con
+            // los vértices vecinos ya existentes.
+            aristas += conectaVertices(pilaCoords, vertice, coordX, coordY);
         }
 
+        // Agrega la declaración XML, la etiqueta de apertura SVG con las
+        // medidas del gráfico, las aristas del árbol, los vértices sobre
+        // ellas y la etiqueta de cierre.
         return GraficadorSVG.declaracionXML() +
                GraficadorSVG.comienzaSVG(anchoSVG + BORDE_SVG, alturaSVG) +
                aristas +
@@ -93,6 +120,54 @@ public abstract class GraficadorArbol<T extends Comparable<T>> implements Grafic
                GraficadorSVG.terminaSVG();
     }
 
+    /**
+     * Método que conecta un vértice con sus hijos o padre según corresponda.
+     * Las conexiones se realizan de izquierda a derecha (in order) cuando los
+     * dos vértices a unir ya han sido graficados.
+     */
+    private String conectaVertices(Pila<Coord> pila, VerticeArbolBinario<T> vertice,
+                                   int coordX, int coordY) {
+        String aristas = "";
+
+        // Cuando hay un hijo izquierdo, dado que es in order sabemos que lo
+        // graficamos inmediatamente antes, por lo tanto, los unimos.
+        if (vertice.hayIzquierdo()) {
+            Coord hijoI = pila.saca();
+            aristas += graficaConexion(hijoI.x, hijoI.y, coordX, coordY);
+        }
+
+        // Cuando un vértice es hijo derecho de otro, sabemos que graficamos al
+        // padre inmediatamente antes (solo siendo precedido probablemente por
+        // el hijo izquierdo propio cuyo caso ya cubrimos), por lo que los
+        // unimos.
+        if (esDerecho(vertice)) {
+            Coord hijoI = pila.saca();
+            aristas += graficaConexion(hijoI.x, hijoI.y, coordX, coordY);
+        }
+
+        // Los siguientes casos deben suceder hasta que ya se graficaron las
+        // aristas que corresponden al vértice actual.
+
+        // Si el vértice tiene hijo derecho, ese se encarga de realizar la
+        // gráfica de la arista, por lo que guardamos nuestras coordenadas.
+        if (vertice.hayDerecho())
+            pila.mete(new Coord(coordX, coordY));
+
+        // Si el vértice es izquierdo de otro, este debe ser graficado
+        // inmediatamente después, por lo que guardamos nuestras coordenadas
+        // hasta arriba en la pila.
+        if (esIzquierdo(vertice))
+            pila.mete(new Coord(coordX, coordY));
+
+        return aristas;
+    }
+
+    /**
+     * Nos dice si un vértice es izquierdo de otro.
+     * @param vertice el vértice que queremos saber si es izquierdo.
+     * @return true si vertice es hijo izquierdo de su padre, false en otro
+     * caso.
+     */
     protected final boolean esIzquierdo(VerticeArbolBinario<T> vertice) {
         if (vertice == arbol.raiz())
             return false;
@@ -103,6 +178,12 @@ public abstract class GraficadorArbol<T extends Comparable<T>> implements Grafic
         return vertice.padre().izquierdo() == vertice;
     }
 
+    /**
+     * Nos dice si un vértice es derecho de otro.
+     * @param vertice el vértice que queremos saber si es derecho.
+     * @return true si vertice es hijo derecho de su padre, false en otro
+     * caso.
+     */
     protected final boolean esDerecho(VerticeArbolBinario<T> vertice) {
         if (vertice == arbol.raiz())
             return false;
@@ -113,6 +194,12 @@ public abstract class GraficadorArbol<T extends Comparable<T>> implements Grafic
         return vertice.padre().derecho() == vertice;
     }
 
+    /**
+     * Guardamos un vértice en una pila y toda su rama izquierda. Además,
+     * guardamos el nivel en el que cada vértice se ubica. Esto nos sirve para
+     * simular los múltiples parámetros que podemos pasar a un método recursivo
+     * si utilizamos la pila de ejecución, en vez de un método iterativo.
+     */
     private void meteRamaIzquierda(Pila<VerticeArbolBinario<T>> pilaVertices,
             VerticeArbolBinario<T> vertice, Pila<Integer> pilaNivel, int nivel) {
 
@@ -125,6 +212,8 @@ public abstract class GraficadorArbol<T extends Comparable<T>> implements Grafic
         pilaVertices.mete(verticeAux);
         pilaNivel.mete(nivelAux);
 
+        // Cada vez que guardamos un vértice en la pila, guardamos también su
+        // nivel.
         while (verticeAux.hayIzquierdo()) {
             verticeAux = verticeAux.izquierdo();
             pilaVertices.mete(verticeAux);
@@ -132,22 +221,56 @@ public abstract class GraficadorArbol<T extends Comparable<T>> implements Grafic
         }
     }
 
-    protected int calculaRadioVertices() {
-        int medidaTexto = maximoEnSubarbol(arbol.raiz()).toString().length() * TAMANO_FUENTE;
-        int radio = (int) Math.ceil(medidaTexto / 2);
-        return radio + BORDE_VERTICE;
-    }
-
+    /**
+     * Genera la cadena de texto que representa en SVG el vértice recibido,
+     * utilizando los parámetros recibidos.
+     * @param vertice el vértice a graficar.
+     * @param centroX la coordenada X del centro del vértice.
+     * @param centroY la coordenada Y del centro del vértice.
+     * @param radio el radio del vértice.
+     * @return la cadena de texto del SVG que representa al vértice.
+     */
     protected String graficaVertice(VerticeArbolBinario<T> vertice, int centroX,
                                     int centroY, int radio) {
         return GraficadorSVG.graficaCirculoTexto(centroX, centroY, radio,
                 "black", "white", TAMANO_FUENTE, "black", vertice.get().toString());
     }
 
+    /**
+     * Genera la cadena de texto con el SVG que representa la unión entre dos
+     * vértices del árbol.
+     * @param centroX1 la coordenada X del centro del vértice 1.
+     * @param centroY1 la coordenada Y del centro del vértice 1.
+     * @param centroX2 la coordenada X del centro del vértice 2.
+     * @param centroY2 la coordenada Y del centro del vértice 2.
+     * @return la cadena de texto con el SVG de la arista entre ambos vértices.
+     */
     protected String graficaConexion(int centroX1, int centroY1, int centroX2, int centroY2) {
         return GraficadorSVG.graficaLinea(centroX1, centroY1,
                 centroX2 - centroX1, centroY2 - centroY1, "black");
     }
 
+    /**
+     * Calcula la medida del radio de cada vértice, a partir del elemento con
+     * mayor (por ser comparables).
+     * @return el radio de los vértices.
+     */
+    protected int calculaRadioVertices() {
+        int medidaTexto = maximoEnSubarbol(arbol.raiz()).toString().length() * TAMANO_FUENTE;
+        int radio = (int) Math.ceil(medidaTexto / 2);
+        return radio + BORDE_VERTICE;
+    }
+
+    /**
+     * Nos indica el elemento mayor (pues son comparables) contenido en el
+     * subárbol con el vértice recibido como la raíz.
+     * Lo ideal es que ese elemento mayor sea el que tiene la representación en
+     * cadena de texto más larga, para que el tamaño de todos los vértices sea
+     * suficiente, pero para optimizarlo (y porque sabemos que solo vamos a
+     * usar enteros) vamos a utilizar el comparador que ya tienen los elementos
+     * de los vértices.
+     * @param vertice el vértice que representa la raíz de un subárbol.
+     * @return el elemento mayor en el subárbol.
+     */
     protected abstract T maximoEnSubarbol(VerticeArbolBinario<T> vertice);
 }
