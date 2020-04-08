@@ -11,16 +11,23 @@ import mx.unam.ciencias.edd.VerticeArbolBinario;
  */
 public abstract class GraficadorArbol<T extends Comparable<T>> implements GraficadorEstructura<T> {
 
+    // Las siguientes variables las utilizamos como constantes, más no son
+    // finales pues una subclase debe poder modificar su valor, aunque solo
+    // debe hacerlo en el constructor.
+
     // Tamaño de la fuente que se utilizará en el contenido de los vértices.
-    protected int TAMANO_FUENTE = 20;
+    protected int TAMANO_FUENTE;
     // Tamaño del borde alrededor de la gráfica SVG.
-    protected int BORDE_SVG = 10;
+    protected int BORDE_SVG;
     // Tamaño del borde entre el contenido y la orilla del vértice.
-    protected int BORDE_VERTICE = 10;
+    protected int BORDE_VERTICE;
     // El desplazamiento en el eje X de un vértice con respecto a su padre.
-    protected int CAMBIO_X_CONEXION = 30;
+    protected int CAMBIO_X_CONEXION;
     // El desplazamiento en el eje Y de un vértice con respecto a su padre.
-    protected int CAMBIO_Y_CONEXION = 50;
+    protected int CAMBIO_Y_CONEXION;
+
+    // El arbol a graficar.
+    ArbolBinario<T> arbol;
 
     /**
      * Clase interna privada que utilizamos únicamente por conveniencia al
@@ -37,23 +44,30 @@ public abstract class GraficadorArbol<T extends Comparable<T>> implements Grafic
         }
     }
 
-    // El arbol a graficar.
-    ArbolBinario<T> arbol;
-
     /**
-     * El constructor del graficador. Simplemente asignamos el árbol recibido
-     * a una variable de clase que nos permitirá acceder al árbol cuando sea
-     * necesario. Cada subclase debe implementar esto con el tipo
-     * correspondiente.
+     * El constructor del graficador. Asignamos el árbol recibido a una variable
+     * de clase que nos permitirá acceder al árbol cuando sea necesario. Cada
+     * subclase debe implementar esto con el tipo correspondiente. Además,
+     * inicializamos los valores de algunas constantes.
      * @param coleccion la colección con los datos que contendrá el árbol.
      */
     public GraficadorArbol(ArbolBinario<T> arbol) {
         this.arbol = arbol;
+
+        TAMANO_FUENTE = 20;
+        BORDE_SVG = 10;
+        BORDE_VERTICE = 10;
+        CAMBIO_X_CONEXION = 30;
+        CAMBIO_Y_CONEXION = 50;
     }
 
     /**
      * Obtén la cadena de texto de la gráfica SVG que corresponde a la
      * estructura de datos.
+     * La complejidad en tiempo, considerando la implementación actual de los
+     * métodos auxiliares, es O(n). La complejidad en espacio también es O(n)
+     * pues solo simulamos la pila de ejecución, y guardamos algunos otros
+     * valores que solo incrementan la constante oculta.
      * @return el SVG de la estructura de datos.
      */
     public String graficar() {
