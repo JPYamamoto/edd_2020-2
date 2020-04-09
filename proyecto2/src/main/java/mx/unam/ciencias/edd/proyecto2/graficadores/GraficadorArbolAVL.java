@@ -24,7 +24,7 @@ public class GraficadorArbolAVL<T extends Comparable<T>> extends GraficadorArbol
         BORDE_SVG = 20;
     }
 
-    /** 
+    /**
      * Genera la cadena de texto que representa el SVG con el vértice recibido
      * y un texto que indica el balance. No tenemos un método en árbol AVL que
      * nos regrese el balance, por lo que recurrimos a analizar la
@@ -43,9 +43,9 @@ public class GraficadorArbolAVL<T extends Comparable<T>> extends GraficadorArbol
         // Si el vértice es derecho, colocamos el balance ligeramente a la
         // derecha.
         if (esDerecho(vertice))
-            centroTextoX += (int) Math.ceil(balance.length() / 2);
+            centroTextoX += (int) Math.ceil(balance.length() / 2) * TAMANO_FUENTE_BALANCE;
         else if (esIzquierdo(vertice))
-            centroTextoX += - (int) Math.ceil(balance.length() / 2);
+            centroTextoX += - (int) Math.ceil(balance.length() / 2) * TAMANO_FUENTE_BALANCE;
 
         String resultado = "";
 
