@@ -52,7 +52,7 @@ public class GraficadorSVG {
     public static String graficaLinea(int origenX, int origenY, int cambioX,
                                       int cambioY, String color) {
         return String.format("<line x1='%d' y1='%d' x2='%d' y2='%d'" +
-                "stroke='%s' stroke-width='3' />",
+                " stroke='%s' stroke-width='3' />",
                 origenX, origenY, origenX + cambioX, origenY + cambioY, color);
     }
 
@@ -150,7 +150,7 @@ public class GraficadorSVG {
                                       String contenido) {
         return String.format("<text x='%d' y='%d' dominant-baseline='middle'" +
                 " text-anchor='middle' font-family='sans-serif' font-size='%d'" +
-                "fill='%s'>%s</text>",
+                " fill='%s'>%s</text>",
                 centroX, centroY, tamanoFuente, colorFuente, contenido);
     }
 }
