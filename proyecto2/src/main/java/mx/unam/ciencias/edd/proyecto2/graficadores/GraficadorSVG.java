@@ -100,14 +100,13 @@ public class GraficadorSVG {
                                                 String colorBorde, String colorRelleno,
                                                 int tamanoFuente, String colorFuente,
                                                 String contenido) {
-        return String.format("<g>" +
-                "<rect x='%d' y='%d' width='%d' height='%d' stroke='%s' fill='%s' />" +
-                "<text x='%d' y='%d' dominant-baseline='middle' text-anchor='middle'" +
-                " font-family='sans-serif' font-size='%d' fill='%s'>%s</text>" +
-                "</g>",
-                origenX, origenY, medidaX, medidaY, colorBorde, colorRelleno,
-                (medidaX / 2) + origenX, (medidaY /2) + origenY, tamanoFuente,
-                colorFuente, contenido);
+        String svg = String.format("<g>" +
+                "<rect x='%d' y='%d' width='%d' height='%d' stroke='%s' fill='%s' />",
+                origenX, origenY, medidaX, medidaY, colorBorde, colorRelleno);
+        svg += graficaTexto((medidaX / 2) + origenX, (medidaY /2) + origenY,
+                tamanoFuente, colorFuente, contenido);
+        svg += "</g>";
+        return svg;
     }
 
     /**
@@ -128,13 +127,12 @@ public class GraficadorSVG {
                                              String colorRelleno,
                                              int tamanoFuente, String colorFuente,
                                              String contenido) {
-        return String.format("<g>" +
-                "<circle cx='%d' cy='%d' r='%d' stroke='%s' stroke-width='3' fill='%s' />" +
-                "<text x='%d' y='%d' dominant-baseline='middle' text-anchor='middle'" +
-                " font-family='sans-serif' font-size='%d' fill='%s'>%s</text>" +
-                "</g>",
-                centroX, centroY, radio, colorBorde, colorRelleno,
-                centroX, centroY, tamanoFuente, colorFuente, contenido);
+        String svg = String.format("<g>" +
+                "<circle cx='%d' cy='%d' r='%d' stroke='%s' stroke-width='3' fill='%s' />",
+                centroX, centroY, radio, colorBorde, colorRelleno);
+        svg += graficaTexto(centroX, centroY, tamanoFuente, colorFuente, contenido);
+        svg += "</g>";
+        return svg;
     }
 
     /**
