@@ -9,7 +9,7 @@ import mx.unam.ciencias.edd.VerticeArbolBinario;
 public class GraficadorArbolAVL<T extends Comparable<T>> extends GraficadorArbolBinarioOrdenado<T> {
 
     // Tamaño que tendrá la fuente del balance de cada vértice.
-    private final int TAMANO_FUENTE_BALANCE = 10;
+    private final int TAMANO_FUENTE_BALANCE = 15;
     // Un desplazamiento que tendrá el texto del balance, por comodidad visual.
     private final int DESPLAZAMIENTO_ETIQUETA = 10;
 
@@ -21,7 +21,7 @@ public class GraficadorArbolAVL<T extends Comparable<T>> extends GraficadorArbol
      */
     public GraficadorArbolAVL(ArbolAVL<T> arbol) {
         super(arbol);
-        BORDE_SVG = 20;
+        BORDE_SVG = 25;
     }
 
     /**

@@ -23,21 +23,22 @@ public class GraficadorSVG {
 
     /**
      * Genera la etiqueta de apertura de un SVG con sus respectivas medidas.
+     * Agrega una etiqueta de grupo.
      * @param medidaX la medida del eje X del SVG.
      * @param medidaY la medida del eje Y del SVG.
      * @return la etiqueta de apertura de SVG.
      */
     public static String comienzaSVG(int medidaX, int medidaY) {
-        return String.format("<svg width='%d' height='%d'>", medidaX, medidaY);
+        return String.format("<svg width='%d' height='%d'><g>", medidaX, medidaY);
     }
 
     /**
-     * Regresa la etiqueta de cerradura de SVG, para no tener que escribirla
-     * directamente en otras partes del programa.
+     * Regresa la etiqueta de cerradura de SVG, y de cerradura de grupo para no
+     * tener que escribirla directamente en otras partes del programa.
      * @return la etiqueta de cerradura de SVG.
      */
     public static String terminaSVG() {
-        return "</svg>";
+        return "</g></svg>";
     }
 
     /**
@@ -100,12 +101,10 @@ public class GraficadorSVG {
                                                 String colorBorde, String colorRelleno,
                                                 int tamanoFuente, String colorFuente,
                                                 String contenido) {
-        String svg = String.format("<g>" +
-                "<rect x='%d' y='%d' width='%d' height='%d' stroke='%s' fill='%s' />",
+        String svg = String.format("<rect x='%d' y='%d' width='%d' height='%d' stroke='%s' fill='%s' />",
                 origenX, origenY, medidaX, medidaY, colorBorde, colorRelleno);
         svg += graficaTexto((medidaX / 2) + origenX, (medidaY /2) + origenY,
                 tamanoFuente, colorFuente, contenido);
-        svg += "</g>";
         return svg;
     }
 
@@ -127,11 +126,9 @@ public class GraficadorSVG {
                                              String colorRelleno,
                                              int tamanoFuente, String colorFuente,
                                              String contenido) {
-        String svg = String.format("<g>" +
-                "<circle cx='%d' cy='%d' r='%d' stroke='%s' stroke-width='3' fill='%s' />",
+        String svg = String.format("<circle cx='%d' cy='%d' r='%d' stroke='%s' stroke-width='3' fill='%s' />",
                 centroX, centroY, radio, colorBorde, colorRelleno);
         svg += graficaTexto(centroX, centroY, tamanoFuente, colorFuente, contenido);
-        svg += "</g>";
         return svg;
     }
 
@@ -148,19 +145,8 @@ public class GraficadorSVG {
     public static String graficaTexto(int centroX, int centroY,
                                       int tamanoFuente, String colorFuente,
                                       String contenido) {
-        // En firefox y en chrome, el atributo dominant-baseline='middle' nos
-        // permite posicionar el texto con base en su línea media. Es decir,
-        // las coordenadas x y y nos indican la posición del centro del texto.
-        // De esta manera, podemos colocar centrar el texto simplemente
-        // invocando este método con el centro del círculo o rectángulo donde
-        // va a ir posicionado.
-        // Este comportamiento no parece ser el mismo en el visor que trae
-        // Gnome por defecto (Eye of Gnome), pues posiciona el texto levemente
-        // más arriba. Pareciera que ubica en la coordenada y la parte inferior
-        // del texto.
-        return String.format("<text x='%d' y='%d' dominant-baseline='middle'" +
-                " text-anchor='middle' font-family='sans-serif' font-size='%d'" +
-                " fill='%s'>%s</text>",
-                centroX, centroY, tamanoFuente, colorFuente, contenido);
+        return String.format("<text x='%d' y='%d' text-anchor='middle'" +
+                " font-family='sans-serif' font-size='%d' fill='%s'>%s</text>",
+                centroX, centroY + 5, tamanoFuente, colorFuente, contenido);
     }
 }
