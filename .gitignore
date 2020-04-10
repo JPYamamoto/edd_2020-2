@@ -5,3 +5,4 @@ target/
 diffs/
 diffs_projects/
 .gitlab-ci.yml
+test_files/
