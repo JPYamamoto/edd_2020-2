@@ -148,6 +148,16 @@ public class GraficadorSVG {
     public static String graficaTexto(int centroX, int centroY,
                                       int tamanoFuente, String colorFuente,
                                       String contenido) {
+        // En firefox y en chrome, el atributo dominant-baseline='middle' nos
+        // permite posicionar el texto con base en su línea media. Es decir,
+        // las coordenadas x y y nos indican la posición del centro del texto.
+        // De esta manera, podemos colocar centrar el texto simplemente
+        // invocando este método con el centro del círculo o rectángulo donde
+        // va a ir posicionado.
+        // Este comportamiento no parece ser el mismo en el visor que trae
+        // Gnome por defecto (Eye of Gnome), pues posiciona el texto levemente
+        // más arriba. Pareciera que ubica en la coordenada y la parte inferior
+        // del texto.
         return String.format("<text x='%d' y='%d' dominant-baseline='middle'" +
                 " text-anchor='middle' font-family='sans-serif' font-size='%d'" +
                 " fill='%s'>%s</text>",

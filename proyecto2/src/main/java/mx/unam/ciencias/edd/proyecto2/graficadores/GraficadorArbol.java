@@ -128,7 +128,7 @@ public abstract class GraficadorArbol<T extends Comparable<T>> implements Grafic
         // medidas del gráfico, las aristas del árbol, los vértices sobre
         // ellas y la etiqueta de cierre.
         return GraficadorSVG.declaracionXML() +
-               GraficadorSVG.comienzaSVG(anchoSVG + BORDE_SVG, alturaSVG) +
+               GraficadorSVG.comienzaSVG(anchoSVG - CAMBIO_X_CONEXION + BORDE_SVG, alturaSVG) +
                aristas +
                vertices +
                GraficadorSVG.terminaSVG();
