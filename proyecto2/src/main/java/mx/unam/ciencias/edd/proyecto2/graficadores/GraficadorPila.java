@@ -25,8 +25,35 @@ public class GraficadorPila<T> extends GraficadorLineal<T> {
     }
 
     /**
+     * Sobreescribimos este método a pesar de corresponder a una estructura de
+     * datos lineal, porque deseamos tener una representación con los nodos uno
+     * sobre el otro, con el primero en entrar a la pila hasta abajo.
+     */
+    public String graficar() {
+        int anchoNodo = calculaAnchoNodos();
+        String svg = "";
+        int alturaSVG = BORDE + ALTURA_NODO * coleccion.getLongitud();
+
+        for (T elemento : coleccion) {
+            // Ajusta la posición en el eje Y y grafica el nodo.
+            alturaSVG -= ALTURA_NODO;
+            svg += graficaNodo(elemento, BORDE, alturaSVG, anchoNodo, ALTURA_NODO);
+        }
+
+        // Agrega la declaración XML, la etiqueta de apertura SVG con las
+        // medidas del gráfico, el contenido del SVG y la etiqueta de cierre
+        // del SVG. Regresa el resultado.
+        return GraficadorSVG.declaracionXML() +
+                GraficadorSVG.comienzaSVG(anchoNodo + 2 * BORDE, coleccion.getLongitud() * ALTURA_NODO + 2 * BORDE) +
+                svg +
+                GraficadorSVG.terminaSVG();
+    }
+
+    /**
      * Regresa un iterador para iterar la estructura de datos. Necesitamos
      * implementarlo pues lo requiere la clase abstracta.
+     * No es necesario para esta estructura en específico, pero igual lo
+     * implementamos.
      */
     protected Iterator<T> getIterator() {
         return coleccion.iterator();
