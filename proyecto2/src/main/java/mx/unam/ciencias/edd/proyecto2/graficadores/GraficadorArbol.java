@@ -6,10 +6,10 @@ import mx.unam.ciencias.edd.VerticeArbolBinario;
 
 /**
  * Clase abstracta de la que heredan los graficadores de las estructuras de
- * datos que heredan de ArbolBinario. Solo es necesario implementar los métodos
- * con las partes específicas a cada estructura de árbol.
+ * datos que heredan de ArbolBinario. De esta manera podemos sobreescribir solo
+ * las partes específicas a cada estructura de árbol.
  */
-public abstract class GraficadorArbol<T extends Comparable<T>> implements GraficadorEstructura<T> {
+public abstract class GraficadorArbol<T> implements GraficadorEstructura<T> {
 
     // Las siguientes variables las utilizamos como constantes, más no son
     // finales pues una subclase debe poder modificar su valor, aunque solo
@@ -265,26 +265,40 @@ public abstract class GraficadorArbol<T extends Comparable<T>> implements Grafic
     }
 
     /**
-     * Calcula la medida del radio de cada vértice, a partir del elemento con
-     * mayor (por ser comparables).
+     * Calcula la medida del radio de cada vértice, a partir del elemento cuya
+     * representación en cadena sea más larga.
      * @return el radio de los vértices.
      */
     protected int calculaRadioVertices() {
-        int medidaTexto = maximoEnSubarbol(arbol.raiz()).toString().length() * TAMANO_FUENTE;
+        int medidaTexto = longitudMaxima(arbol.raiz()) * TAMANO_FUENTE;
         int radio = (int) Math.ceil(medidaTexto / 2);
         return radio + BORDE_VERTICE;
     }
 
     /**
-     * Nos indica el elemento mayor (pues son comparables) contenido en el
+     * Nos indica el elemento con la representación en cadena más larga en el
      * subárbol con el vértice recibido como la raíz.
-     * Lo ideal es que ese elemento mayor sea el que tiene la representación en
-     * cadena de texto más larga, para que el tamaño de todos los vértices sea
-     * suficiente, pero para optimizarlo (y porque sabemos que solo vamos a
-     * usar enteros) vamos a utilizar el comparador que ya tienen los elementos
-     * de los vértices.
+     * No es la forma más óptima de obtener la longitud máxima con los enteros,
+     * pues sabemos que el entero más grande siempre es el que tiene la
+     * representación en cadena más larga, y no necesitamos convertirlo con
+     * toString(), pero lo hacemos con la idea de que nuestro graficador sea
+     * genérico.
      * @param vertice el vértice que representa la raíz de un subárbol.
      * @return el elemento mayor en el subárbol.
      */
-    protected abstract T maximoEnSubarbol(VerticeArbolBinario<T> vertice);
+    protected int longitudMaxima(VerticeArbolBinario<T> vertice) {
+        int maximo = vertice.get().toString().length();
+
+        if (vertice.hayIzquierdo()) {
+            int maximoIzquierdo = longitudMaxima(vertice.izquierdo());
+            maximo = maximo - maximoIzquierdo <= 0 ? maximoIzquierdo : maximo;
+        }
+
+        if (vertice.hayDerecho()) {
+            int maximoDerecho = longitudMaxima(vertice.derecho());
+            maximo = maximo - maximoDerecho <= 0 ? maximoDerecho : maximo;
+        }
+
+        return maximo;
+    }
 }

@@ -5,6 +5,10 @@ import mx.unam.ciencias.edd.ArbolBinarioOrdenado;
 
 /**
  * Clase concreta para graficar la estructura de datos Árbol Binario Ordenado.
+ * Tenemos que acotar el genérico a Comparable para poder utilizar el tipo
+ * adecuado en el constructor. Una alternativa sería recibir un ArbolBinario
+ * sin la necesidad de acotar el genérico, pero no podríamos estar
+ * completamente seguros de que el árbol que recibimos está ordenado.
  */
 public class GraficadorArbolBinarioOrdenado<T extends Comparable<T>> extends GraficadorArbol<T> {
 
@@ -19,16 +23,20 @@ public class GraficadorArbolBinarioOrdenado<T extends Comparable<T>> extends Gra
     /**
      * Podemos obtener el máximo en el subárbol de manera optimizada, pues
      * sabemos que el árbol está ordenado. En el peor de los casos su
-     * complejidad es O(n), y en los árboles autobalanceados es O(log n)
+     * complejidad es O(n), pero en los árboles autobalanceados es O(log n)
      * La optimización consiste en buscar el último vértice a la derecha, pues
-     * en los árboles ordenados, ese siempre es el máximo.
+     * en los árboles ordenados, ese siempre es el máximo. Esto no garantiza
+     * que su representación en cadena de texto será la más larga, pero como
+     * sabemos que en nuestro proyecto solo aceptamos enteros, podemos afirmar
+     * que la optimización funciona. En otro caso, será mejor borrar este
+     * método.
      */
-    protected T maximoEnSubarbol(VerticeArbolBinario<T> vertice) {
+    protected int longitudMaxima(VerticeArbolBinario<T> vertice) {
         VerticeArbolBinario<T> verticeAux = vertice;
 
-        while (verticeAux.hayDerecho()) 
+        while (verticeAux.hayDerecho())
             verticeAux = verticeAux.derecho();
 
-        return verticeAux.get();
+        return verticeAux.get().toString().length();
     }
 }

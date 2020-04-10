@@ -6,7 +6,7 @@ package mx.unam.ciencias.edd.proyecto2.graficadores;
  * clase correspondiente que implemente esta interfaz para generar la
  * representación adecuada de la estructura.
  */
-public interface GraficadorEstructura<T extends Comparable<T>> {
+public interface GraficadorEstructura<T> {
 
     /**
      * Método que regresa la gráfica SVG de una estructura de datos.

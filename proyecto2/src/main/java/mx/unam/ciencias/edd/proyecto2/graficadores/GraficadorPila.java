@@ -6,7 +6,7 @@ import mx.unam.ciencias.edd.Lista;
 /**
  * Clase concreta para graficar la estructura de datos Cola.
  */
-public class GraficadorPila<T extends Comparable<T>> extends GraficadorLineal<T> {
+public class GraficadorPila<T> extends GraficadorLineal<T> {
 
     /**
      * Utilizamos una lista para representar internamente los datos de la

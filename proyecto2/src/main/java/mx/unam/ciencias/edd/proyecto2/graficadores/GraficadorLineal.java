@@ -6,7 +6,7 @@ import java.util.Iterator;
  * Clase abstracta de la que heredan las clases concretas de graficadores que
  * corresponden a estructuras de datos lineales.
  */
-public abstract class GraficadorLineal<T extends Comparable<T>> implements GraficadorEstructura<T> {
+public abstract class GraficadorLineal<T> implements GraficadorEstructura<T> {
 
     protected final int ALTURA_NODO = 40;
     protected final int ANCHO_CONEXION = 50;
@@ -50,29 +50,30 @@ public abstract class GraficadorLineal<T extends Comparable<T>> implements Grafi
     /**
      * Método que nos sirve para calcular la medida del ancho de los nodos.
      * Esto con la finalidad de que todos los tengan la misma medida. La medida
-     * se calculará con base en la longitud del elemento más grande.
+     * se basa en la longitud mayor de la representación en cadena de los
+     * elementos.
      */
     protected int calculaAnchoNodos() {
         Iterator<T> iterador = getIterator();
-        T max = null;
+        int max = 0;
 
         // El primer elemento es el máximo hasta el momento. El ancho es 0
         // cuando no hay nodos.
         if (iterador.hasNext())
-            max = iterador.next();
+            max = iterador.next().toString().length();
         else
             return 0;
 
         // Encontramos el valor máximo.
         while (iterador.hasNext()) {
             T actual = iterador.next();
-            max = max.compareTo(actual) <= 0 ? actual : max;
+            max = max - actual.toString().length() <= 0 ? actual.toString().length() : max;
         }
 
         // Regresamos el producto de la longitud del elemento máximo y el
         // tamaño de cada carácter de la fuente. Además, agregamos un borde de
         // ambos lados.
-        return (max.toString().length() * TAMANO_FUENTE) + 2 * BORDE;
+        return (max * TAMANO_FUENTE) + 2 * BORDE;
     }
 
     /**

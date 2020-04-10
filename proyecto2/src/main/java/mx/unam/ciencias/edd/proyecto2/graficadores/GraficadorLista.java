@@ -6,7 +6,7 @@ import mx.unam.ciencias.edd.Lista;
 /**
  * Clase concreta para graficar la estructura de datos Lista.
  */
-public class GraficadorLista<T extends Comparable<T>> extends GraficadorLineal<T> {
+public class GraficadorLista<T> extends GraficadorLineal<T> {
 
     // La lista a graficar.
     Lista<T> lista;

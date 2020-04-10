@@ -6,7 +6,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 import mx.unam.ciencias.edd.Lista;
-import mx.unam.ciencias.edd.proyecto2.graficadores.GraficadorEstructura;
 
 /**
  * Clase que utilizamos para encapsular los métodos correspondientes al
@@ -20,37 +19,8 @@ public class Entrada {
      */
     private Entrada() {  }
 
-    /**
-     * Procesa los argumentos recibidos en el programa y lee la entrada, ya sea
-     * desde el archivo que se pasó en los argumentos o desde la entrada
-     * estándar, y genera el graficador que genera el SVG de la estructura de
-     * datos correspondiente.
-     * @param args los argumentos con los que inicia el programa.
-     * @return el objeto capaz de generar el gráfico SVG.
-     */
-    public static GraficadorEstructura<Integer> procesaEntrada(String[] args) {
-        BufferedReader flujoEntrada = abrirEntrada(args);
-        // Identificamos la estructura de datos que recibimos.
-        Estructura estructuraDeDatos = identificaEstructura(flujoEntrada);
-
-        // Si la estructura de datos no es válida, terminamos limpiamente.
-        if (estructuraDeDatos == null || estructuraDeDatos == Estructura.INVALIDO) {
-            cierraEntrada(flujoEntrada);
-            System.out.println("No se ingresó el nombre de una estructura de " +
-                               "datos válida al comienzo de la entrada.");
-            System.exit(1);
-        }
-
-        // Leemos los datos que va a contener la estructura de datos.
-        Lista<Integer> entrada = leerEntrada(flujoEntrada);
-        cierraEntrada(flujoEntrada);
-
-        // Regresamos el graficador que corresponde a la estructura recibida.
-        return FabricaGraficador.<Integer>getGraficadorEstructura(entrada, estructuraDeDatos);
-    }
-
     /* Método privado que se encarga de abrir el flujo de entrada. */
-    private static BufferedReader abrirEntrada(String[] args) {
+    public static BufferedReader abrirEntrada(String[] args) {
         if (args.length != 0)
             try {
                 return new BufferedReader(new InputStreamReader(new FileInputStream(args[0])));
@@ -63,7 +33,7 @@ public class Entrada {
     }
 
     /* Cierra el flujo de entrada. */
-    private static void cierraEntrada(BufferedReader entrada) {
+    public static void cierraEntrada(BufferedReader entrada) {
         try {
             entrada.close();
         } catch(IOException ioe) { /* Ya no hay nada que hacer. */ }
@@ -73,7 +43,7 @@ public class Entrada {
      * Método privado para recuperar los elementos en la entrada que componen
      * la estructura de datos.
      */
-    private static Lista<Integer> leerEntrada(BufferedReader entrada) {
+    public static Lista<Integer> leerEntrada(BufferedReader entrada) {
         Lista<Integer> coleccion = new Lista<>();
         String numero = "";
         int letraInt;
@@ -122,7 +92,7 @@ public class Entrada {
      * Método para identificar el nombre de la estructura de datos que será
      * representada.
      */
-    private static Estructura identificaEstructura(BufferedReader entrada) {
+    public static Estructura identificaEstructura(BufferedReader entrada) {
         String estructuraString = "";
         char letra;
 
