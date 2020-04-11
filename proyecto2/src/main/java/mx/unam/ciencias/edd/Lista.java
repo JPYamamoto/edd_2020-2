@@ -142,7 +142,6 @@ public class Lista<T> implements Coleccion<T> {
      *         <code>null</code>.
      */
     public void agregaFinal(T elemento) {
-        // Aquí va su código.
         if (elemento == null)
             throw new IllegalArgumentException("El elemento es inválido.");
 
