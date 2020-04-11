@@ -1,6 +1,5 @@
 package mx.unam.ciencias.edd.proyecto2.graficadores;
 
-import java.util.Iterator;
 import mx.unam.ciencias.edd.Lista;
 
 /**
@@ -9,19 +8,12 @@ import mx.unam.ciencias.edd.Lista;
 public class GraficadorPila<T> extends GraficadorLineal<T> {
 
     /**
-     * Utilizamos una lista para representar internamente los datos de la
-     * estructura, puesto que podemos iterar una Lista sin modificarla. Lo
-     * anterior no se puede con nuestra implementación de Pila.
-     */
-    Lista<T> coleccion;
-
-    /**
      * Constructor que recibe la lista con los datos que contiene la Pila que
      * queremos graficar.
      * @param coleccion la lista con la información a graficar.
      */
     public GraficadorPila(Lista<T> coleccion) {
-        this.coleccion = coleccion;
+        super(coleccion);
     }
 
     /**
@@ -30,11 +22,12 @@ public class GraficadorPila<T> extends GraficadorLineal<T> {
      * sobre el otro, con el primero en entrar a la pila hasta abajo.
      */
     public String graficar() {
+        Lista<T> coleccion = (Lista<T>) iterable;
         int anchoNodo = calculaAnchoNodos();
         String svg = "";
-        int alturaSVG = BORDE + ALTURA_NODO * coleccion.getLongitud();
+        int alturaSVG = BORDE + ALTURA_NODO * coleccion.getElementos();
 
-        for (T elemento : coleccion) {
+        for (T elemento : iterable) {
             // Ajusta la posición en el eje Y y grafica el nodo.
             alturaSVG -= ALTURA_NODO;
             svg += graficaNodo(elemento, BORDE, alturaSVG, anchoNodo, ALTURA_NODO);
@@ -44,19 +37,10 @@ public class GraficadorPila<T> extends GraficadorLineal<T> {
         // medidas del gráfico, el contenido del SVG y la etiqueta de cierre
         // del SVG. Regresa el resultado.
         return GraficadorSVG.declaracionXML() +
-                GraficadorSVG.comienzaSVG(anchoNodo + 2 * BORDE, coleccion.getLongitud() * ALTURA_NODO + 2 * BORDE) +
+                GraficadorSVG.comienzaSVG(anchoNodo + 2 * BORDE,
+                    coleccion.getLongitud() * ALTURA_NODO + 2 * BORDE) +
                 svg +
                 GraficadorSVG.terminaSVG();
-    }
-
-    /**
-     * Regresa un iterador para iterar la estructura de datos. Necesitamos
-     * implementarlo pues lo requiere la clase abstracta.
-     * No es necesario para esta estructura en específico, pero igual lo
-     * implementamos.
-     */
-    protected Iterator<T> getIterator() {
-        return coleccion.iterator();
     }
 }
 

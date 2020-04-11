@@ -8,10 +8,29 @@ import java.util.Iterator;
  */
 public abstract class GraficadorLineal<T> implements GraficadorEstructura<T> {
 
-    protected final int ALTURA_NODO = 40;
-    protected final int ANCHO_CONEXION = 50;
-    protected final int TAMANO_FUENTE = 20;
-    protected final int BORDE = 10;
+    protected int ALTURA_NODO;
+    protected int ANCHO_CONEXION;
+    protected int TAMANO_FUENTE;
+    protected int BORDE;
+
+    // El iterable a recorrer para agregar a la estructura de datos lineal.
+    protected Iterable<T> iterable;
+
+    /**
+     * El constructor de la clase abstracta. Simplemente asignamos el iterable
+     * a su variable de clase e inicializamos algunas constantes. Asumimos que
+     * cada clase concreta va a elegir el tipo más adecuado para recibir en su
+     * constructor, y que sea lineal.
+     * @param iterable el iterable a graficar.
+     */
+    public GraficadorLineal(Iterable<T> iterable) {
+        this.iterable = iterable;
+
+        ALTURA_NODO = 40;
+        ANCHO_CONEXION = 50;
+        TAMANO_FUENTE = 20;
+        BORDE = 10;
+    }
 
     /**
      * Obtén la cadena de texto de la gráfica SVG que corresponde a la
@@ -21,7 +40,7 @@ public abstract class GraficadorLineal<T> implements GraficadorEstructura<T> {
     public String graficar() {
         int anchoNodo = calculaAnchoNodos();
         String svg = "";
-        Iterator<T> iterador = getIterator();
+        Iterator<T> iterador = iterable.iterator();
         int anchoSVG = anchoNodo + BORDE;
 
         // Agregamos el primer elemento si este existe.
@@ -54,7 +73,7 @@ public abstract class GraficadorLineal<T> implements GraficadorEstructura<T> {
      * elementos.
      */
     protected int calculaAnchoNodos() {
-        Iterator<T> iterador = getIterator();
+        Iterator<T> iterador = iterable.iterator();
         int max = 0;
 
         // El primer elemento es el máximo hasta el momento. El ancho es 0
@@ -103,16 +122,4 @@ public abstract class GraficadorLineal<T> implements GraficadorEstructura<T> {
 
         return conexion;
     }
-
-    /**
-     * Método abstracto que nos sirve internamente para obtener un iterador de
-     * la estructura de datos a graficar. Esto es necesario pues no conocemos
-     * la implementación concreta de los graficadores y podrían no contener
-     * una estructura de datos iterable.
-     * Por ejemplo, si la implementación concreta de GraficadorPila contiene
-     * una pila y esta no es iterable, nos veríamos en la imposibilidad de
-     * iterarlo. Este método nos garantiza que hay una forma de iterar.
-     * @return el iterador para iterar el iterable.
-     */
-    protected abstract Iterator<T> getIterator();
 }

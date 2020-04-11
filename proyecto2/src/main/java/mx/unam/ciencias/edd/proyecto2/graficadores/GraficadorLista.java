@@ -8,9 +8,6 @@ import mx.unam.ciencias.edd.Lista;
  */
 public class GraficadorLista<T> extends GraficadorLineal<T> {
 
-    // La lista a graficar.
-    Lista<T> lista;
-
     /**
      * Constructor que recibe la lista que será graficada. Puesto que recibimos
      * la lista a graficar en el constructor, se necesita una instancia por
@@ -18,7 +15,7 @@ public class GraficadorLista<T> extends GraficadorLineal<T> {
      * @param coleccion la lista a graficar.
      */
     public GraficadorLista(Lista<T> coleccion) {
-        lista = coleccion;
+        super(coleccion);
     }
 
     /**
@@ -40,14 +37,6 @@ public class GraficadorLista<T> extends GraficadorLineal<T> {
         conexion += GraficadorSVG.graficaTriangulo(origenX + medidaX, origenY, -seccion, medidaY, "black");
 
         return conexion;
-    }
-
-    /**
-     * Regresa un iterador para iterar la estructura de datos. Necesitamos
-     * implementarlo pues lo requiere la clase abstracta.
-     */
-    protected Iterator<T> getIterator() {
-        return lista.iterator();
     }
 }
 
