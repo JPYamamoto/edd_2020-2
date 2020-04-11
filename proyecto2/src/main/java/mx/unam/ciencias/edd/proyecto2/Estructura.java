@@ -11,6 +11,7 @@ public enum Estructura {
     COLA,
     LISTA,
     PILA,
+    GRAFICA,
 
     /**
      * Utilizaremos INVALIDO cuando se nos pide una estructura de datos que no
@@ -35,6 +36,7 @@ public enum Estructura {
             case "Cola":                 return COLA;
             case "Lista":                return LISTA;
             case "Pila":                 return PILA;
+            case "Grafica":              return GRAFICA;
             default:                     return INVALIDO;
         }
     }

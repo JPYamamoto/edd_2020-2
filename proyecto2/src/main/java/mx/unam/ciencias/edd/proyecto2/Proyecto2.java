@@ -7,6 +7,7 @@ import mx.unam.ciencias.edd.ArbolBinarioCompleto;
 import mx.unam.ciencias.edd.ArbolBinarioOrdenado;
 import mx.unam.ciencias.edd.ArbolRojinegro;
 import mx.unam.ciencias.edd.Lista;
+import mx.unam.ciencias.edd.Grafica;
 import mx.unam.ciencias.edd.proyecto2.graficadores.GraficadorArbolAVL;
 import mx.unam.ciencias.edd.proyecto2.graficadores.GraficadorArbolBinarioCompleto;
 import mx.unam.ciencias.edd.proyecto2.graficadores.GraficadorArbolBinarioOrdenado;
@@ -14,6 +15,7 @@ import mx.unam.ciencias.edd.proyecto2.graficadores.GraficadorArbolRojinegro;
 import mx.unam.ciencias.edd.proyecto2.graficadores.GraficadorCola;
 import mx.unam.ciencias.edd.proyecto2.graficadores.GraficadorPila;
 import mx.unam.ciencias.edd.proyecto2.graficadores.GraficadorLista;
+import mx.unam.ciencias.edd.proyecto2.graficadores.GraficadorGrafica;
 import mx.unam.ciencias.edd.proyecto2.graficadores.GraficadorEstructura;
 
 /**
@@ -64,6 +66,9 @@ public class Proyecto2 {
             case LISTA:
                 graficador = new GraficadorLista<>(datos);
                 break;
+            case GRAFICA:
+                graficador = new GraficadorGrafica<>(construyeGrafica(datos));
+                break;
             // El siguiente caso nunca se alcanzará.
             default:
                 graficador = null;
@@ -71,5 +76,28 @@ public class Proyecto2 {
 
         // Graficamos e imprimimos.
         System.out.println(graficador.graficar());
+    }
+
+    private static <T> Grafica<T> construyeGrafica(Lista<T> datos) {
+        if (datos.getElementos() % 2 != 0) {
+            System.out.println("El número de elementos para crear la gráfica debe ser par.");
+            System.exit(1);
+        }
+
+        Grafica<T> grafica = new Grafica<>();
+
+        for (T vertice : datos)
+            if (!grafica.contiene(vertice))
+                grafica.agrega(vertice);
+
+        int i = 0;
+        T verticeAnterior = null;
+        for (T vertice : datos)
+            if (i++ % 2 == 0)
+                verticeAnterior = vertice;
+            else if (!grafica.sonVecinos(verticeAnterior, vertice))
+                grafica.conecta(verticeAnterior, vertice);
+
+        return grafica;
     }
 }
