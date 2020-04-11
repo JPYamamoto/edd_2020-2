@@ -235,8 +235,7 @@ public class Grafica<T> implements Coleccion<T> {
      *         otro caso.
      */
     public boolean esConexa() {
-        for (Vertice v : vertices)
-            v.color = Color.ROJO;
+        paraCadaVertice((v) -> setColor(v, Color.ROJO));
 
         Cola<Vertice> cola = new Cola<>();
         Vertice vertice = vertices.getPrimero();
@@ -262,8 +261,7 @@ public class Grafica<T> implements Coleccion<T> {
                 break;
             }
 
-        for (Vertice v : vertices)
-            v.color = Color.NINGUNO;
+        paraCadaVertice((v) -> setColor(v, Color.NINGUNO));
 
         return resultado;
     }
@@ -445,8 +443,7 @@ public class Grafica<T> implements Coleccion<T> {
     private void recorre(T elemento, AccionVerticeGrafica<T> accion, MeteSaca<Vertice> estructura) {
         Vertice vertice = (Vertice) vertice(elemento);
 
-        for (Vertice v : vertices)
-            v.color = Color.ROJO;
+        paraCadaVertice((v) -> setColor(v, Color.ROJO));
 
         vertice.color = Color.NEGRO;
         estructura.mete(vertice);
@@ -462,7 +459,6 @@ public class Grafica<T> implements Coleccion<T> {
                 }
         }
 
-        for (Vertice v : vertices)
-            v.color = Color.NINGUNO;
+        paraCadaVertice((v) -> setColor(v, Color.NINGUNO));
     }
 }

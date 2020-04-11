@@ -73,21 +73,10 @@ public abstract class GraficadorLineal<T> implements GraficadorEstructura<T> {
      * elementos.
      */
     protected int calculaAnchoNodos() {
-        Iterator<T> iterador = iterable.iterator();
         int max = 0;
 
-        // El primer elemento es el máximo hasta el momento. El ancho es 0
-        // cuando no hay nodos.
-        if (iterador.hasNext())
-            max = iterador.next().toString().length();
-        else
-            return 0;
-
-        // Encontramos el valor máximo.
-        while (iterador.hasNext()) {
-            T actual = iterador.next();
-            max = max - actual.toString().length() <= 0 ? actual.toString().length() : max;
-        }
+        for (T vertice : iterable)
+            max = max <= vertice.toString().length() ? vertice.toString().length() : max;
 
         // Regresamos el producto de la longitud del elemento máximo y el
         // tamaño de cada carácter de la fuente. Además, agregamos un borde de
