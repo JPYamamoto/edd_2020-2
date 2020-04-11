@@ -78,7 +78,15 @@ public class Proyecto2 {
         System.out.println(graficador.graficar());
     }
 
+    /**
+     * Genera la gráfica constituida por los vértices recibidos y con aristas
+     * entre cada par de elementos. Si el número de elementos no es par,
+     * imprime un error y termina la ejecución del programa.
+     * @param datos los vértices a graficar con aristas entre cada par.
+     * @return la gráfica que se forma a partir de los datos recibidos.
+     */
     private static <T> Grafica<T> construyeGrafica(Lista<T> datos) {
+        // Si el número de elementos no es par, terminamos.
         if (datos.getElementos() % 2 != 0) {
             System.out.println("El número de elementos para crear la gráfica debe ser par.");
             System.exit(1);
@@ -86,10 +94,12 @@ public class Proyecto2 {
 
         Grafica<T> grafica = new Grafica<>();
 
+        // Agregamos los vértices a la gráfica.
         for (T vertice : datos)
             if (!grafica.contiene(vertice))
                 grafica.agrega(vertice);
 
+        // Creamos las aristas de la gráfica.
         int i = 0;
         T verticeAnterior = null;
         for (T vertice : datos)
