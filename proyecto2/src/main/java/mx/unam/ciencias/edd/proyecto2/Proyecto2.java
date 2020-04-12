@@ -105,7 +105,12 @@ public class Proyecto2 {
         for (T vertice : datos)
             if (i++ % 2 == 0)
                 verticeAnterior = vertice;
-            else if (!grafica.sonVecinos(verticeAnterior, vertice))
+            else if (verticeAnterior.equals(vertice)) {
+                System.out.println(
+                    String.format("El vértice %s no puede ser vecino de sí mismo.",
+                        vertice.toString()));
+                System.exit(1);
+            } else if (!grafica.sonVecinos(verticeAnterior, vertice))
                 grafica.conecta(verticeAnterior, vertice);
 
         return grafica;
