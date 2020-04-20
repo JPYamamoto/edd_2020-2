@@ -31,6 +31,8 @@ public class GraficadorGrafica<T> implements GraficadorEstructura<T> {
     protected int BORDE_VERTICE;
     // El tamaño de la fuente del contenido de los vértices.
     protected int TAMANO_FUENTE;
+    // El número máximo de dígitos que puede tener cada vértice como String.
+    protected int MAXIMO_DIGITOS;
 
     // La gráfica a graficar.
     protected Grafica<T> grafica;
@@ -46,6 +48,7 @@ public class GraficadorGrafica<T> implements GraficadorEstructura<T> {
         BORDE_SVG = 10;
         BORDE_VERTICE= 10;
         TAMANO_FUENTE = 20;
+        MAXIMO_DIGITOS = 3;
     }
 
     /**
@@ -54,24 +57,24 @@ public class GraficadorGrafica<T> implements GraficadorEstructura<T> {
      * @return el SVG de la estructura de datos.
      */
     public String graficar() {
-        // El radio de los nodos.
+        // El radio de los vértices.
         int radioVertice = calculaRadioVertices();
 
-        // El ángulo entre cada uno de los nodos.
+        // El ángulo entre cada uno de los vértices.
         double angulo = (double) 360 / grafica.getElementos();
         /**
-        * A falta de una mejor idea para distribuir los nodos de manera
+        * A falta de una mejor idea para distribuir los vértices de manera
         * moderadamente estética, decidí graficarlos en una disposición
-        * circular. Podemos colocar cada uno de los nodos sobre una
+        * circular. Podemos colocar cada uno de los vértices sobre una
         * circunferencia a una distancia igual.
-        * Queremos que el espacio entre cualesquiera dos centros de nodos sea
-        * constante. Va a estar dado por el tamaño del radio de un vértice
+        * Queremos que el espacio entre cualesquiera dos centros de vértices
+        * sea constante. Va a estar dado por el tamaño del radio de un vértice
         * multiplicado por una constante. Luego, podemos utilizar la siguiente
         * fórmula para obtener el tamaño del radio:
         * radio = cuerda / (2 * sin(angulo / 2))
         */
         double radioCircunferencia = Math.abs((6 * radioVertice) / (2 * Math.sin(angulo / 2)));
-        // El ángulo al que va a estar cada uno de los nodos.
+        // El ángulo al que va a estar cada uno de los vértices.
         double anguloSVG = 0;
 
         // Lista donde guardamos los vértices para poder iterarlos.  Hacemos
@@ -96,8 +99,8 @@ public class GraficadorGrafica<T> implements GraficadorEstructura<T> {
             componenteX += BORDE_SVG + radioVertice + radioCircunferencia;
             componenteY += BORDE_SVG + radioVertice + radioCircunferencia;
 
-            // Graficamos cada uno de los nodos y guardamos sus coordenadas.
-            verticesSVG += graficaNodo(vertice.get(), componenteX, componenteY, radioVertice);
+            // Graficamos cada uno de los vértices y guardamos sus coordenadas.
+            verticesSVG += graficaVertice(vertice.get(), componenteX, componenteY, radioVertice);
             Coord coord = new Coord(componenteX, componenteY, vertice.get());
 
             // Recorremos su lista de vecinos, y si el vecino ya ha sido
@@ -140,31 +143,25 @@ public class GraficadorGrafica<T> implements GraficadorEstructura<T> {
     /**
      * Método que nos sirve para calcular la medida del ancho de los vértices.
      * Esto con la finalidad de que todos los tengan la misma medida. La medida
-     * se basa en la longitud mayor de la representación en cadena de los
-     * elementos.
+     * se basa en el máximo de dígitos que un vértice puede tener.
      */
     protected int calculaRadioVertices() {
-        int maximo = 0;
-
-        for (T vertice : grafica)
-            maximo = maximo <= vertice.toString().length() ? vertice.toString().length() : maximo;
-
-        return maximo * TAMANO_FUENTE + BORDE_VERTICE;
+        return ((MAXIMO_DIGITOS * TAMANO_FUENTE) / 2) + BORDE_VERTICE;
     }
 
     /**
-     * Método que genera la cadena de texto que representa un nodo con el
+     * Método que genera la cadena de texto que representa un vertice con el
      * elemento recibido. Utiliza las medidas recibidas.
      */
-    protected String graficaNodo(T elemento, int origenX, int origenY, int radio) {
-        // Un nodo es un círculo que contiene el elemento.
+    protected String graficaVertice(T elemento, int origenX, int origenY, int radio) {
+        // Un vértice es un círculo que contiene el elemento.
         return GraficadorSVG.graficaCirculoTexto(origenX, origenY, radio,
                 "black", "white", TAMANO_FUENTE, "black", elemento.toString());
     }
 
     /**
      * Genera la cadena de texto con el SVG que representa la unión entre dos
-     * nodos de la estructura de datos.
+     * vértices de la estructura de datos.
      */
     protected String graficaConexion(int origenX1, int origenY1, int origenX2, int origenY2) {
         return GraficadorSVG.graficaLinea(origenX1, origenY1,

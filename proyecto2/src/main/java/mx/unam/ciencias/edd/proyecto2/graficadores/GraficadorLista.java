@@ -1,6 +1,5 @@
 package mx.unam.ciencias.edd.proyecto2.graficadores;
 
-import java.util.Iterator;
 import mx.unam.ciencias.edd.Lista;
 
 /**
@@ -20,7 +19,7 @@ public class GraficadorLista<T> extends GraficadorLineal<T> {
 
     /**
      * Sobreescribimos el método para generar la cadena de texto con el SVG que
-     * representa la unión entre dos nodos de la estructura de datos, para que
+     * representa la unión entre dos vértices de la estructura de datos, para que
      * utilice una doble flecha que representa la doble ligadura de la lista.
      */
     @Override
@@ -39,4 +38,3 @@ public class GraficadorLista<T> extends GraficadorLineal<T> {
         return conexion;
     }
 }
-

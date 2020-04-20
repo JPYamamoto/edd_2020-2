@@ -18,29 +18,28 @@ public class GraficadorPila<T> extends GraficadorLineal<T> {
 
     /**
      * Sobreescribimos este método a pesar de corresponder a una estructura de
-     * datos lineal, porque deseamos tener una representación con los nodos uno
-     * sobre el otro, con el primero en entrar a la pila hasta abajo.
+     * datos lineal, porque deseamos tener una representación con los vértices
+     * uno sobre el otro, con el primero en entrar a la pila hasta abajo.
      */
     public String graficar() {
         Lista<T> coleccion = (Lista<T>) iterable;
-        int anchoNodo = calculaAnchoNodos();
+        int anchoVertice = calculaAnchoVertices();
         String svg = "";
-        int alturaSVG = BORDE + ALTURA_NODO * coleccion.getElementos();
+        int alturaSVG = BORDE + ALTURA_VERTICE * coleccion.getElementos();
 
         for (T elemento : iterable) {
-            // Ajusta la posición en el eje Y y grafica el nodo.
-            alturaSVG -= ALTURA_NODO;
-            svg += graficaNodo(elemento, BORDE, alturaSVG, anchoNodo, ALTURA_NODO);
+            // Ajusta la posición en el eje Y y grafica el vértice.
+            alturaSVG -= ALTURA_VERTICE;
+            svg += graficaVertice(elemento, BORDE, alturaSVG, anchoVertice, ALTURA_VERTICE);
         }
 
         // Agrega la declaración XML, la etiqueta de apertura SVG con las
         // medidas del gráfico, el contenido del SVG y la etiqueta de cierre
         // del SVG. Regresa el resultado.
         return GraficadorSVG.declaracionXML() +
-                GraficadorSVG.comienzaSVG(anchoNodo + 2 * BORDE,
-                    coleccion.getLongitud() * ALTURA_NODO + 2 * BORDE) +
+                GraficadorSVG.comienzaSVG(anchoVertice + 2 * BORDE,
+                    coleccion.getLongitud() * ALTURA_VERTICE + 2 * BORDE) +
                 svg +
                 GraficadorSVG.terminaSVG();
     }
 }
-

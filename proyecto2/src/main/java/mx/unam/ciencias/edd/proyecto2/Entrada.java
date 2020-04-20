@@ -69,14 +69,8 @@ public class Entrada {
                         coleccion.agrega(Integer.parseInt(numero));
 
                     numero = "";
-                } else if (letra == '-')
-                    if (numero.isEmpty())
+                } else if (Character.isDigit(letra))
                         numero += String.valueOf(letra);
-                    else {
-                        System.out.println("El símbolo - solo puede aparecer " +
-                            "una vez al comienzo de un número, para indicar enteros negativos.");
-                        System.exit(1);
-                    }
                 else if (Character.isDigit(letra))
                     // Agrega a la cadena cualquier dígito.
                     numero += String.valueOf(letra);
