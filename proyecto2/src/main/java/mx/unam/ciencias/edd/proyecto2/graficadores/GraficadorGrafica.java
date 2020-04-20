@@ -7,7 +7,7 @@ import mx.unam.ciencias.edd.VerticeGrafica;
 /**
  * Graficador para generar el SVG de la estructura de datos Gráfica.
  */
-public class GraficadorGrafica<T> implements GraficadorEstructura<T> {
+public class GraficadorGrafica<T> extends GraficadorEstructura<T> {
 
     /**
      * Clase interna privada que utilizamos para mantener las coordenadas en
@@ -56,7 +56,7 @@ public class GraficadorGrafica<T> implements GraficadorEstructura<T> {
      * datos.
      * @return el SVG de la estructura de datos.
      */
-    public String graficar() {
+    public String graficarEstructura() {
         // El radio de los vértices.
         int radioVertice = calculaRadioVertices();
 
@@ -166,5 +166,9 @@ public class GraficadorGrafica<T> implements GraficadorEstructura<T> {
     protected String graficaConexion(int origenX1, int origenY1, int origenX2, int origenY2) {
         return GraficadorSVG.graficaLinea(origenX1, origenY1,
                 origenX2 - origenX1, origenY2 - origenY1, "black");
+    }
+
+    protected boolean esVacia() {
+        return grafica.esVacia();
     }
 }

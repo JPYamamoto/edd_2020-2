@@ -21,7 +21,7 @@ public class GraficadorPila<T> extends GraficadorLineal<T> {
      * datos lineal, porque deseamos tener una representación con los vértices
      * uno sobre el otro, con el primero en entrar a la pila hasta abajo.
      */
-    public String graficar() {
+    public String graficarEstructura() {
         Lista<T> coleccion = (Lista<T>) iterable;
         int anchoVertice = calculaAnchoVertices();
         String svg = "";

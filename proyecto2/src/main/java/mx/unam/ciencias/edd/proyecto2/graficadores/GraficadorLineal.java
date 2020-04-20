@@ -6,7 +6,7 @@ import java.util.Iterator;
  * Clase abstracta de la que heredan las clases concretas de graficadores que
  * corresponden a estructuras de datos lineales.
  */
-public abstract class GraficadorLineal<T> implements GraficadorEstructura<T> {
+public abstract class GraficadorLineal<T> extends GraficadorEstructura<T> {
 
     // Altura del contenedor de un vértice.
     protected int ALTURA_VERTICE;
@@ -44,7 +44,7 @@ public abstract class GraficadorLineal<T> implements GraficadorEstructura<T> {
      * estructura de datos.
      * @return el SVG de la estructura de datos.
      */
-    public String graficar() {
+    public String graficarEstructura() {
         int anchoVertice = calculaAnchoVertices();
         String svg = "";
         Iterator<T> iterador = iterable.iterator();
@@ -109,5 +109,9 @@ public abstract class GraficadorLineal<T> implements GraficadorEstructura<T> {
         conexion += GraficadorSVG.graficaTriangulo(origenX + medidaX, origenY, -seccion, medidaY, "black");
 
         return conexion;
+    }
+
+    protected boolean esVacia() {
+        return !iterable.iterator().hasNext();
     }
 }

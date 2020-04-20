@@ -9,7 +9,7 @@ import mx.unam.ciencias.edd.VerticeArbolBinario;
  * datos que heredan de ArbolBinario. De esta manera podemos sobreescribir solo
  * las partes específicas a cada estructura de árbol.
  */
-public abstract class GraficadorArbol<T> implements GraficadorEstructura<T> {
+public abstract class GraficadorArbol<T> extends GraficadorEstructura<T> {
 
     // Las siguientes variables las utilizamos como constantes, más no son
     // finales pues una subclase debe poder modificar su valor, aunque solo
@@ -73,7 +73,7 @@ public abstract class GraficadorArbol<T> implements GraficadorEstructura<T> {
      * valores que solo incrementan la constante oculta.
      * @return el SVG de la estructura de datos.
      */
-    public String graficar() {
+    public String graficarEstructura() {
         // Utilizamos 3 pilas para simular los parámetros que podríamos pasar
         // en un método recursivo. Es la única forma de hacerlo iterativo.
         // En este caso es conveniente, pues en un método recursivo no podemos
@@ -276,5 +276,9 @@ public abstract class GraficadorArbol<T> implements GraficadorEstructura<T> {
         int medidaTexto = MAXIMO_DIGITOS * TAMANO_FUENTE;
         int radio = (int) Math.ceil(medidaTexto / 2);
         return radio + BORDE_VERTICE;
+    }
+
+    protected boolean esVacia() {
+        return arbol.esVacia();
     }
 }

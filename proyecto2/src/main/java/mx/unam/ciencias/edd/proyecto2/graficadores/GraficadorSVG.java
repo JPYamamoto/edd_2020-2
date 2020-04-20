@@ -109,6 +109,22 @@ public class GraficadorSVG {
     }
 
     /**
+     * Genera el SVG de un círculo.
+     * @param centroX la coordenada X del centro del círculo.
+     * @param centroY la coordenada Y del centro del círculo.
+     * @param radio la medida del radio.
+     * @param colorBorde el color del borde del círculo.
+     * @param colorRelleno el color del relleno del círculo.
+     * @return el SVG del círculo con las propiedades recibidas en los
+     * argumentos.
+     */
+    public static String graficaCirculo(int centroX, int centroY, int radio,
+                                        String colorBorde, String colorRelleno) {
+        return String.format("<circle cx='%d' cy='%d' r='%d' stroke='%s' stroke-width='3' fill='%s' />",
+                centroX, centroY, radio, colorBorde, colorRelleno);
+    }
+
+    /**
      * Genera el SVG de un círculo que contiene texto centrado en ambos ejes.
      * @param centroX la coordenada X del centro del círculo.
      * @param centroY la coordenada Y del centro del círculo.
@@ -126,8 +142,7 @@ public class GraficadorSVG {
                                              String colorRelleno,
                                              int tamanoFuente, String colorFuente,
                                              String contenido) {
-        String svg = String.format("<circle cx='%d' cy='%d' r='%d' stroke='%s' stroke-width='3' fill='%s' />",
-                centroX, centroY, radio, colorBorde, colorRelleno);
+        String svg = graficaCirculo(centroX, centroY, radio, colorBorde, colorRelleno);
         svg += graficaTexto(centroX, centroY, tamanoFuente, colorFuente, contenido);
         return svg;
     }
