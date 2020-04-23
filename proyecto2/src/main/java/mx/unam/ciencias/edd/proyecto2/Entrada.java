@@ -20,12 +20,12 @@ public class Entrada {
     private Entrada() {  }
 
     /* Método privado que se encarga de abrir el flujo de entrada. */
-    public static BufferedReader abrirEntrada(String[] args) {
-        if (args.length != 0)
+    public static BufferedReader abrirEntrada(String archivo) {
+        if (archivo != null)
             try {
-                return new BufferedReader(new InputStreamReader(new FileInputStream(args[0])));
+                return new BufferedReader(new InputStreamReader(new FileInputStream(archivo)));
             } catch (IOException ioe) {
-                System.out.printf("Error. El archivo %s no pudo ser leído.\n", args[0]);
+                System.out.printf("Error. El archivo %s no pudo ser leído.\n", archivo);
                 System.exit(1);
             }
 

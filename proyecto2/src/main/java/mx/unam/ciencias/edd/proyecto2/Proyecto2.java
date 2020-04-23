@@ -25,7 +25,19 @@ public class Proyecto2 {
 
     /** Punto de entrada del programa. */
     public static void main(String[] args) {
-        BufferedReader flujoEntrada = Entrada.abrirEntrada(args);
+        // El programa debe recibir a lo más 1 argumento.
+        if (args.length > 1) {
+            System.out.println("\nArgumentos incorrectos.\n" +
+                               "Uso: java -jar proyecto2.jar <archivo>");
+            System.exit(1);
+        }
+
+        // Abrimos la entrada.
+        String archivo = null;
+        if (args.length == 1)
+            archivo = args[0];
+
+        BufferedReader flujoEntrada = Entrada.abrirEntrada(archivo);
         // Identificamos la estructura de datos que recibimos.
         Estructura estructuraDeDatos = Entrada.identificaEstructura(flujoEntrada);
 
