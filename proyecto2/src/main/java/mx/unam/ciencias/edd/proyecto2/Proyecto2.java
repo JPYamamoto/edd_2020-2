@@ -8,6 +8,8 @@ import mx.unam.ciencias.edd.ArbolBinarioOrdenado;
 import mx.unam.ciencias.edd.ArbolRojinegro;
 import mx.unam.ciencias.edd.Lista;
 import mx.unam.ciencias.edd.Grafica;
+import mx.unam.ciencias.edd.MonticuloMinimo;
+import mx.unam.ciencias.edd.proyecto2.graficadores.GraficadorEstructura;
 import mx.unam.ciencias.edd.proyecto2.graficadores.GraficadorArbolAVL;
 import mx.unam.ciencias.edd.proyecto2.graficadores.GraficadorArbolBinarioCompleto;
 import mx.unam.ciencias.edd.proyecto2.graficadores.GraficadorArbolBinarioOrdenado;
@@ -16,7 +18,7 @@ import mx.unam.ciencias.edd.proyecto2.graficadores.GraficadorCola;
 import mx.unam.ciencias.edd.proyecto2.graficadores.GraficadorPila;
 import mx.unam.ciencias.edd.proyecto2.graficadores.GraficadorLista;
 import mx.unam.ciencias.edd.proyecto2.graficadores.GraficadorGrafica;
-import mx.unam.ciencias.edd.proyecto2.graficadores.GraficadorEstructura;
+import mx.unam.ciencias.edd.proyecto2.graficadores.GraficadorMonticuloMinimo;
 
 /**
  * Proyecto 2.
@@ -80,6 +82,9 @@ public class Proyecto2 {
                 break;
             case GRAFICA:
                 graficador = new GraficadorGrafica<>(construyeGrafica(datos));
+                break;
+            case MONTICULO_MINIMO:
+                graficador = new GraficadorMonticuloMinimo<>(datos);
                 break;
             // El siguiente caso nunca se alcanzará.
             default:

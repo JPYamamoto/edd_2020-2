@@ -12,6 +12,7 @@ public enum Estructura {
     LISTA,
     PILA,
     GRAFICA,
+    MONTICULO_MINIMO,
 
     /**
      * Utilizaremos INVALIDO cuando se nos pide una estructura de datos que no
@@ -37,6 +38,7 @@ public enum Estructura {
             case "Lista":                return LISTA;
             case "Pila":                 return PILA;
             case "Grafica":              return GRAFICA;
+            case "MonticuloMinimo":      return MONTICULO_MINIMO;
             default:                     return INVALIDO;
         }
     }
