@@ -591,26 +591,9 @@ public class Grafica<T> implements Coleccion<T> {
                 }
         }
 
-        Vertice verticeAux = (Vertice) vertice(destino);
-        Lista<VerticeGrafica<T>> trayectoria = new Lista<>();
-
-        if (verticeAux.distancia == Double.MAX_VALUE)
-            return trayectoria;
-
-        trayectoria.agrega(verticeAux);
-
-        while (verticeAux.distancia != 0) {
-            for (Vecino vecino : verticeAux.vecinos) {
-                if (vecino.vecino.distancia + 1 == verticeAux.distancia) {
-                    trayectoria.agrega(vecino.vecino);
-                    verticeAux = vecino.vecino;
-                    break;
-                }
-
-            }
-        }
-
-        return trayectoria.reversa();
+        return reconstruyeTrayectoria(
+                (aux, vecino) -> vecino.vecino.distancia + 1 == aux.distancia,
+                (Vertice) vertice(destino));
     }
 
     /**
@@ -646,7 +629,20 @@ public class Grafica<T> implements Coleccion<T> {
                 }
         }
 
-        Vertice verticeAux = (Vertice) vertice(destino);
+        return reconstruyeTrayectoria(
+                (vertice, vecino) -> vecino.vecino.distancia + vecino.peso == vertice.distancia,
+                (Vertice) vertice(destino));
+    }
+
+    /**
+     * Reconstruye la trayectoria desde un vértice destino dado hasta el
+     * vértice de origen, según sus distancias y un buscador recibido.
+     * @param buscador el buscador que nos indica si dos vértices son vecinos.
+     * @param destino el vértice desde el cuál reconstruimos la trayectoria.
+     * @return la trayectoria como una lista.
+     */
+    private Lista<VerticeGrafica<T>> reconstruyeTrayectoria(BuscadorCamino buscador, Vertice destino) {
+        Vertice verticeAux = destino;
         Lista<VerticeGrafica<T>> trayectoria = new Lista<>();
 
         if (verticeAux.distancia == Double.MAX_VALUE)
