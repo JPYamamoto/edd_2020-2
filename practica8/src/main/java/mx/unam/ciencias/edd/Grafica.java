@@ -565,9 +565,7 @@ public class Grafica<T> implements Coleccion<T> {
         if (!contiene(origen) || !contiene(destino))
             throw new NoSuchElementException("Los elementos no están en la gráfica.");
 
-        Vertice verticeOrigen = (Vertice) vertice(origen);
-
-        Vertice vertice = verticeOrigen;
+        Vertice vertice = (Vertice) vertice(origen);
         if (origen.equals(destino)) {
             Lista<VerticeGrafica<T>> lista = new Lista<>();
             lista.agrega(vertice);
@@ -592,7 +590,7 @@ public class Grafica<T> implements Coleccion<T> {
         }
 
         return reconstruyeTrayectoria(
-                (aux, vecino) -> vecino.vecino.distancia + 1 == aux.distancia,
+                (aux, vecino) -> vecino.vecino.distancia == aux.distancia - 1,
                 (Vertice) vertice(destino));
     }
 
@@ -652,7 +650,7 @@ public class Grafica<T> implements Coleccion<T> {
 
         while (verticeAux.distancia != 0) {
             for (Vecino vecino : verticeAux.vecinos) {
-                if (vecino.vecino.distancia + vecino.peso == verticeAux.distancia) {
+                if (buscador.seSiguen(verticeAux, vecino)) {
                     trayectoria.agrega(vecino.vecino);
                     verticeAux = vecino.vecino;
                     break;
