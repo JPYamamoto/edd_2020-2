@@ -56,34 +56,25 @@ public class Dispersores {
             }
             posicion += 4;
 
-            a -= b;
-            a -= c;
+            a -= b + c;
             a ^= (c >>> 13);
-            b -= c;
-            b -= a;
+            b -= c + a;
             b ^= (a << 8);
-            c -= a;
-            c -= b;
+            c -= a + b;
             c ^= (b >>> 13);
 
-            a -= b;
-            a -= c;
+            a -= b + c;
             a ^= (c >>> 12);
-            b -= c;
-            b -= a;
+            b -= c + a;
             b ^= (a << 16);
-            c -= a;
-            c -= b;
+            c -= a + b;
             c ^= (b >>> 5);
 
-            a -= b;
-            a -= c;
+            a -= b + c;
             a ^= (c >>> 3);
-            b -= c;
-            b -= a;
+            b -= c + a;
             b ^= (a << 10);
-            c -= a;
-            c -= b;
+            c -= a + b;
             c ^= (b >>> 15);
         }
 
