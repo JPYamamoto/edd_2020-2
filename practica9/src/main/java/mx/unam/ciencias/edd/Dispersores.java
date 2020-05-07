@@ -37,38 +37,24 @@ public class Dispersores {
         int posicion = 0;
         boolean ejecucion = true;
         while (ejecucion) {
-            if (llave.length - posicion >= 12) {
-                a += combina(sacaInt(llave, posicion+3), sacaInt(llave, posicion+2),
-                             sacaInt(llave, posicion+1), sacaInt(llave, posicion));
-                posicion += 4;
+            a += combina(sacaInt(llave, posicion+3), sacaInt(llave, posicion+2),
+                         sacaInt(llave, posicion+1), sacaInt(llave, posicion));
+            posicion += 4;
 
-                b += combina(sacaInt(llave, posicion+3), sacaInt(llave, posicion+2),
-                             sacaInt(llave, posicion+1), sacaInt(llave, posicion));
-                posicion += 4;
+            b += combina(sacaInt(llave, posicion+3), sacaInt(llave, posicion+2),
+                         sacaInt(llave, posicion+1), sacaInt(llave, posicion));
+            posicion += 4;
 
+            if (llave.length - posicion >= 4)
                 c += combina(sacaInt(llave, posicion+3), sacaInt(llave, posicion+2),
                              sacaInt(llave, posicion+1), sacaInt(llave, posicion));
-                posicion += 4;
-            } else {
+            else {
                 ejecucion = false;
                 c += llave.length;
-
-                switch(llave.length - posicion) {
-                    case 11: c += (sacaInt(llave, posicion+10) << 24);
-                    case 10: c += (sacaInt(llave, posicion+9) << 16);
-                    case 9:  c += (sacaInt(llave, posicion+8) << 8);
-
-                    case 8:  b += (sacaInt(llave, posicion+7) << 24);
-                    case 7:  b += (sacaInt(llave, posicion+6) << 16);
-                    case 6:  b += (sacaInt(llave, posicion+5) << 8);
-                    case 5:  b +=  sacaInt(llave, posicion+4);
-
-                    case 4:  a += (sacaInt(llave, posicion+3) << 24);
-                    case 3:  a += (sacaInt(llave, posicion+2) << 16);
-                    case 2:  a += (sacaInt(llave, posicion+1) << 8);
-                    case 1:  a +=  sacaInt(llave, posicion);
-                }
+                c += combina(sacaInt(llave, posicion+2), sacaInt(llave, posicion+1),
+                            sacaInt(llave, posicion), 0);
             }
+            posicion += 4;
 
             a -= b;
             a -= c;
@@ -119,8 +105,7 @@ public class Dispersores {
     }
 
     private static int combina(int a, int b, int c, int d) {
-        return (a << 24) | (b << 16) |
-               (c << 8)  | d;
+        return (a << 24) | (b << 16) | (c << 8)  | d;
     }
 
     private static int sacaInt(byte[] llave, int posicion) {
