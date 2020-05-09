@@ -73,7 +73,7 @@ public class GraficadorGrafica<T> extends GraficadorEstructura<T> {
         * fórmula para obtener el tamaño del radio:
         * radio = cuerda / (2 * sin(angulo / 2))
         */
-        double radioCircunferencia = Math.abs((6 * radioVertice) / (2 * Math.sin(angulo / 2)));
+        double radioCircunferencia = Math.abs((4 * radioVertice) / (2 * Math.sin(Math.toRadians(angulo / 2))));
         // El ángulo al que va a estar cada uno de los vértices.
         double anguloSVG = 0;
 
