@@ -58,6 +58,26 @@ public class GraficadorSVG {
     }
 
     /**
+     * Genera el SVG de una curva con las coordenadas y el color recibidos.
+     * @param origenX la coordenada X donde comienza la curva.
+     * @param origenY la coordenada Y donde comienza la curva.
+     * @param cambioX el cambio en el eje X al final de la curva.
+     * @param cambioY el cambio en el eje Y al final de la curva.
+     * @param controlX el cambio en el eje X al punto de control de la curva.
+     * @param controlY el cambio en el eje Y al punto de control de la curva.
+     * @param color el color de la curva.
+     * @return el SVG de la curva que corresponde a los parámetros recibidos.
+     */
+    public static String graficaCurvaBezier(int origenX, int origenY,
+                                            int cambioX, int cambioY,
+                                            int controlX, int controlY,
+                                            String color) {
+        return String.format("<path d='M %d %d q %d %d %d %d' stroke='%s'"+
+                " stroke-width='3' fill='none' />",
+                origenX, origenY, controlX, controlY, cambioX, cambioY, color);
+    }
+
+    /**
      * Genera el SVG de un triángulo isósceles horizontal contenido dentro del
      * rectángulo que se genera con un punto de origen, y el cambio en los ejes
      * X y Y.

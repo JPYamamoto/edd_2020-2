@@ -16,11 +16,13 @@ public class GraficadorGrafica<T> extends GraficadorEstructura<T> {
     private class Coord {
         public int x;
         public int y;
+        public int posicion;
         public T elemento;
 
-        public Coord(int x, int y, T elemento) {
+        public Coord(int x, int y, int posicion, T elemento) {
             this.x = x;
             this.y = y;
+            this.posicion = posicion;
             this.elemento = elemento;
         }
     }
@@ -73,7 +75,8 @@ public class GraficadorGrafica<T> extends GraficadorEstructura<T> {
         * fórmula para obtener el tamaño del radio:
         * radio = cuerda / (2 * sin(angulo / 2))
         */
-        double radioCircunferencia = Math.abs((4 * radioVertice) / (2 * Math.sin(Math.toRadians(angulo / 2))));
+        double radioCircunferencia = Math.abs((3 * radioVertice) / (2 * Math.sin(Math.toRadians(angulo / 2))));
+        int radioGrafica = (int) Math.round(radioCircunferencia + BORDE_SVG + radioVertice);
         // El ángulo al que va a estar cada uno de los vértices.
         double anguloSVG = 0;
 
@@ -90,26 +93,26 @@ public class GraficadorGrafica<T> extends GraficadorEstructura<T> {
 
         String aristasSVG = "";
         String verticesSVG = "";
+        int posicion = 0;
 
         for (VerticeGrafica<T> vertice : vertices) {
             // Conseguimos los componentes X y Y de cada vértice sobre la
             // circunferencia, para poder graficarlos en sus coordenadas.
             int componenteX = (int) Math.round(radioCircunferencia * Math.cos(Math.toRadians(anguloSVG)));
             int componenteY = (int) Math.round(radioCircunferencia * Math.sin(Math.toRadians(anguloSVG)));
-            componenteX += BORDE_SVG + radioVertice + radioCircunferencia;
-            componenteY += BORDE_SVG + radioVertice + radioCircunferencia;
+            componenteX += radioGrafica;
+            componenteY += radioGrafica;
 
             // Graficamos cada uno de los vértices y guardamos sus coordenadas.
             verticesSVG += graficaVertice(vertice.get(), componenteX, componenteY, radioVertice);
-            Coord coord = new Coord(componenteX, componenteY, vertice.get());
+            Coord coord = new Coord(componenteX, componenteY, posicion++, vertice.get());
 
             // Recorremos su lista de vecinos, y si el vecino ya ha sido
             // graficado, obtenemos sus coordenadas y graficamos una arista.
             for (VerticeGrafica<T> vecino : vertice.vecinos()) {
                 Coord coordVecino = getCoordenada(vecino, verticesGraficados);
                 if (coordVecino != null)
-                    aristasSVG += graficaConexion(componenteX, componenteY,
-                                                  coordVecino.x, coordVecino.y);
+                    aristasSVG += graficaConexion(coord, coordVecino, radioGrafica);
             }
 
             // Agregamos el vértice a los vértices graficados.
@@ -120,7 +123,7 @@ public class GraficadorGrafica<T> extends GraficadorEstructura<T> {
 
         // Obtenemos la medida de cada lado del SVG y lo graficamos junto con
         // sus etiquetas de apertura y cerradura.
-        int medida = (int) Math.round((radioCircunferencia + BORDE_SVG + radioVertice) * 2);
+        int medida = radioGrafica * 2;
         return GraficadorSVG.declaracionXML() +
                GraficadorSVG.comienzaSVG(medida, medida) +
                aristasSVG +
@@ -162,10 +165,19 @@ public class GraficadorGrafica<T> extends GraficadorEstructura<T> {
     /**
      * Genera la cadena de texto con el SVG que representa la unión entre dos
      * vértices de la estructura de datos.
+     * Si los vértices se encuentran contiguos, solo graficamos una línea recta
+     * entre ellos. Si no, graficamos una curva, para que se vean más
+     * claramente las aristas.
      */
-    protected String graficaConexion(int origenX1, int origenY1, int origenX2, int origenY2) {
-        return GraficadorSVG.graficaLinea(origenX1, origenY1,
-                origenX2 - origenX1, origenY2 - origenY1, "black");
+    protected String graficaConexion(Coord vertice1, Coord vertice2, int radioGrafica) {
+        if (Math.abs(vertice1.posicion - vertice2.posicion) == 1)
+            return GraficadorSVG.graficaLinea(vertice1.x, vertice1.y,
+                    vertice2.x - vertice1.x, vertice2.y - vertice1.y, "black");
+
+        return GraficadorSVG.graficaCurvaBezier(vertice1.x, vertice1.y,
+                            vertice2.x - vertice1.x, vertice2.y - vertice1.y,
+                            radioGrafica - vertice1.x, radioGrafica - vertice1.y,
+                            "black");
     }
 
     protected boolean esVacia() {
