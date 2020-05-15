@@ -615,7 +615,12 @@ public class Grafica<T> implements Coleccion<T> {
         Vertice verticeOrigen = (Vertice) vertice(origen);
         verticeOrigen.distancia = 0;
 
-        MonticuloMinimo<Vertice> monticulo = new MonticuloMinimo<>(vertices);
+        MonticuloDijkstra<Vertice> monticulo;
+        int n = vertices.getElementos();
+        if (aristas > ((n*(n - 1))/2)-n)
+            monticulo = new MonticuloArreglo<>(vertices);
+        else
+            monticulo = new MonticuloMinimo<>(vertices);
 
         while (!monticulo.esVacia()) {
             Vertice raiz = monticulo.elimina();
