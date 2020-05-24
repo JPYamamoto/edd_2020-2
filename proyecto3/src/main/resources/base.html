@@ -15,21 +15,33 @@
       <img src="./home.svg" class="inline h-3 mx-2" />Ir al inicio</a>
   </header>
 
-  <section class="flex flex-col flex-wrap">
+  <section>
     <h2 class="text-xl py-4 bg-blue-800 text-white w-full text-center">Palabras más comunes:</h2>
 
     <div class="flex flex-wrap flex-row justify-around my-4">
       {{ palabras_comunes }}
     </div>
+  </section>
 
+  <section>
     <div class="flex flex-col justify-center my-4 items-center">
       <h3 class="text-xl py-4 bg-blue-800 text-white w-full text-center">Árbol Rojinegro de las 15 palabras más comunes:</h3>
       <img class="w-3/4 m-4" src="{{ arbol_rojinegro }}" />
     </div>
+  </section>
 
+  <section>
     <div class="flex flex-col justify-center my-4 items-center">
       <h3 class="text-xl py-4 bg-blue-800 text-white w-full text-center">Árbol AVL de las 15 palabras más comunes:</h3>
       <img class="w-3/4 m-4" src="{{ arbol_avl }}" />
+    </div>
+  </section>
+
+  <section class="flex flex-col flex-wrap">
+    <h2 class="text-xl py-4 bg-blue-800 text-white w-full text-center">Conteo de palabras:</h2>
+
+    <div class="flex flex-wrap flex-row justify-around my-4">
+      {{ conteo_palabras }}
     </div>
   </section>
 

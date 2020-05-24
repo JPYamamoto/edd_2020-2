@@ -24,16 +24,18 @@ public class Reporte {
     }
 
     public Diccionario<String, String> getDatos() {
-        Lista<Palabra> listaPalabras = palabrasMasComunes();
+        Lista<Palabra> listaPalabrasComunes = palabrasMasComunes();
         Diccionario<String, String> datos = new Diccionario<>();
-        String marcadoPalabras = generaPalabrasComunes(listaPalabras, totalPalabras());
+        String marcadoPalabrasComunes = generaMarcadoPalabras(listaPalabrasComunes, totalPalabras());
+        String marcadoPalabras = generaMarcadoPalabras(Lista.mergeSort(palabras).reversa(), totalPalabras());
 
         datos.agrega("archivo", ruta);
-        datos.agrega("palabras_comunes", marcadoPalabras);
+        datos.agrega("palabras_comunes", marcadoPalabrasComunes);
         datos.agrega("arbol_rojinegro",
                      Salida.nombreArchivo(ruta, "arbol_rojinegro", "svg"));
         datos.agrega("arbol_avl",
                      Salida.nombreArchivo(ruta, "arbol_avl", "svg"));
+        datos.agrega("conteo_palabras", marcadoPalabras);
 
         return datos;
     }
@@ -79,7 +81,7 @@ public class Reporte {
         return graficador.graficar();
     }
 
-    private String generaPalabrasComunes(Lista<Palabra> listaPalabras, int total) {
+    private String generaMarcadoPalabras(Lista<Palabra> listaPalabras, int total) {
         String result = "";
         for (Palabra palabra : listaPalabras)
             result += GeneradorHTML.marcadoPalabra(palabra, total);

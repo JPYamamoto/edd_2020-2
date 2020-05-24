@@ -270,7 +270,7 @@ public abstract class GraficadorArbol<T> extends GraficadorEstructura<T> {
      * @return el radio de los vértices.
      */
     protected int calculaRadioVertices() {
-        int medidaTexto = longitudMaxima(arbol.raiz()) * TAMANO_FUENTE;
+        int medidaTexto = longitudMaxima(arbol.raiz()) * (2 * TAMANO_FUENTE / 3);
         int radio = (int) Math.ceil(medidaTexto / 2);
         return radio + BORDE_VERTICE;
     }

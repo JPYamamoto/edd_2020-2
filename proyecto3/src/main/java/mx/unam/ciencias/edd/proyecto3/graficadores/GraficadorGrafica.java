@@ -33,8 +33,6 @@ public class GraficadorGrafica<T> extends GraficadorEstructura<T> {
     protected int BORDE_VERTICE;
     // El tamaño de la fuente del contenido de los vértices.
     protected int TAMANO_FUENTE;
-    // El número máximo de dígitos que puede tener cada vértice como String.
-    protected int MAXIMO_DIGITOS;
 
     // La gráfica a graficar.
     protected Grafica<T> grafica;
@@ -50,7 +48,6 @@ public class GraficadorGrafica<T> extends GraficadorEstructura<T> {
         BORDE_SVG = 10;
         BORDE_VERTICE= 10;
         TAMANO_FUENTE = 20;
-        MAXIMO_DIGITOS = 3;
     }
 
     /**
@@ -149,7 +146,12 @@ public class GraficadorGrafica<T> extends GraficadorEstructura<T> {
      * se basa en el máximo de dígitos que un vértice puede tener.
      */
     protected int calculaRadioVertices() {
-        return ((MAXIMO_DIGITOS * TAMANO_FUENTE) / 2) + BORDE_VERTICE;
+        int maximo = 0;
+
+        for (T vertice : grafica)
+            maximo = maximo <= vertice.toString().length() ? vertice.toString().length() : maximo;
+
+        return ((maximo * TAMANO_FUENTE) / 2) + BORDE_VERTICE;
     }
 
     /**

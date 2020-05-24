@@ -10,7 +10,7 @@ public class GeneradorHTML {
 
     public static String marcadoPalabra(Palabra palabra, int total) {
         return String.format("<div " +
-                "class=\"m-4 border-solid border-2 border-gray-600 p-4 rounded-md\">" +
+                "class=\"m-4 border-solid border-2 border-gray-600 p-4 rounded-md flex-grow\">" +
                 "<p class=\"text-lg font-medium\">%s</p>" +
                 "<p class=\"text-sm text-gray-500\">%d ocurrencias - %.3f%%</p>" +
                 "</div>",
