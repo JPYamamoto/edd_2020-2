@@ -6,16 +6,21 @@ import mx.unam.ciencias.edd.ArbolRojinegro;
 import mx.unam.ciencias.edd.ArbolAVL;
 import mx.unam.ciencias.edd.proyecto3.graficadores.GraficadorArbolRojinegro;
 import mx.unam.ciencias.edd.proyecto3.graficadores.GraficadorArbolAVL;
-import mx.unam.ciencias.edd.proyecto3.html.GeneradorHTML;
+
+import java.io.IOException;
 
 public class Reporte {
 
     private String ruta;
-    private Diccionario<Palabra, Palabra> palabras;
+    private Lista<Palabra> palabras;
 
-    public Reporte(String ruta, Diccionario<Palabra, Palabra> palabras) {
+    public Reporte(String ruta, Lista<Palabra> palabras) {
         this.ruta = ruta;
         this.palabras = palabras;
+    }
+
+    public String getRuta() {
+        return ruta;
     }
 
     public Diccionario<String, String> getDatos() {
@@ -25,37 +30,41 @@ public class Reporte {
 
         datos.agrega("archivo", ruta);
         datos.agrega("palabras_comunes", marcadoPalabras);
-        datos.agrega("arbol_rojinegro", graficaRojinegro(listaPalabras));
-        datos.agrega("arbol_avl", graficaAVL(listaPalabras));
+        datos.agrega("arbol_rojinegro",
+                     Salida.nombreArchivo(ruta, "arbol_rojinegro", "svg"));
+        datos.agrega("arbol_avl",
+                     Salida.nombreArchivo(ruta, "arbol_avl", "svg"));
 
         return datos;
     }
 
-    public void escribeArchivos() {
-        Salida.escribeArchivo(Salida.nombreArchivo(ruta) + ".html", generaHTML());
+    public Diccionario<String, String> getArchivos() throws IOException {
+        Diccionario<String, String> archivos = new Diccionario<>();
+        Lista<Palabra> listaPalabras = palabrasMasComunes();
+
+        archivos.agrega(Salida.nombreArchivo(ruta, "reporte", "html"),
+                        GeneradorHTML.generaReporteIndividual(getDatos()));
+        archivos.agrega(Salida.nombreArchivo(ruta, "arbol_rojinegro", "svg"),
+                        graficaRojinegro(listaPalabras));
+        archivos.agrega(Salida.nombreArchivo(ruta, "arbol_avl", "svg"),
+                        graficaAVL(listaPalabras));
+
+        return archivos;
     }
 
     public Lista<Palabra> palabrasMasComunes() {
         Lista<Palabra> lista = new Lista<>();
-
-        for (Palabra palabra : palabras)
-            lista.agrega(palabra);
-
-        // Ordena en reversa según cantidad de ocurrencias.
-        lista = lista.mergeSort((a, b) -> b.getOcurrencias() - a.getOcurrencias());
-
-        Lista<Palabra> listaFinal = new Lista<>();
-        int limite = lista.getElementos() <= 15 ? lista.getElementos() : 15;
+        int limite = palabras.getElementos() <= 15 ? palabras.getElementos() : 15;
         int i = 0;
 
-        for (Palabra palabra : lista) {
+        for (Palabra palabra : Lista.mergeSort(palabras).reversa()) {
             if (i++ > limite)
                 break;
 
-            listaFinal.agrega(palabra);
+            lista.agrega(palabra);
         }
 
-        return listaFinal;
+        return lista;
     }
 
     private String graficaRojinegro(Lista<Palabra> listaPalabras) {

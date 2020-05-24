@@ -1,8 +1,6 @@
-package mx.unam.ciencias.edd.proyecto3.html;
+package mx.unam.ciencias.edd.proyecto3;
 
 import mx.unam.ciencias.edd.Diccionario;
-import mx.unam.ciencias.edd.proyecto3.Palabra;
-import mx.unam.ciencias.edd.proyecto3.EntradaSalida;
 
 import java.io.IOException;
 
@@ -14,15 +12,14 @@ public class GeneradorHTML {
         return String.format("<div " +
                 "class=\"m-4 border-solid border-2 border-gray-600 p-4 rounded-md\">" +
                 "<p class=\"text-lg font-medium\">%s</p>" +
-                "<p class=\"text-sm text-gray-500\">%d ocurrencias - %d%%</p>" +
+                "<p class=\"text-sm text-gray-500\">%d ocurrencias - %.3f%%</p>" +
                 "</div>",
                 palabra.getPalabra(), palabra.getOcurrencias(),
-                palabra.getOcurrencias() / total * 100);
+                ((double) palabra.getOcurrencias()) / total * 100.0);
     }
 
     public static String generaReporteIndividual(Diccionario<String, String> datos) throws IOException {
-        String base = EntradaSalida.contenidosArchivo(
-                        GeneradorHTML.class.getClassLoader().getResourceAsStream("base.html"));
+        String base = Entrada.leeRecurso("base.html");
 
         String[] secciones = base.split("((?=\\{\\{)|(?<=\\}\\}))");
 

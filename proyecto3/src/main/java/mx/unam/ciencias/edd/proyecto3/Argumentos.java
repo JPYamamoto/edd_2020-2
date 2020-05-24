@@ -1,8 +1,8 @@
 package mx.unam.ciencias.edd.proyecto3;
 
-import java.util.NoSuchElementException;
-
 import mx.unam.ciencias.edd.Lista;
+
+import java.util.NoSuchElementException;
 
 public class Argumentos {
 

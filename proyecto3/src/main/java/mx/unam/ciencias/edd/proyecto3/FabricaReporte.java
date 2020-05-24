@@ -1,6 +1,7 @@
 package mx.unam.ciencias.edd.proyecto3;
 
 import mx.unam.ciencias.edd.Diccionario;
+import mx.unam.ciencias.edd.Lista;
 
 import java.io.IOException;
 import java.text.Normalizer;
@@ -29,16 +30,15 @@ public class FabricaReporte {
         return conteo;
     }
 
-    public static Reporte nuevoArchivo(String nombreArchivo) throws IOException {
-        String texto = EntradaSalida.contenidosArchivo(nombreArchivo);
+    public static Reporte nuevoReporte(String nombreArchivo) throws IOException {
+        String texto = Entrada.contenidosArchivo(nombreArchivo);
         Diccionario<String, Integer> contador = cuentaPalabras(texto);
-        Diccionario<Palabra, Palabra> palabras = new Diccionario<>();
+        Lista<Palabra> palabras = new Lista<>();
 
         Iterator<String> iterador = contador.iteradorLlaves();
         while (iterador.hasNext()) {
             String palabraTexto = iterador.next();
-            Palabra palabra = new Palabra(palabraTexto, contador.get(palabraTexto));
-            palabras.agrega(palabra, palabra);
+            palabras.agrega(new Palabra(palabraTexto, contador.get(palabraTexto)));
         }
 
         return new Reporte(nombreArchivo, palabras);

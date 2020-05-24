@@ -1,8 +1,6 @@
 package mx.unam.ciencias.edd.proyecto3;
 
 import mx.unam.ciencias.edd.Lista;
-import mx.unam.ciencias.edd.Diccionario;
-import mx.unam.ciencias.edd.proyecto3.html.GeneradorHTML;
 
 import java.util.NoSuchElementException;
 import java.io.IOException;
@@ -33,6 +31,8 @@ public class Proyecto3 {
             System.exit(1);
         }
 
+        Salida salida = new Salida(directorioSalida);
+
         Lista<String> archivosEntrada = argumentos.getArchivosEntrada();
         if (archivosEntrada.esVacia()) {
             System.out.println("No se recibieron archivos de entrada.");
@@ -40,30 +40,29 @@ public class Proyecto3 {
             System.exit(1);
         }
 
-        Diccionario<String, Diccionario<String, Integer>> infoArchivos = new Diccionario<>();
-        Diccionario<String, String> archivosSalida = new Diccionario<>();
-
         for (String nombreArchivo : archivosEntrada) {
-            Diccionario<String, Integer> conteo = new Diccionario<>();
-            Reporte archivo;
+            Reporte reporte = null;
 
             try {
-                archivo = FabricaReporte.nuevoReporte(nombreArchivo);
+                reporte = FabricaReporte.nuevoReporte(nombreArchivo);
             } catch (IOException ioe) {
                 System.out.println("Error al leer el archivo " + nombreArchivo);
                 System.exit(1);
             }
 
-            String htmlArchivo = "";
             try {
-                htmlArchivo = GeneradorHTML.generaReporteIndividual(datos, archivosSalida);
-            } catch(IOException ioe) {
-                System.out.println("Error al generar el reporte.");
+                salida.escribeArchivos(reporte.getArchivos());
+            } catch (IOException ioe) {
+                System.out.println("Error al guardar reporte "+ reporte.getRuta());
                 System.exit(1);
             }
-            System.out.println(htmlArchivo);
         }
 
-        //Reporte.generaGlobal(infoArchivos);
+        try {
+            salida.escribeArchivos(Entrada.getAssets());
+        } catch (IOException ioe) {
+            System.out.println("Error al guardar archivos auxiliares de reportes.");
+            System.exit(1);
+        }
     }
 }
