@@ -58,7 +58,7 @@ public class Reporte {
         int i = 0;
 
         for (Palabra palabra : Lista.mergeSort(palabras).reversa()) {
-            if (i++ > limite)
+            if (i++ >= limite)
                 break;
 
             lista.agrega(palabra);
