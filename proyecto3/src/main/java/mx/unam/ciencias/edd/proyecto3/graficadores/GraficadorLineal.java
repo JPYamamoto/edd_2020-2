@@ -16,8 +16,6 @@ public abstract class GraficadorLineal<T> extends GraficadorEstructura<T> {
     protected int TAMANO_FUENTE;
     // El tamaño del borde.
     protected int BORDE;
-    // El número máximo de dígitos que un elemento puede tener.
-    protected int MAXIMO_DIGITOS;
 
     // El iterable a recorrer para agregar a la estructura de datos lineal.
     protected Iterable<T> iterable;
@@ -36,7 +34,6 @@ public abstract class GraficadorLineal<T> extends GraficadorEstructura<T> {
         ANCHO_CONEXION = 50;
         TAMANO_FUENTE = 20;
         BORDE = 10;
-        MAXIMO_DIGITOS = 3;
     }
 
     /**
@@ -80,7 +77,15 @@ public abstract class GraficadorLineal<T> extends GraficadorEstructura<T> {
      * elementos.
      */
     protected int calculaAnchoVertices() {
-        return (MAXIMO_DIGITOS * TAMANO_FUENTE) + 2 * BORDE;
+        int max = 0;
+
+        for (T vertice : iterable)
+            max = max <= vertice.toString().length() ? vertice.toString().length() : max;
+
+        // Regresamos el producto de la longitud del elemento máximo y el
+        // tamaño de cada carácter de la fuente. Además, agregamos un borde de
+        // ambos lados.
+        return (max * TAMANO_FUENTE) + 2 * BORDE;
     }
 
     /**

@@ -18,7 +18,7 @@ public class Palabra implements Comparable<Palabra> {
     }
 
     public String toString() {
-        return palabra;
+        return String.format("%s-%d", palabra, ocurrencias);
     }
 
     public int compareTo(Palabra b) {

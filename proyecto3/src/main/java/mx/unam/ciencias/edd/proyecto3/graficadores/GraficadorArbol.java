@@ -25,8 +25,6 @@ public abstract class GraficadorArbol<T> extends GraficadorEstructura<T> {
     protected int CAMBIO_X_CONEXION;
     // El desplazamiento en el eje Y de un vértice con respecto a su padre.
     protected int CAMBIO_Y_CONEXION;
-    // El número máximo de dígitos que puede tener cada vértice como String.
-    protected int MAXIMO_DIGITOS;
 
     // El arbol a graficar.
     ArbolBinario<T> arbol;
@@ -61,7 +59,6 @@ public abstract class GraficadorArbol<T> extends GraficadorEstructura<T> {
         BORDE_VERTICE = 10;
         CAMBIO_X_CONEXION = 30;
         CAMBIO_Y_CONEXION = 50;
-        MAXIMO_DIGITOS = 3;
     }
 
     /**
@@ -273,9 +270,36 @@ public abstract class GraficadorArbol<T> extends GraficadorEstructura<T> {
      * @return el radio de los vértices.
      */
     protected int calculaRadioVertices() {
-        int medidaTexto = MAXIMO_DIGITOS * TAMANO_FUENTE;
+        int medidaTexto = longitudMaxima(arbol.raiz()) * TAMANO_FUENTE;
         int radio = (int) Math.ceil(medidaTexto / 2);
         return radio + BORDE_VERTICE;
+    }
+
+    /**
+     * Nos indica el elemento con la representación en cadena más larga en el
+     * subárbol con el vértice recibido como la raíz.
+     * No es la forma más óptima de obtener la longitud máxima con los enteros,
+     * pues sabemos que el entero más grande siempre es el que tiene la
+     * representación en cadena más larga, y no necesitamos convertirlo con
+     * toString(), pero lo hacemos con la idea de que nuestro graficador sea
+     * genérico.
+     * @param vertice el vértice que representa la raíz de un subárbol.
+     * @return el elemento mayor en el subárbol.
+     */
+    protected int longitudMaxima(VerticeArbolBinario<T> vertice) {
+        int maximo = vertice.get().toString().length();
+
+        if (vertice.hayIzquierdo()) {
+            int maximoIzquierdo = longitudMaxima(vertice.izquierdo());
+            maximo = maximo - maximoIzquierdo <= 0 ? maximoIzquierdo : maximo;
+        }
+
+        if (vertice.hayDerecho()) {
+            int maximoDerecho = longitudMaxima(vertice.derecho());
+            maximo = maximo - maximoDerecho <= 0 ? maximoDerecho : maximo;
+        }
+
+        return maximo;
     }
 
     protected boolean esVacia() {

@@ -2,6 +2,7 @@ package mx.unam.ciencias.edd.proyecto3;
 
 import mx.unam.ciencias.edd.Lista;
 import mx.unam.ciencias.edd.Diccionario;
+import mx.unam.ciencias.edd.proyecto3.html.GeneradorHTML;
 
 import java.util.NoSuchElementException;
 import java.io.IOException;
@@ -40,21 +41,27 @@ public class Proyecto3 {
         }
 
         Diccionario<String, Diccionario<String, Integer>> infoArchivos = new Diccionario<>();
+        Diccionario<String, String> archivosSalida = new Diccionario<>();
 
         for (String nombreArchivo : archivosEntrada) {
             Diccionario<String, Integer> conteo = new Diccionario<>();
-            String contenido = "";
+            Reporte archivo;
 
             try {
-                contenido = EntradaSalida.contenidosArchivo(nombreArchivo);
+                archivo = FabricaReporte.nuevoReporte(nombreArchivo);
             } catch (IOException ioe) {
                 System.out.println("Error al leer el archivo " + nombreArchivo);
                 System.exit(1);
             }
 
-            Contador.cuentaPalabras(conteo, contenido);
-            infoArchivos.agrega(nombreArchivo, conteo);
-            Reporte.generaIndividual(conteo);
+            String htmlArchivo = "";
+            try {
+                htmlArchivo = GeneradorHTML.generaReporteIndividual(datos, archivosSalida);
+            } catch(IOException ioe) {
+                System.out.println("Error al generar el reporte.");
+                System.exit(1);
+            }
+            System.out.println(htmlArchivo);
         }
 
         //Reporte.generaGlobal(infoArchivos);

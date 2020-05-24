@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>{{ archivo }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+
+<body>
+  <header class="w-full flex flex-col items-center my-4">
+    <h1 class="w-full bg-black p-6 text-white text-2xl font-bold text-center">Archivo: {{ archivo }}</h1>
+    <a href="./index.html" class="text-lg text-blue-500 cursor-pointer mt-4">
+      <img src="./home.svg" class="inline h-3 mx-2" />Ir al inicio</a>
+  </header>
+
+  <section class="flex flex-col flex-wrap">
+    <h2 class="text-center text-xl my-4">Palabras más comunes:</h2>
+
+    <div class="flex flex-wrap flex-row justify-around my-4">
+      {{ palabras_comunes }}
+    </div>
+
+    <div class="flex justify-center my-4">
+      <img class="" src="{{ arbol_rojinegro }}" />
+    </div>
+
+    <div class="flex justify-center my-4">
+      <img class="" src="{{ arbol_avl }}" />
+    </div>
+  </section>
+
+</body>
+</html>

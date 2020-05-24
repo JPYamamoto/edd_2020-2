@@ -29,7 +29,7 @@ public class GraficadorSVG {
      * @return la etiqueta de apertura de SVG.
      */
     public static String comienzaSVG(int medidaX, int medidaY) {
-        return String.format("<svg width='%d' height='%d'><g>", medidaX, medidaY);
+        return String.format("<svg xmlns='http://www.w3.org/2000/svg' width='%d' height='%d'><g>", medidaX, medidaY);
     }
 
     /**
