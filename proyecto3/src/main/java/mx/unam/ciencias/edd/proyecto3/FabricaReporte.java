@@ -41,6 +41,6 @@ public class FabricaReporte {
             palabras.agrega(new Palabra(palabraTexto, contador.get(palabraTexto)));
         }
 
-        return new Reporte(nombreArchivo, palabras);
+        return new Reporte(nombreArchivo, palabras, contador);
     }
 }

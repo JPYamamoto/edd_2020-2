@@ -167,6 +167,13 @@ public class GraficadorSVG {
         return svg;
     }
 
+    public static String graficaCaminoArco(Double origenX, Double origenY,
+                                           Double finalX, Double finalY,
+                                           boolean arcoLargo, String color) {
+        return String.format("<path d='M %.5f %.5f A 1 1 0 %d 1 %.5f %.5f L 0 0' fill='%s'></path>",
+                origenX, origenY, arcoLargo ? 1 : 0, finalX, finalY, color);
+    }
+
     /**
      * Genera el SVG de un cuadro de texto.
      * @param centroX la coordenada X del centro del círculo.
