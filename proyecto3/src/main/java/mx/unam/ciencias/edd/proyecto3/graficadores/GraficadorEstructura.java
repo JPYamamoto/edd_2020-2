@@ -35,5 +35,10 @@ public abstract class GraficadorEstructura<T> {
      */
     protected abstract String graficarEstructura();
 
+    /**
+     * Método que nos indica si la estructura es vacía, para entonces regresar
+     * un SVG que representa una estructura vacía.
+     * @return boolean que indica si la estructura es vacía.
+     */
     protected abstract boolean esVacia();
 }

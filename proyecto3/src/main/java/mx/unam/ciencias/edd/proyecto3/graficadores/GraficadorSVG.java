@@ -101,6 +101,18 @@ public class GraficadorSVG {
                 color);
     }
 
+    /**
+     * Genera el SVG de un rectángulo que se genera con un punto de origen, y
+     * el cambio en los ejes X y Y.
+     * @param origenX la coordenada X donde comienza el rectángulo.
+     * @param origenY la coordenada Y donde comienza el rectángulo.
+     * @param medidaX la medida en el eje X del rectángulo.
+     * @param medidaY la medida en el eje Y del rectángulo.
+     * @param anchoBorde el tamaño del ancho del borde.
+     * @param colorBorde el color del borde del rectángulo.
+     * @param color el color del rectángulo.
+     * @return el SVG del rectángulo que corresponde a los parámetros recibidos.
+     */
     public static String graficaRectangulo(int origenX, int origenY,
                                            int medidaX, int medidaY,
                                            int anchoBorde, String colorBorde,
@@ -129,9 +141,11 @@ public class GraficadorSVG {
                                                 String colorBorde, String colorRelleno,
                                                 int tamanoFuente, String colorFuente,
                                                 String contenido) {
-        String svg = graficaRectangulo(origenX, origenY, medidaX, medidaY, 1, colorBorde, colorRelleno);
+        String svg = graficaRectangulo(origenX, origenY, medidaX, medidaY, 1,
+                                       colorBorde, colorRelleno);
         svg += graficaTexto((medidaX / 2) + origenX, (medidaY /2) + origenY,
                 tamanoFuente, colorFuente, contenido);
+
         return svg;
     }
 
@@ -174,6 +188,18 @@ public class GraficadorSVG {
         return svg;
     }
 
+    /**
+     * Genera el SVG de un triángulo que va del centro del SVG a un punto de
+     * origen y final del arco de un círculo.
+     * @param origenX la coordenada X del punto de origen del arco.
+     * @param origenY la coordenada Y del punto de origen del arco.
+     * @param finalX la coordenada X del punto final del arco.
+     * @param finalY la coordenada Y del punto final del arco.
+     * @param arcoLargo el arco corresponde al recorrido largo o corto entre
+     * ambos puntos.
+     * @param color el color del arco.
+     * @return el SVG que corresponde a los parámetros recibidos.
+     */
     public static String graficaCaminoArco(Double origenX, Double origenY,
                                            Double finalX, Double finalY,
                                            boolean arcoLargo, String color) {
