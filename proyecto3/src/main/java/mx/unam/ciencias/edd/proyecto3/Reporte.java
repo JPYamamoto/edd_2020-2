@@ -7,6 +7,7 @@ import mx.unam.ciencias.edd.ArbolAVL;
 import mx.unam.ciencias.edd.proyecto3.graficadores.GraficadorArbolRojinegro;
 import mx.unam.ciencias.edd.proyecto3.graficadores.GraficadorArbolAVL;
 import mx.unam.ciencias.edd.proyecto3.graficadores.GraficadorPastel;
+import mx.unam.ciencias.edd.proyecto3.graficadores.GraficadorBarras;
 
 import java.io.IOException;
 
@@ -14,12 +15,10 @@ public class Reporte {
 
     private String ruta;
     private Lista<Palabra> palabras;
-    private Diccionario<String, Integer> conteo;
 
-    public Reporte(String ruta, Lista<Palabra> palabras, Diccionario<String, Integer> conteo) {
+    public Reporte(String ruta, Lista<Palabra> palabras) {
         this.ruta = ruta;
         this.palabras = palabras;
-        this.conteo = conteo;
     }
 
     public String getRuta() {
@@ -27,7 +26,7 @@ public class Reporte {
     }
 
     public Diccionario<String, String> getDatos() {
-        Lista<Palabra> listaPalabrasComunes = palabrasMasComunes();
+        Lista<Palabra> listaPalabrasComunes = tomaPalabrasMasComunes(15);
         Diccionario<String, String> datos = new Diccionario<>();
         String marcadoPalabrasComunes = generaMarcadoPalabras(listaPalabrasComunes, totalPalabras());
         String marcadoPalabras = generaMarcadoPalabras(Lista.mergeSort(palabras).reversa(), totalPalabras());
@@ -40,6 +39,12 @@ public class Reporte {
                      Salida.nombreArchivo(ruta, "arbol_avl", "svg"));
         datos.agrega("grafica_pastel",
                      Salida.nombreArchivo(ruta, "grafica_pastel", "svg"));
+        datos.agrega("etiquetas_pastel",
+                     Salida.nombreArchivo(ruta, "etiquetas_pastel", "svg"));
+        datos.agrega("grafica_barras",
+                     Salida.nombreArchivo(ruta, "grafica_barras", "svg"));
+        datos.agrega("etiquetas_barras",
+                     Salida.nombreArchivo(ruta, "etiquetas_barras", "svg"));
         datos.agrega("conteo_palabras", marcadoPalabras);
 
         return datos;
@@ -47,15 +52,12 @@ public class Reporte {
 
     public Diccionario<String, String> getArchivos() throws IOException {
         Diccionario<String, String> archivos = new Diccionario<>();
-        Lista<Palabra> listaPalabras = palabrasMasComunes();
+        Lista<Palabra> listaPalabras = tomaPalabrasMasComunes(15);
 
-        Diccionario<String, Integer> palabrasGrafica = new Diccionario<>();
-        int contador = 0;
-        for (Palabra palabra : listaPalabras) {
-            palabrasGrafica.agrega(palabra.getPalabra(), palabra.getOcurrencias());
-            contador += palabra.getOcurrencias();
-        }
-        palabrasGrafica.agrega("Otras", totalPalabras() - contador);
+        Diccionario<String, Integer> palabrasGrafica = calculaPalabrasGraficas(listaPalabras);
+
+        GraficadorPastel<String, Integer> graficadorPastel = graficaPastel(palabrasGrafica);
+        GraficadorBarras<String, Integer> graficadorBarras = graficaBarras(palabrasGrafica);
 
         archivos.agrega(Salida.nombreArchivo(ruta, "reporte", "html"),
                         GeneradorHTML.generaReporteIndividual(getDatos()));
@@ -64,14 +66,34 @@ public class Reporte {
         archivos.agrega(Salida.nombreArchivo(ruta, "arbol_avl", "svg"),
                         graficaAVL(listaPalabras));
         archivos.agrega(Salida.nombreArchivo(ruta, "grafica_pastel", "svg"),
-                        graficaPastel(palabrasGrafica));
+                        graficadorPastel.graficar());
+        archivos.agrega(Salida.nombreArchivo(ruta, "etiquetas_pastel", "svg"),
+                        graficadorPastel.graficarEtiquetas());
+        archivos.agrega(Salida.nombreArchivo(ruta, "grafica_barras", "svg"),
+                        graficadorBarras.graficar());
+        archivos.agrega(Salida.nombreArchivo(ruta, "etiquetas_barras", "svg"),
+                        graficadorBarras.graficarEtiquetas());
 
         return archivos;
     }
 
-    public Lista<Palabra> palabrasMasComunes() {
+    private Diccionario<String, Integer> calculaPalabrasGraficas(Lista<Palabra> listaPalabras) {
+        Diccionario<String, Integer> palabrasGrafica = new Diccionario<>();
+        int contador = 0;
+
+        for (Palabra palabra : listaPalabras) {
+            palabrasGrafica.agrega(palabra.getPalabra(), palabra.getOcurrencias());
+            contador += palabra.getOcurrencias();
+        }
+
+        palabrasGrafica.agrega("Otras Palabras", totalPalabras() - contador);
+
+        return palabrasGrafica;
+    }
+
+    public Lista<Palabra> tomaPalabrasMasComunes(int cantidad) {
         Lista<Palabra> lista = new Lista<>();
-        int limite = palabras.getElementos() <= 15 ? palabras.getElementos() : 15;
+        int limite = palabras.getElementos() <= cantidad ? palabras.getElementos() : cantidad;
         int i = 0;
 
         for (Palabra palabra : Lista.mergeSort(palabras).reversa()) {
@@ -96,9 +118,12 @@ public class Reporte {
         return graficador.graficar();
     }
 
-    private String graficaPastel(Diccionario<String, Integer> palabrasGrafica) {
-        GraficadorPastel<String, Integer> graficador = new GraficadorPastel<>(palabrasGrafica);
-        return graficador.graficar();
+    private GraficadorPastel<String, Integer> graficaPastel(Diccionario<String, Integer> palabrasGrafica) {
+        return new GraficadorPastel<>(palabrasGrafica);
+    }
+
+    private GraficadorBarras<String, Integer> graficaBarras(Diccionario<String, Integer> palabrasGrafica) {
+        return new GraficadorBarras<>(palabrasGrafica);
     }
 
     private String generaMarcadoPalabras(Lista<Palabra> listaPalabras, int total) {

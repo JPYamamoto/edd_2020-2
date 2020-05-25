@@ -101,6 +101,14 @@ public class GraficadorSVG {
                 color);
     }
 
+    public static String graficaRectangulo(int origenX, int origenY,
+                                           int medidaX, int medidaY,
+                                           int anchoBorde, String colorBorde,
+                                           String colorRelleno) {
+        return String.format("<rect x='%d' y='%d' width='%d' height='%d' stroke-width='%d' stroke='%s' fill='%s' />",
+                origenX, origenY, medidaX, medidaY, anchoBorde, colorBorde, colorRelleno);
+    }
+
     /**
      * Genera el SVG de un rectángulo que contiene texto centrado en ambos
      * ejes.
@@ -121,8 +129,7 @@ public class GraficadorSVG {
                                                 String colorBorde, String colorRelleno,
                                                 int tamanoFuente, String colorFuente,
                                                 String contenido) {
-        String svg = String.format("<rect x='%d' y='%d' width='%d' height='%d' stroke='%s' fill='%s' />",
-                origenX, origenY, medidaX, medidaY, colorBorde, colorRelleno);
+        String svg = graficaRectangulo(origenX, origenY, medidaX, medidaY, 1, colorBorde, colorRelleno);
         svg += graficaTexto((medidaX / 2) + origenX, (medidaY /2) + origenY,
                 tamanoFuente, colorFuente, contenido);
         return svg;
@@ -190,5 +197,13 @@ public class GraficadorSVG {
         return String.format("<text x='%d' y='%d' text-anchor='middle'" +
                 " font-family='sans-serif' font-size='%d' fill='%s'>%s</text>",
                 centroX, centroY + 5, tamanoFuente, colorFuente, contenido);
+    }
+
+    public static String graficaTextoEsquina(int origenX, int origenY,
+                                             int tamanoFuente, String colorFuente,
+                                             String contenido) {
+        return String.format("<text x='%d' y='%d'" +
+                " font-family='sans-serif' font-size='%d' fill='%s'>%s</text>",
+                origenX, origenY + tamanoFuente, tamanoFuente, colorFuente, contenido);
     }
 }

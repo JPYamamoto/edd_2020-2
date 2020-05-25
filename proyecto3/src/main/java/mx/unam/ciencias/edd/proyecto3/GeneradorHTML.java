@@ -23,12 +23,11 @@ public class GeneradorHTML {
 
         String[] secciones = base.split("((?=\\{\\{)|(?<=\\}\\}))");
 
-        for (int i = 0; i < secciones.length; i++) {
+        for (int i = 0; i < secciones.length; i++)
             if (secciones[i].matches("\\{\\{ \\w+ \\}\\}")) {
                 String llave = secciones[i].substring(3, secciones[i].length() - 3);
                 secciones[i] = datos.get(llave);
             }
-        }
 
         return String.join("", secciones);
     }
