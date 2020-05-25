@@ -54,7 +54,7 @@ public class Reporte {
         Diccionario<String, String> archivos = new Diccionario<>();
         Lista<Palabra> listaPalabras = tomaPalabrasMasComunes(15);
 
-        Diccionario<String, Integer> palabrasGrafica = calculaPalabrasGraficas(listaPalabras);
+        Diccionario<String, Integer> palabrasGrafica = calculaPalabrasGraficas();
 
         GraficadorPastel<String, Integer> graficadorPastel = graficaPastel(palabrasGrafica);
         GraficadorBarras<String, Integer> graficadorBarras = graficaBarras(palabrasGrafica);
@@ -77,16 +77,22 @@ public class Reporte {
         return archivos;
     }
 
-    private Diccionario<String, Integer> calculaPalabrasGraficas(Lista<Palabra> listaPalabras) {
+    private Diccionario<String, Integer> calculaPalabrasGraficas() {
         Diccionario<String, Integer> palabrasGrafica = new Diccionario<>();
         int contador = 0;
+        int total = totalPalabras();
+        int limite = (int) Math.ceil(5.0 * total / 100);
+        int i = 0;
 
-        for (Palabra palabra : listaPalabras) {
+        for (Palabra palabra : Lista.mergeSort(palabras).reversa()) {
+            if (palabra.getOcurrencias() < limite && i++ >= 15)
+                break;
+
             palabrasGrafica.agrega(palabra.getPalabra(), palabra.getOcurrencias());
             contador += palabra.getOcurrencias();
         }
 
-        palabrasGrafica.agrega("Otras Palabras", totalPalabras() - contador);
+        palabrasGrafica.agrega("Otras Palabras", total - contador);
 
         return palabrasGrafica;
     }
