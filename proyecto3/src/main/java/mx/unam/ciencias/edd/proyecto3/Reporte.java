@@ -36,6 +36,14 @@ public class Reporte {
     }
 
     /**
+     * Regresa el nombre del archivo al ser escrito en la salida.
+     * @return nombre del archivo.
+     */
+    public String getNombreArchivoSalida() {
+        return Salida.nombreArchivo(ruta, "reporte", "html");
+    }
+
+    /**
      * Regresa la ruta del archivo.
      * @return ruta del archivo.
      */
@@ -86,10 +94,10 @@ public class Reporte {
 
         Diccionario<String, Integer> palabrasGrafica = calculaPalabrasGraficas();
 
-        GraficadorPastel<String, Integer> graficadorPastel = graficaPastel(palabrasGrafica);
-        GraficadorBarras<String, Integer> graficadorBarras = graficaBarras(palabrasGrafica);
+        GraficadorPastel<String, Integer> graficadorPastel = graficadorPastel(palabrasGrafica);
+        GraficadorBarras<String, Integer> graficadorBarras = graficadorBarras(palabrasGrafica);
 
-        archivos.agrega(Salida.nombreArchivo(ruta, "reporte", "html"),
+        archivos.agrega(getNombreArchivoSalida(),
                         GeneradorHTML.generaReporteIndividual(getDatos()));
         archivos.agrega(Salida.nombreArchivo(ruta, "arbol_rojinegro", "svg"),
                         graficaRojinegro(listaPalabras));
@@ -123,7 +131,7 @@ public class Reporte {
     private Diccionario<String, Integer> calculaPalabrasGraficas() {
         Diccionario<String, Integer> palabrasGrafica = new Diccionario<>();
         int contador = 0;
-        int limite = (int) Math.ceil(5.0 * total / 100);
+        int limite = (int) Math.ceil(3.0 * total / 100);
         int i = 0;
 
         for (Palabra palabra : Lista.mergeSort(palabras).reversa()) {
@@ -203,7 +211,7 @@ public class Reporte {
      * @param palabrasGrafica la lista de palabras que tendrá la gráfica.
      * @return el graficador de la gráfica de barras.
      */
-    private GraficadorBarras<String, Integer> graficaBarras(Diccionario<String, Integer> palabrasGrafica) {
+    private GraficadorBarras<String, Integer> graficadorBarras(Diccionario<String, Integer> palabrasGrafica) {
         return new GraficadorBarras<>(palabrasGrafica);
     }
 
