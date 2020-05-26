@@ -11,13 +11,13 @@ import java.util.Iterator;
  * Clase que utilizamos para construir reportes. Para evitar realizar ciertas
  * operaciones en el constructor de {@link Reporte}, usamos este clase.
  */
-public class GeneradorReporte {
+public class GeneradorReporteArchivo {
 
     /**
      * Constructor privado para evitar instanciación y utilizar los métodos
      * públicos solo de manera estática.
      */
-    private GeneradorReporte() {  }
+    private GeneradorReporteArchivo() {  }
 
     /**
      * Método que utilizamos para generar una instancia de {@link Reporte} a
@@ -26,7 +26,7 @@ public class GeneradorReporte {
      * @return el reporte del archivo.
      * @throws IOException si hubo un error al leer el archivo.
      */
-    public static Reporte nuevoReporte(String nombreArchivo) throws IOException {
+    public static ReporteArchivo nuevoReporte(String nombreArchivo) throws IOException {
         String texto = Entrada.contenidosArchivo(nombreArchivo);
         String[] textoLimpio = limpiaTexto(texto).split("\\s+");
 
@@ -39,7 +39,7 @@ public class GeneradorReporte {
             palabras.agrega(new Palabra(palabraTexto, contador.get(palabraTexto)));
         }
 
-        return new Reporte(nombreArchivo, palabras, textoLimpio.length);
+        return new ReporteArchivo(nombreArchivo, palabras, textoLimpio.length);
     }
 
     /**

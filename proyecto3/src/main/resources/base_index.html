@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Reporte Proyecto 3</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+
+<body>
+
+  <header class="flex flex-col items-center my-8 mx-16 p-4 bg-white">
+    <h1 class="w-full m-2 text-black text-4xl font-bold text-center">Reporte de Archivos</h1>
+    <h2 class="w-full m-2 text-black text-xl font-bold text-center">Proyecto 3</h2>
+  </header>
+
+  <section class="bg-white my-24 mx-16 p-4">
+    <h2 class="w-full text-center text-2xl font-bold">Información global.</h2>
+    <p class="w-full text-center text-lg my-2">{{ numero_archivos }} archivos.</p>
+    <p class="w-full text-center text-lg my-2">{{ numero_palabras_leidas }} palabras leídas.</p>
+    <p class="w-full text-center text-lg my-2">{{ numero_palabras_distintas }} palabras distintas.</p>
+    <p class="w-full text-center text-lg my-2"><i>"{{ palabra_comun }}"</i> es la palabra más común, con {{ palabra_comun_ocurrencias }} ocurrencias.</p>
+  </section>
+
+</body>
+</html>

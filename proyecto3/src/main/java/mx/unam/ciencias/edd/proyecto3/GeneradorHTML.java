@@ -40,7 +40,30 @@ public class GeneradorHTML {
      * @throws IOException si ocurre un error al leer un archivo.
      */
     public static String generaReporteIndividual(Diccionario<String, String> datos) throws IOException {
-        String base = Entrada.leeRecurso("base.html");
+        return plantillaArchivo("base.html", datos);
+    }
+
+    /**
+     * Genera el HTML a partir del archivo plantilla para reportes globales
+     * utilizando los valores del diccionario recibido.
+     * @param datos los datos a sustituir en el archivo plantilla.
+     * @return el HTML del reporte generado.
+     * @throws IOException si ocurre un error al leer un archivo.
+     */
+    public static String generaReporteGlobal(Diccionario<String, String> datos) throws IOException {
+        return plantillaArchivo("base_index.html", datos);
+    }
+
+    /**
+     * Genera el HTML a partir del archivo recibido, que debe estar en los
+     * recursos del proyecto, utilizando los valores del diccionario recibido.
+     * @param archivo el nombre del archivo a usar como plantilla.
+     * @param datos los datos a sustituir en el archivo plantilla.
+     * @return el HTML del reporte generado.
+     * @throws IOException si ocurre un error al leer un archivo.
+     */
+    private static String plantillaArchivo(String archivo, Diccionario<String, String> datos) throws IOException {
+        String base = Entrada.leeRecurso(archivo);
 
         String[] secciones = base.split("((?=\\{\\{)|(?<=\\}\\}))");
 

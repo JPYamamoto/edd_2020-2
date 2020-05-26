@@ -33,7 +33,11 @@ public class Salida {
 
     /**
      * Método que utilizamos para obtener el nombre que tendrá un archivo al
-     * ser guardado.
+     * ser guardado. El identificador siempre debe ser distinto de null para
+     * evitar repetir nombres (no es perfecto pues las funciones de dispersión
+     * tienen colisiones, pero funciona en general suficientemente bien).
+     * El identificador debe ser null cuando no nos importa que sea único, por
+     * ejemplo, con el index.html.
      * @param identificador un identificador que usamos para dar nombres de
      * archivos distintos.
      * @param nombre el nombre del archivo que queremos guardar.
@@ -41,6 +45,9 @@ public class Salida {
      * @return el nombre del archivo que será guardado.
      */
     public static String nombreArchivo(String identificador, String nombre, String extension) {
+        if (identificador == null)
+            return String.format("%s.%s", nombre, extension);
+
         return String.format("%s_%d.%s", nombre, dispersor.dispersa(identificador), extension);
     }
 

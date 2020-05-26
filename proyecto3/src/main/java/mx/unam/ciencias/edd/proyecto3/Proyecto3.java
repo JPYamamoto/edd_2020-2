@@ -58,14 +58,29 @@ public class Proyecto3 {
      * @param reportes reportes a guardar.
      * @param salida la salida con la que guardamos archivos.
      */
-    private static void guardaReportes(Lista<Reporte> reportes, Salida salida) {
-        for (Reporte reporte : reportes)
+    private static void guardaReportes(Lista<ReporteArchivo> reportes, Salida salida) {
+        for (ReporteArchivo reporte : reportes)
             try {
                 salida.escribeArchivos(reporte.getArchivos());
             } catch (IOException ioe) {
                 System.out.println("Error al guardar reporte "+ reporte.getRuta());
                 System.exit(1);
             }
+    }
+
+    /**
+     * Guardamos el reporte global.
+     * @param reportes reportes que usamos para generar el reporte global.
+     * @param salida la salida con la que guardamos archivos.
+     */
+    private static void guardaReporteGlobal(Lista<ReporteArchivo> reportes, Salida salida) {
+        ReporteGlobal reporteGlobal = new ReporteGlobal(reportes);
+        try {
+            salida.escribeArchivos(reporteGlobal.getArchivos());
+        } catch (IOException ioe) {
+            System.out.println("Error al guardar reporte global en index.html.");
+            System.exit(1);
+        }
     }
 
     /* Punto de entrada del programa. */
@@ -82,10 +97,10 @@ public class Proyecto3 {
         }
 
         // Generamos cada reporte.
-        Lista<Reporte> reportes = new Lista<>();
+        Lista<ReporteArchivo> reportes = new Lista<>();
         for (String nombreArchivo : archivosEntrada) {
             try {
-                reportes.agrega(GeneradorReporte.nuevoReporte(nombreArchivo));
+                reportes.agrega(GeneradorReporteArchivo.nuevoReporte(nombreArchivo));
             } catch (IOException ioe) {
                 System.out.println("Error al leer el archivo " + nombreArchivo);
                 System.exit(1);
@@ -95,6 +110,8 @@ public class Proyecto3 {
 
         // Guardamos los reportes.
         guardaReportes(reportes, salida);
+        // Guardamos el reporte global.
+        guardaReporteGlobal(reportes, salida);
         // Guardamos los archivos auxiliares.
         guardaAssets(salida);
     }

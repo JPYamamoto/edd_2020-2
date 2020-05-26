@@ -14,7 +14,7 @@ import java.io.IOException;
 /**
  * Clase para representar reportes de archivos.
  */
-public class Reporte {
+public class ReporteArchivo {
 
     // La ruta a la que corresponde cada archivo.
     private String ruta;
@@ -29,7 +29,7 @@ public class Reporte {
      * @param palabras las palabras del archivo.
      * @param total el número de palabras en el archivo.
      */
-    public Reporte(String ruta, Lista<Palabra> palabras, int total) {
+    public ReporteArchivo(String ruta, Lista<Palabra> palabras, int total) {
         this.ruta = ruta;
         this.palabras = palabras;
         this.total = total;
@@ -52,32 +52,19 @@ public class Reporte {
     }
 
     /**
-     * Datos que usamos para generar el HTML del reporte.
-     * @return diccionario con los datos del reporte.
+     * Regresa el número total de palabras en el archivo.
+     * @return total de palabras.
      */
-    public Diccionario<String, String> getDatos() {
-        Lista<Palabra> listaPalabrasComunes = tomaPalabrasMasComunes(15);
-        Diccionario<String, String> datos = new Diccionario<>();
-        String marcadoPalabrasComunes = generaMarcadoPalabras(listaPalabrasComunes);
-        String marcadoPalabras = generaMarcadoPalabras(Lista.mergeSort(palabras).reversa());
+    public int getTotal() {
+        return total;
+    }
 
-        datos.agrega("archivo", ruta);
-        datos.agrega("palabras_comunes", marcadoPalabrasComunes);
-        datos.agrega("arbol_rojinegro",
-                     Salida.nombreArchivo(ruta, "arbol_rojinegro", "svg"));
-        datos.agrega("arbol_avl",
-                     Salida.nombreArchivo(ruta, "arbol_avl", "svg"));
-        datos.agrega("grafica_pastel",
-                     Salida.nombreArchivo(ruta, "grafica_pastel", "svg"));
-        datos.agrega("etiquetas_pastel",
-                     Salida.nombreArchivo(ruta, "etiquetas_pastel", "svg"));
-        datos.agrega("grafica_barras",
-                     Salida.nombreArchivo(ruta, "grafica_barras", "svg"));
-        datos.agrega("etiquetas_barras",
-                     Salida.nombreArchivo(ruta, "etiquetas_barras", "svg"));
-        datos.agrega("conteo_palabras", marcadoPalabras);
-
-        return datos;
+    /**
+     * Regresa la lista de palabras distintas en el archivo.
+     * @return lista de palabras distintas.
+     */
+    public Lista<Palabra> getPalabras() {
+        return palabras;
     }
 
     /**
@@ -113,6 +100,35 @@ public class Reporte {
                         graficadorBarras.graficarEtiquetas());
 
         return archivos;
+    }
+
+    /**
+     * Datos que usamos para generar el HTML del reporte.
+     * @return diccionario con los datos del reporte.
+     */
+    private Diccionario<String, String> getDatos() {
+        Lista<Palabra> listaPalabrasComunes = tomaPalabrasMasComunes(15);
+        Diccionario<String, String> datos = new Diccionario<>();
+        String marcadoPalabrasComunes = generaMarcadoPalabras(listaPalabrasComunes);
+        String marcadoPalabras = generaMarcadoPalabras(Lista.mergeSort(palabras).reversa());
+
+        datos.agrega("archivo", ruta);
+        datos.agrega("palabras_comunes", marcadoPalabrasComunes);
+        datos.agrega("arbol_rojinegro",
+                     Salida.nombreArchivo(ruta, "arbol_rojinegro", "svg"));
+        datos.agrega("arbol_avl",
+                     Salida.nombreArchivo(ruta, "arbol_avl", "svg"));
+        datos.agrega("grafica_pastel",
+                     Salida.nombreArchivo(ruta, "grafica_pastel", "svg"));
+        datos.agrega("etiquetas_pastel",
+                     Salida.nombreArchivo(ruta, "etiquetas_pastel", "svg"));
+        datos.agrega("grafica_barras",
+                     Salida.nombreArchivo(ruta, "grafica_barras", "svg"));
+        datos.agrega("etiquetas_barras",
+                     Salida.nombreArchivo(ruta, "etiquetas_barras", "svg"));
+        datos.agrega("conteo_palabras", marcadoPalabras);
+
+        return datos;
     }
 
     /**
