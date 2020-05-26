@@ -232,10 +232,10 @@ public class Diccionario<K, V> implements Iterable<V> {
         if (entrada == null)
             throw new NoSuchElementException("No existe la entrada con la llave recibida.");
 
-        if (entradas[indiceLlave].getLongitud() == 1)
+        entradas[indiceLlave].elimina(entrada);
+
+        if (entradas[indiceLlave].getLongitud() == 0)
             entradas[indiceLlave] = null;
-        else
-            entradas[indiceLlave].elimina(entrada);
 
         elementos--;
     }
