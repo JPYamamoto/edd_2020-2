@@ -110,7 +110,7 @@ public class ReporteArchivo {
         Lista<Palabra> listaPalabrasComunes = tomaPalabrasMasComunes(15);
         Diccionario<String, String> datos = new Diccionario<>();
         String marcadoPalabrasComunes = generaMarcadoPalabras(listaPalabrasComunes);
-        String marcadoPalabras = generaMarcadoPalabras(Lista.mergeSort(palabras).reversa());
+        String marcadoPalabras = generaMarcadoPalabras(ordenaPorOcurrencias(palabras));
 
         datos.agrega("archivo", ruta);
         datos.agrega("palabras_comunes", marcadoPalabrasComunes);
@@ -150,7 +150,7 @@ public class ReporteArchivo {
         int limite = (int) Math.ceil(3.0 * total / 100);
         int i = 0;
 
-        for (Palabra palabra : Lista.mergeSort(palabras).reversa()) {
+        for (Palabra palabra : ordenaPorOcurrencias(palabras)) {
             if (palabra.getOcurrencias() < limite && i++ >= 15)
                 break;
 
@@ -175,7 +175,7 @@ public class ReporteArchivo {
         int limite = palabras.getElementos() <= cantidad ? palabras.getElementos() : cantidad;
         int i = 0;
 
-        for (Palabra palabra : Lista.mergeSort(palabras).reversa()) {
+        for (Palabra palabra : ordenaPorOcurrencias(palabras)) {
             if (i++ >= limite)
                 break;
 
@@ -242,5 +242,25 @@ public class ReporteArchivo {
             result += GeneradorHTML.marcadoPalabra(palabra, total);
 
         return result;
+    }
+
+    /**
+     * Ordena las palabras de mayor a menor según la cantidad de veces que
+     * aparecen en el texto.
+     * @param palabras las palabras a ordenar.
+     * @return lista de palabras ordenada.
+     */
+    private Lista<Palabra> ordenaPorOcurrencias(Lista<Palabra> palabras) {
+        return palabras.mergeSort((a, b) -> b.getOcurrencias() - a.getOcurrencias());
+    }
+
+    /**
+     * Regresa la representación en cadena del archivo. Se utilizará al momento
+     * de generar la gráfica del reporte global. Utilizamos la ruta como la
+     * representación en cadena.
+     * @return representación en cadena.
+     */
+    public String toString() {
+        return ruta;
     }
 }

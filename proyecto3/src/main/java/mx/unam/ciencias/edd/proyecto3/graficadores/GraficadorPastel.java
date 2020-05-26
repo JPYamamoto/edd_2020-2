@@ -33,6 +33,11 @@ public class GraficadorPastel<T, R extends Number> extends GraficadorCategorias<
             acumulado += angulo;
         }
 
+        if (lista.getLongitud() == 2)
+            for (ValorGraficable graficable : lista)
+                if (graficable.getValor() == 1)
+                    resultado = GraficadorSVG.graficaCirculo(0, 0, 1, "#FFFFFF", graficable.getColor());
+
         // Regresamos el svg.
         return GraficadorSVG.declaracionXML() +
                "<svg xmlns='http://www.w3.org/2000/svg' viewBox='-1 -1 2 2'><g>" +

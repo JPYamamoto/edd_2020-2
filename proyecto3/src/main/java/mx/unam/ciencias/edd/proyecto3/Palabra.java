@@ -46,6 +46,14 @@ public class Palabra implements Comparable<Palabra> {
      * Comparamos la palabra por número de ocurrencias.
      */
     public int compareTo(Palabra b) {
-        return ocurrencias - b.ocurrencias;
+        return palabra.compareTo(b.palabra);
+    }
+
+    public boolean equals(Object objeto) {
+        if (objeto == null || getClass() != objeto.getClass())
+            return false;
+        Palabra b = (Palabra)objeto;
+
+        return palabra.equals(b.palabra);
     }
 }

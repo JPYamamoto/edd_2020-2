@@ -23,6 +23,8 @@ public class ReporteGlobal {
 
         archivos.agrega(Salida.nombreArchivo(null, "index", "html"),
                         GeneradorHTML.generaReporteGlobal(getDatos()));
+        archivos.agrega(Salida.nombreArchivo(null, "grafica", "svg"),
+                        generaGrafica());
 
         return archivos;
     }
@@ -38,6 +40,8 @@ public class ReporteGlobal {
         datos.agrega("numero_palabras_distintas", String.valueOf(conteoPalabrasDistintas));
         datos.agrega("palabra_comun", palabraComun.getPalabra());
         datos.agrega("palabra_comun_ocurrencias", String.valueOf(palabraComun.getOcurrencias()));
+        datos.agrega("palabra_comun_ocurrencias", String.valueOf(palabraComun.getOcurrencias()));
+        datos.agrega("grafica", Salida.nombreArchivo(null, "grafica", "svg"));
 
         return datos;
     }
@@ -74,5 +78,32 @@ public class ReporteGlobal {
             return new Palabra("Ninguna", 0);
 
         return palabraComun;
+    }
+
+    private String generaGrafica() {
+        Grafica<ReporteArchivo> grafica = new Grafica<>();
+
+        for (ReporteArchivo reporte : reportes)
+            grafica.agrega(reporte);
+
+        for (ReporteArchivo archivo1 : reportes)
+            for (ReporteArchivo archivo2 : reportes)
+                if (archivo1 != archivo2)
+                    if (!interseccion(archivo1.getPalabras(), archivo2.getPalabras()).esVacia())
+                        if (!grafica.sonVecinos(archivo1, archivo2))
+                            grafica.conecta(archivo1, archivo2);
+
+        GraficadorGrafica<ReporteArchivo> graficador = new GraficadorGrafica<>(grafica);
+        return graficador.graficar();
+    }
+
+    private Lista<Palabra> interseccion(Lista<Palabra> lista1, Lista<Palabra> lista2) {
+        Lista<Palabra> lista = new Lista<>();
+
+        for (Palabra elemento : lista1)
+            if (lista2.contiene(elemento) && !lista.contiene(elemento))
+                lista.agrega(elemento);
+
+        return lista;
     }
 }
