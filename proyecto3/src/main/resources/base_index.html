@@ -8,19 +8,19 @@
   <link rel="stylesheet" href="./styles.css">
 </head>
 
-<body>
+<body class="flex flex-col items-center">
 
-  <header class="flex flex-col items-center my-8 mx-16 p-4 bg-white">
-    <h1 class="w-full m-2 text-black text-4xl font-bold text-center">Reporte de Archivos</h1>
-    <h2 class="w-full m-2 text-black text-xl font-bold text-center">Proyecto 3</h2>
+  <header class="flex flex-col items-center my-16 mx-16 p-4 bg-white">
+    <h1 class="w-full my-2 mx-16 text-black text-4xl font-bold text-center">Reporte de Archivos</h1>
+    <h2 class="w-full my-2 mx-16 text-black text-xl font-bold text-center">Proyecto 3</h2>
   </header>
 
-  <section class="bg-white my-24 mx-16 p-4">
+  <section class="bg-white my-24 mx-16 p-4 w-2/3">
     <h2 class="w-full text-center text-2xl font-bold">Información global.</h2>
-    <p class="w-full text-center text-lg my-2">{{ numero_archivos }} archivos.</p>
-    <p class="w-full text-center text-lg my-2">{{ numero_palabras_leidas }} palabras leídas.</p>
-    <p class="w-full text-center text-lg my-2">{{ numero_palabras_distintas }} palabras distintas.</p>
-    <p class="w-full text-center text-lg my-2"><i>"{{ palabra_comun }}"</i> es la palabra más común, con {{ palabra_comun_ocurrencias }} ocurrencias.</p>
+    <p class="text-center text-lg my-2">{{ numero_archivos }} archivos.</p>
+    <p class="text-center text-lg my-2">{{ numero_palabras_leidas }} palabras leídas.</p>
+    <p class="text-center text-lg my-2">{{ numero_palabras_distintas }} palabras distintas.</p>
+    <p class="text-center text-lg my-2"><i>"{{ palabra_comun }}"</i> es la palabra más común, con {{ palabra_comun_ocurrencias }} ocurrencias.</p>
   </section>
 
 </body>
