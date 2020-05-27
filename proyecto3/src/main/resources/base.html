@@ -4,58 +4,57 @@
   <meta charset="utf-8">
   <title>{{ archivo }}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
   <link rel="stylesheet" href="./styles.css">
 </head>
 
-<body>
-  <header class="w-full flex flex-col items-center my-4">
-    <h1 class="w-full bg-black p-6 text-white text-2xl font-bold text-center">Archivo: {{ archivo }}</h1>
-    <a href="./index.html" class="text-lg text-blue-500 cursor-pointer mt-4">
-      <img src="./home.svg" class="inline h-3 mx-2" />Ir al inicio</a>
+<body id="report">
+  <header>
+    <h1 id="title-file" class="font-2xl">Archivo: {{ archivo }}</h1>
+    <p id="link-container"><a href="./index.html" id="link-index" class="font-lg">
+      <img src="./home.svg" id="icon-link" />Ir al inicio</a></p>
   </header>
 
   <section>
-    <h2 class="text-xl py-4 bg-blue-800 text-white w-full text-center">Palabras más comunes:</h2>
+    <h2 class="font-xl title-section">Palabras más comunes:</h2>
 
-    <div class="flex flex-wrap flex-row justify-around my-4">
+    <div class="container-palabras">
       {{ palabras_comunes }}
     </div>
   </section>
 
   <section>
-    <div class="flex flex-col justify-center my-4 items-center">
-      <h3 class="text-xl py-4 bg-blue-800 text-white w-full text-center">Árbol Rojinegro de las 15 palabras más comunes:</h3>
-      <img class="w-3/4 m-4" src="{{ arbol_rojinegro }}" />
+    <div class="section-arbol">
+      <h3 class="font-xl title-section">Árbol Rojinegro de las 15 palabras más comunes:</h3>
+      <img class="img-arbol" src="{{ arbol_rojinegro }}" />
     </div>
   </section>
 
   <section>
-    <div class="flex flex-col justify-center my-4 items-center">
-      <h3 class="text-xl py-4 bg-blue-800 text-white w-full text-center">Árbol AVL de las 15 palabras más comunes:</h3>
-      <img class="w-3/4 m-4" src="{{ arbol_avl }}" />
+    <div class="section-arbol">
+      <h3 class="font-xl title-section">Árbol AVL de las 15 palabras más comunes:</h3>
+      <img class="img-arbol" src="{{ arbol_avl }}" />
     </div>
   </section>
 
   <section>
-    <h3 class="text-xl py-4 bg-blue-800 text-white w-full text-center">Gráfica de Pastel:</h3>
-    <div class="flex justify-center my-4 max-h-screen w-2/3 mx-auto">
-      <img class="flex-grow m-4" src="{{ grafica_pastel }}" />
-      <img class="m-4 self-center max-h-screen" src="{{ etiquetas_pastel }}" />
+    <h3 class="font-xl title-section">Gráfica de Pastel:</h3>
+    <div class="grafica-container">
+      <img class="img-grafica" src="{{ grafica_pastel }}" />
+      <img class="etiquetas-grafica" src="{{ etiquetas_pastel }}" />
     </div>
   </section>
 
   <section>
-    <h3 class="text-xl py-4 bg-blue-800 text-white w-full text-center">Gráfica de Barras:</h3>
-    <div class="flex justify-center my-4 max-h-screen w-2/3 mx-auto">
-      <img class="flex-grow m-4" src="{{ grafica_barras }}" />
-      <img class="m-4 self-center max-h-screen" src="{{ etiquetas_barras }}" />
+    <h3 class="font-xl title-section">Gráfica de Barras:</h3>
+    <div class="grafica-container">
+      <img class="img-grafica" src="{{ grafica_barras }}" />
+      <img class="etiquetas-grafica" src="{{ etiquetas_barras }}" />
     </div>
   </section>
 
-  <section class="flex flex-col flex-wrap">
-    <h2 class="text-xl py-4 bg-blue-800 text-white w-full text-center">Conteo de palabras:</h2>
-    <div class="flex flex-wrap flex-row justify-around my-4">
+  <section id="words-list">
+    <h2 class="font-xl title-section">Conteo de palabras:</h2>
+    <div class="container-palabras">
       {{ conteo_palabras }}
     </div>
   </section>

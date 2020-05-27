@@ -23,10 +23,9 @@ public class GeneradorHTML {
      * @return el HTML que corresponde a la palabra.
      */
     public static String marcadoPalabra(Palabra palabra, int total) {
-        return String.format("<div " +
-                "class=\"m-4 border-solid border-2 border-gray-600 p-4 rounded-md flex-grow\">" +
-                "<p class=\"text-lg font-medium\">%s</p>" +
-                "<p class=\"text-sm text-gray-500\">%d ocurrencias - %.3f%%</p>" +
+        return String.format("<div class=\"palabra\">" +
+                "<p class=\"font-lg font-medium\">%s</p>" +
+                "<p class=\"font-sm font-gray\">%d ocurrencias - %.3f%%</p>" +
                 "</div>",
                 palabra.getPalabra(), palabra.getOcurrencias(),
                 ((double) palabra.getOcurrencias()) / total * 100.0);

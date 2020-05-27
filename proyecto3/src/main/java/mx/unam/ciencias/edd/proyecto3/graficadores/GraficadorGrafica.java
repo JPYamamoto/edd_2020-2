@@ -151,7 +151,7 @@ public class GraficadorGrafica<T> extends GraficadorEstructura<T> {
         for (T vertice : grafica)
             maximo = maximo <= vertice.toString().length() ? vertice.toString().length() : maximo;
 
-        return ((maximo * TAMANO_FUENTE) / 2) + BORDE_VERTICE;
+        return ((maximo * (2 * TAMANO_FUENTE / 3)) / 2) + BORDE_VERTICE;
     }
 
     /**
