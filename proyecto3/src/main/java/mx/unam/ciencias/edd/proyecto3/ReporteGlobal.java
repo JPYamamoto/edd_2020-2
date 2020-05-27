@@ -58,6 +58,7 @@ public class ReporteGlobal {
         datos.agrega("palabra_comun", palabraComun.getPalabra());
         datos.agrega("palabra_comun_ocurrencias", String.valueOf(palabraComun.getOcurrencias()));
         datos.agrega("palabra_comun_ocurrencias", String.valueOf(palabraComun.getOcurrencias()));
+        datos.agrega("lista_archivos", generaMarcadoArchivos());
         datos.agrega("grafica", Salida.nombreArchivo(null, "grafica", "svg"));
 
         return datos;
@@ -107,6 +108,18 @@ public class ReporteGlobal {
             return new Palabra("Ninguna", 0);
 
         return palabraComun;
+    }
+
+    private String generaMarcadoArchivos() {
+        String resultado = "";
+
+        for (ReporteArchivo archivo : reportes)
+            resultado += GeneradorHTML.marcadoArchivo(
+                    Salida.nombreArchivo(archivo.getRuta(), "reporte", "html"),
+                    archivo.getRuta(), archivo.getTotal(),
+                    archivo.getPalabras().getLongitud());
+
+        return resultado;
     }
 
     /**

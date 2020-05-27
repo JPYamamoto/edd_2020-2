@@ -31,6 +31,16 @@ public class GeneradorHTML {
                 ((double) palabra.getOcurrencias()) / total * 100.0);
     }
 
+    public static String marcadoArchivo(String url, String nombre, int total, int palabras) {
+        return String.format("<tr>" +
+                "<td><a href=\"./%s\"><img class=\"link-img\" src=\"./link.svg\"></a></td>" +
+                "<td><a href=\"./%s\" class=\"link-file\">%s</a></td>" +
+                "<td>%d</td>" +
+                "<td>%d</td>" +
+                "</tr>",
+                url, url, nombre, total, palabras);
+    }
+
     /**
      * Genera el HTML a partir del archivo plantilla para reportes individuales
      * utilizando los valores del diccionario recibido.

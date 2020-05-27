@@ -65,6 +65,7 @@ public class Entrada {
 
         archivos.agrega("home.svg", leeRecurso("assets/home.svg"));
         archivos.agrega("styles.css", leeRecurso("assets/styles.css"));
+        archivos.agrega("link.svg", leeRecurso("assets/link.svg"));
 
         return archivos;
     }

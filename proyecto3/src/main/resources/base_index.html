@@ -11,19 +11,38 @@
 
   <header>
     <h1 class="title font-4xl">Reporte de Archivos</h1>
-    <h2 class="title font-xl">Proyecto 3</h2>
+    <h2 class="title font-2xl">Proyecto 3</h2>
   </header>
 
   <section class="section-white">
-    <h2 class="title font-2xl">Información global.</h2>
-    <p class="info-global font-lg">{{ numero_archivos }} archivos.</p>
-    <p class="info-global font-lg">{{ numero_palabras_leidas }} palabras leídas.</p>
-    <p class="info-global font-lg">{{ numero_palabras_distintas }} palabras distintas.</p>
-    <p class="info-global font-lg"><i>"{{ palabra_comun }}"</i> es la palabra más común, con {{ palabra_comun_ocurrencias }} ocurrencias.</p>
+    <h2 class="title font-3xl">Información global.</h2>
+    <p class="info-global font-xl">{{ numero_archivos }} archivos.</p>
+    <p class="info-global font-xl">{{ numero_palabras_leidas }} palabras leídas.</p>
+    <p class="info-global font-xl">{{ numero_palabras_distintas }} palabras distintas.</p>
+    <p class="info-global font-xl"><i>"{{ palabra_comun }}"</i> es la palabra más común, con {{ palabra_comun_ocurrencias }} ocurrencias.</p>
   </section>
 
-  <section id="graph-index">
-    <img src="{{ grafica }}" />
+  <section class="section-white">
+    <h2 class="title font-3xl">Menú de reportes:</h2>
+    <table id="table-files">
+      <thead>
+        <tr>
+          <th id="th-1"></th>
+          <th id="th-2">Archivo</th>
+          <th id="th-3">Total palabras</th>
+          <th id="th-4">Palabras distintas</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{ lista_archivos }}
+      </tbody>
+    </table> 
+  </section>
+
+  <section class="section-white">
+    <h2 class="title font-3xl">Representación como gráfica de los archivos leídos.</h2>
+    <p id="label" class="font-lg">Existe una arista entre dos archivos cuando hay una palabra en común de al menos 7 caracteres de longitud.</p>
+    <img id="graph-img" src="{{ grafica }}" />
   </section>
 
 </body>
