@@ -113,6 +113,8 @@ public class ReporteArchivo {
         String marcadoPalabras = generaMarcadoPalabras(ordenaPorOcurrencias(palabras));
 
         datos.agrega("archivo", ruta);
+        datos.agrega("palabras_total", String.valueOf(total));
+        datos.agrega("palabras_distintas", String.valueOf(palabras.getLongitud()));
         datos.agrega("palabras_comunes", marcadoPalabrasComunes);
         datos.agrega("arbol_rojinegro",
                      Salida.nombreArchivo(ruta, "arbol_rojinegro", "svg"));

@@ -59,6 +59,10 @@ img, svg, video, canvas, audio, iframe, embed, object {
   font-size: 0.875rem;
 }
 
+.font-lg {
+  font-size: 1.125rem;
+}
+
 .font-xl {
   font-size: 1.25rem;
 }
@@ -151,6 +155,12 @@ img, svg, video, canvas, audio, iframe, embed, object {
 #report header {
   width: 100%;
   margin: 1rem 0;
+}
+
+.info-archivo {
+  width: 100%;
+  text-align: center;
+  margin: 1rem auto;
 }
 
 #title-file {
