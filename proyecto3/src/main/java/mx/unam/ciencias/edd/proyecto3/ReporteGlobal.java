@@ -110,6 +110,10 @@ public class ReporteGlobal {
         return palabraComun;
     }
 
+    /**
+     * General el HTML para la tabla de archivos.
+     * @return el HTML de las filas de la tabla de archivos.
+     */
     private String generaMarcadoArchivos() {
         String resultado = "";
 

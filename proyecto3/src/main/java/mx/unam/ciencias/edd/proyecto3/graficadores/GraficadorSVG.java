@@ -209,13 +209,13 @@ public class GraficadorSVG {
 
     /**
      * Genera el SVG de un cuadro de texto.
-     * @param centroX la coordenada X del centro del círculo.
-     * @param centroY la coordenada Y del centro del círculo.
+     * @param centroX la coordenada X del centro del texto.
+     * @param centroY la coordenada Y del centro del texto.
      * @param tamanoFuente el tamaño de la fuente del texto.
      * @param colorFuente el color de la fuente del texto.
      * @param contenido el texto.
-     * @return el SVG del círculo con las propiedades recibidas en los
-     * argumentos, que contiene el texto recibido.
+     * @return el SVG del texto con las propiedades recibidas en los
+     * argumentos, con origen en el centro.
      */
     public static String graficaTexto(int centroX, int centroY,
                                       int tamanoFuente, String colorFuente,
@@ -225,6 +225,15 @@ public class GraficadorSVG {
                 centroX, centroY + 5, tamanoFuente, colorFuente, contenido);
     }
 
+    /**
+     * Genera el SVG de un cuadro de texto con origen en una esquina.
+     * @param centroX la coordenada X.
+     * @param centroY la coordenada Y.
+     * @param tamanoFuente el tamaño de la fuente del texto.
+     * @param colorFuente el color de la fuente del texto.
+     * @param contenido el texto.
+     * @return el SVG del texto con las propiedades recibidas en los argumentos.
+     */
     public static String graficaTextoEsquina(int origenX, int origenY,
                                              int tamanoFuente, String colorFuente,
                                              String contenido) {

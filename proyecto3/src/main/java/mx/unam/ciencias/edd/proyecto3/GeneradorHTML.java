@@ -31,6 +31,15 @@ public class GeneradorHTML {
                 ((double) palabra.getOcurrencias()) / total * 100.0);
     }
 
+    /**
+     * Genera el HTML que utilizamos para mostrar una fila en la tabla de
+     * archivos.
+     * @param url la ruta donde se encuentra el reporte del archivo.
+     * @param nombre el nombre del archivo a mostrar.
+     * @param total el total de palabras que tiene el archivo.
+     * @param palabras el número de palabras distintas en el archivo.
+     * @return el HTML que corresponde al archivo.
+     */
     public static String marcadoArchivo(String url, String nombre, int total, int palabras) {
         return String.format("<tr>" +
                 "<td><a href=\"./%s\"><img class=\"link-img\" src=\"./link.svg\"></a></td>" +

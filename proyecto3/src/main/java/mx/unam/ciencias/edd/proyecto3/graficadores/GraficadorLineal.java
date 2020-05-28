@@ -112,7 +112,7 @@ public abstract class GraficadorLineal<T> extends GraficadorEstructura<T> {
 
         // Una flecha con una línea y un triángulo en el extremo derecho.
         String conexion;
-        conexion = GraficadorSVG.graficaLinea(origenX, (medidaY / 2) + origenY, medidaX - seccion, 0, "black");
+        conexion = GraficadorSVG.graficaLinea(origenX, (medidaY / 2) + origenY, medidaX - seccion, 0,  ANCHO_ARISTA, "black");
         // Utilizamos -seccion para invertir la flecha sobre su eje x.
         conexion += GraficadorSVG.graficaTriangulo(origenX + medidaX, origenY, -seccion, medidaY, "black");
 

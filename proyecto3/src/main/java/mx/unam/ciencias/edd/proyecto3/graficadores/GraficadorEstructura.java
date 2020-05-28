@@ -11,12 +11,21 @@ public abstract class GraficadorEstructura<T> {
     private int LADO_VACIO = 40;
     private int BORDE = 10;
 
+    /**
+     * Genera el SVG de la estructura. Graficamos el vacío cuando nuestra
+     * estructura es vacía.
+     * @return el SVG de la gráfica.
+     */
     public String graficar() {
         if (esVacia())
             return graficarVacio();
         return graficarEstructura();
     }
 
+    /**
+     * Genera el SVG que representa una estructura vacía.
+     * @return el SVG de una estructura vacía.
+     */
     protected String graficarVacio() {
         return GraficadorSVG.declaracionXML() +
                GraficadorSVG.comienzaSVG(LADO_VACIO + (2 * BORDE),
