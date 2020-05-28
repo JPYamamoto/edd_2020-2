@@ -12,6 +12,8 @@ public abstract class GraficadorLineal<T> extends GraficadorEstructura<T> {
     protected int ALTURA_VERTICE;
     // Ancho del SVG que representa la conexión.
     protected int ANCHO_CONEXION;
+    // Ancho de la arista.
+    protected int ANCHO_ARISTA;
     // EL tamaño de la fuente.
     protected int TAMANO_FUENTE;
     // El tamaño del borde.
@@ -32,6 +34,7 @@ public abstract class GraficadorLineal<T> extends GraficadorEstructura<T> {
 
         ALTURA_VERTICE = 40;
         ANCHO_CONEXION = 50;
+        ANCHO_ARISTA = 3;
         TAMANO_FUENTE = 20;
         BORDE = 10;
     }

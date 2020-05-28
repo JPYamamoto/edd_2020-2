@@ -31,7 +31,9 @@ public class GraficadorLista<T> extends GraficadorLineal<T> {
 
         String conexion;
         conexion = GraficadorSVG.graficaTriangulo(origenX, origenY, seccion, medidaY, "black");
-        conexion += GraficadorSVG.graficaLinea(origenX + seccion, (medidaY / 2) + origenY, medidaX - 2 * seccion, 0, "black");
+        conexion += GraficadorSVG.graficaLinea(origenX + seccion,
+                            (medidaY / 2) + origenY, medidaX - 2 * seccion, 0,
+                            ANCHO_ARISTA, "black");
         // Utilizamos -seccion para invertir la flecha sobre su eje x.
         conexion += GraficadorSVG.graficaTriangulo(origenX + medidaX, origenY, -seccion, medidaY, "black");
 

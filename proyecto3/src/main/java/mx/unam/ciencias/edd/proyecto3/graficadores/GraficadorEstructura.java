@@ -25,7 +25,7 @@ public abstract class GraficadorEstructura<T> {
                                             BORDE + LADO_VACIO / 2,
                                             LADO_VACIO / 2, "black", "white") +
                GraficadorSVG.graficaLinea(BORDE, BORDE + LADO_VACIO,
-                                          LADO_VACIO, -LADO_VACIO, "black") +
+                                          LADO_VACIO, -LADO_VACIO, 3, "black") +
                GraficadorSVG.terminaSVG();
     }
 

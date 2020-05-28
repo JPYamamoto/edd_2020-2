@@ -17,6 +17,8 @@ public abstract class GraficadorArbol<T> extends GraficadorEstructura<T> {
 
     // Tamaño de la fuente que se utilizará en el contenido de los vértices.
     protected int TAMANO_FUENTE;
+    // Ancho de las aristas.
+    protected int ANCHO_ARISTA;
     // Tamaño del borde alrededor de la gráfica SVG.
     protected int BORDE_SVG;
     // Tamaño del borde entre el contenido y la orilla del vértice.
@@ -55,6 +57,7 @@ public abstract class GraficadorArbol<T> extends GraficadorEstructura<T> {
         this.arbol = arbol;
 
         TAMANO_FUENTE = 20;
+        ANCHO_ARISTA = 3;
         BORDE_SVG = 10;
         BORDE_VERTICE = 10;
         CAMBIO_X_CONEXION = 30;
@@ -261,7 +264,7 @@ public abstract class GraficadorArbol<T> extends GraficadorEstructura<T> {
      */
     protected String graficaConexion(int centroX1, int centroY1, int centroX2, int centroY2) {
         return GraficadorSVG.graficaLinea(centroX1, centroY1,
-                centroX2 - centroX1, centroY2 - centroY1, "black");
+                centroX2 - centroX1, centroY2 - centroY1, ANCHO_ARISTA, "black");
     }
 
     /**

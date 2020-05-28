@@ -51,10 +51,10 @@ public class GraficadorSVG {
      * @return el SVG de la línea que corresponde a los parámetros recibidos.
      */
     public static String graficaLinea(int origenX, int origenY, int cambioX,
-                                      int cambioY, String color) {
+                                      int cambioY, int ancho, String color) {
         return String.format("<line x1='%d' y1='%d' x2='%d' y2='%d'" +
-                " stroke='%s' stroke-width='3' />",
-                origenX, origenY, origenX + cambioX, origenY + cambioY, color);
+                " stroke='%s' stroke-width='%d' />",
+                origenX, origenY, origenX + cambioX, origenY + cambioY, color, ancho);
     }
 
     /**

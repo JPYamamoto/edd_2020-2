@@ -33,6 +33,8 @@ public class GraficadorGrafica<T> extends GraficadorEstructura<T> {
     protected int BORDE_VERTICE;
     // El tamaño de la fuente del contenido de los vértices.
     protected int TAMANO_FUENTE;
+    // Ancho de la arista.
+    protected int ANCHO_ARISTA;
 
     // La gráfica a graficar.
     protected Grafica<T> grafica;
@@ -48,6 +50,7 @@ public class GraficadorGrafica<T> extends GraficadorEstructura<T> {
         BORDE_SVG = 10;
         BORDE_VERTICE= 10;
         TAMANO_FUENTE = 20;
+        ANCHO_ARISTA = 3;
     }
 
     /**
@@ -174,7 +177,8 @@ public class GraficadorGrafica<T> extends GraficadorEstructura<T> {
     protected String graficaConexion(Coord vertice1, Coord vertice2, int radioGrafica) {
         if (Math.abs(vertice1.posicion - vertice2.posicion) == 1)
             return GraficadorSVG.graficaLinea(vertice1.x, vertice1.y,
-                    vertice2.x - vertice1.x, vertice2.y - vertice1.y, "black");
+                    vertice2.x - vertice1.x, vertice2.y - vertice1.y,
+                    ANCHO_ARISTA, "black");
 
         return GraficadorSVG.graficaCurvaBezier(vertice1.x, vertice1.y,
                             vertice2.x - vertice1.x, vertice2.y - vertice1.y,
