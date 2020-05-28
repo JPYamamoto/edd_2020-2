@@ -58,7 +58,7 @@ public class GeneradorHTML {
      * @throws IOException si ocurre un error al leer un archivo.
      */
     public static String generaReporteIndividual(Diccionario<String, String> datos) throws IOException {
-        return plantillaArchivo("base.html", datos);
+        return plantillaArchivo("html/base.html", datos);
     }
 
     /**
@@ -69,7 +69,24 @@ public class GeneradorHTML {
      * @throws IOException si ocurre un error al leer un archivo.
      */
     public static String generaReporteGlobal(Diccionario<String, String> datos) throws IOException {
-        return plantillaArchivo("base_index.html", datos);
+        return plantillaArchivo("html/base_index.html", datos);
+    }
+
+    /**
+     * Los archivos que usamos como recursos y deben ser exportados al generar
+     * el reporte.
+     * @return un diccionario con los nombres de los archivos como llaves y el
+     * contenido como valor.
+     * @throws IOException si hubo un error al leer el archivo.
+     */
+    public static Diccionario<String, String> getAssets() throws IOException {
+        Diccionario<String, String> archivos = new Diccionario<>();
+
+        archivos.agrega("home.svg", Entrada.leeRecurso("svg/home.svg"));
+        archivos.agrega("link.svg", Entrada.leeRecurso("svg/link.svg"));
+        archivos.agrega("styles.css", Entrada.leeRecurso("css/styles.css"));
+
+        return archivos;
     }
 
     /**

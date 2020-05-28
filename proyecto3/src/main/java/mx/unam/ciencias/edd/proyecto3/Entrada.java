@@ -54,23 +54,6 @@ public class Entrada {
     }
 
     /**
-     * Los archivos que usamos como recursos y deben ser exportados al generar
-     * el reporte.
-     * @return un diccionario con los nombres de los archivos como llaves y el
-     * contenido como valor.
-     * @throws IOException si hubo un error al leer el archivo.
-     */
-    public static Diccionario<String, String> getAssets() throws IOException {
-        Diccionario<String, String> archivos = new Diccionario<>();
-
-        archivos.agrega("home.svg", leeRecurso("assets/home.svg"));
-        archivos.agrega("styles.css", leeRecurso("assets/styles.css"));
-        archivos.agrega("link.svg", leeRecurso("assets/link.svg"));
-
-        return archivos;
-    }
-
-    /**
      * Leemos un archivo de los recursos del proyecto.
      * @param nombre el nombre del archivo.
      * @return el contenido del recurso que leemos.

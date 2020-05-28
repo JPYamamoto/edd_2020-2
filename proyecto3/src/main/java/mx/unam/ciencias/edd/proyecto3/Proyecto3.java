@@ -46,7 +46,7 @@ public class Proyecto3 {
      */
     private static void guardaAssets(Salida salida) {
         try {
-            salida.escribeArchivos(Entrada.getAssets());
+            salida.escribeArchivos(GeneradorHTML.getAssets());
         } catch (IOException ioe) {
             System.out.println("Error al guardar archivos auxiliares de reportes.");
             System.exit(1);
