@@ -140,9 +140,8 @@ public class ReporteGlobal {
 
         for (ReporteArchivo archivo1 : reportes)
             for (ReporteArchivo archivo2 : reportes)
-                if (hayArista(archivo1, archivo2))
-                    if (!grafica.sonVecinos(archivo1, archivo2))
-                        grafica.conecta(archivo1, archivo2);
+                if (!grafica.sonVecinos(archivo1, archivo2) && hayArista(archivo1, archivo2))
+                    grafica.conecta(archivo1, archivo2);
 
         GraficadorGrafica<ReporteArchivo> graficador = new GraficadorGrafica<>(grafica);
         return graficador.graficar();
@@ -152,6 +151,10 @@ public class ReporteGlobal {
      * Nos dice si hay alguna arista entre dos archivos, es decir, comparten
      * alguna palabra de al menos 7 caracteres de longitud, y son archivos
      * distintos.
+     * Podríamos utilizar Conjuntos y usar el método intersección, pero la
+     * complejidad en espacio es mayor, y además, no necesitamos tener todos
+     * los elementos en la intersección, solo necesitamos ver que existe al
+     * menos uno.
      * @param archivo1 el primer archivo a comparar.
      * @param archivo2 el segundo archivo a comparar.
      * @return un boolean si hay una arista.
