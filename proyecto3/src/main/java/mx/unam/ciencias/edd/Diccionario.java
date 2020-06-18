@@ -43,7 +43,7 @@ public class Diccionario<K, V> implements Iterable<V> {
 
         /* Nos dice si hay una siguiente entrada. */
         public boolean hasNext() {
-            return iterador != null && iterador.hasNext();
+            return iterador != null;
         }
 
         /* Regresa la siguiente entrada. */
@@ -233,6 +233,10 @@ public class Diccionario<K, V> implements Iterable<V> {
             throw new NoSuchElementException("No existe la entrada con la llave recibida.");
 
         entradas[indiceLlave].elimina(entrada);
+
+        if (entradas[indiceLlave].getLongitud() == 0)
+            entradas[indiceLlave] = null;
+
         elementos--;
     }
 
