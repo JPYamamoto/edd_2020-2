@@ -36,7 +36,7 @@ Algunos de los algoritmos vistos son:
 
 ## Laboratorios.
 En los laboratorios se complementó la teoría vista en clase a través de distintas prácticas y proyectos.
-El lenguaje de programación utilizado fue Java en su versión 8, y JavaFX para el desarrollo de interfaces gráficas.
+El lenguaje de programación utilizado fue Java en su versión 8.
 
 ### Proyectos.
 * Proyecto 1: Ordenador lexicográfico de lineas (clon de la herramienta `sort` en UNIX).
